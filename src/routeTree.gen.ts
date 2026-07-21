@@ -9,38 +9,294 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as ServiceabilityRouteImport } from './routes/serviceability'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
+import { Route as MenuRouteImport } from './routes/menu'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CakeStudioRouteImport } from './routes/cake-studio'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
+import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiceabilityRoute = ServiceabilityRouteImport.update({
+  id: '/serviceability',
+  path: '/serviceability',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurKitchenRoute = OurKitchenRouteImport.update({
+  id: '/our-kitchen',
+  path: '/our-kitchen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuRoute = MenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CakeStudioRoute = CakeStudioRouteImport.update({
+  id: '/cake-studio',
+  path: '/cake-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuCategoryRoute = MenuCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => MenuRoute,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/menu': typeof MenuRouteWithChildren
+  '/our-kitchen': typeof OurKitchenRoute
+  '/privacy': typeof PrivacyRoute
+  '/serviceability': typeof ServiceabilityRoute
+  '/terms': typeof TermsRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/menu/$category': typeof MenuCategoryRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/menu': typeof MenuRouteWithChildren
+  '/our-kitchen': typeof OurKitchenRoute
+  '/privacy': typeof PrivacyRoute
+  '/serviceability': typeof ServiceabilityRoute
+  '/terms': typeof TermsRoute
+  '/account': typeof AuthenticatedAccountRoute
+  '/menu/$category': typeof MenuCategoryRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/about': typeof AboutRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
+  '/checkout': typeof CheckoutRoute
+  '/contact': typeof ContactRoute
+  '/menu': typeof MenuRouteWithChildren
+  '/our-kitchen': typeof OurKitchenRoute
+  '/privacy': typeof PrivacyRoute
+  '/serviceability': typeof ServiceabilityRoute
+  '/terms': typeof TermsRoute
+  '/_authenticated/account': typeof AuthenticatedAccountRoute
+  '/menu/$category': typeof MenuCategoryRoute
+  '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/cake-studio'
+    | '/checkout'
+    | '/contact'
+    | '/menu'
+    | '/our-kitchen'
+    | '/privacy'
+    | '/serviceability'
+    | '/terms'
+    | '/account'
+    | '/menu/$category'
+    | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/about'
+    | '/auth'
+    | '/cake-studio'
+    | '/checkout'
+    | '/contact'
+    | '/menu'
+    | '/our-kitchen'
+    | '/privacy'
+    | '/serviceability'
+    | '/terms'
+    | '/account'
+    | '/menu/$category'
+    | '/product/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/about'
+    | '/auth'
+    | '/cake-studio'
+    | '/checkout'
+    | '/contact'
+    | '/menu'
+    | '/our-kitchen'
+    | '/privacy'
+    | '/serviceability'
+    | '/terms'
+    | '/_authenticated/account'
+    | '/menu/$category'
+    | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  AuthRoute: typeof AuthRoute
+  CakeStudioRoute: typeof CakeStudioRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ContactRoute: typeof ContactRoute
+  MenuRoute: typeof MenuRouteWithChildren
+  OurKitchenRoute: typeof OurKitchenRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ServiceabilityRoute: typeof ServiceabilityRoute
+  TermsRoute: typeof TermsRoute
+  ProductSlugRoute: typeof ProductSlugRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serviceability': {
+      id: '/serviceability'
+      path: '/serviceability'
+      fullPath: '/serviceability'
+      preLoaderRoute: typeof ServiceabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-kitchen': {
+      id: '/our-kitchen'
+      path: '/our-kitchen'
+      fullPath: '/our-kitchen'
+      preLoaderRoute: typeof OurKitchenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cake-studio': {
+      id: '/cake-studio'
+      path: '/cake-studio'
+      fullPath: '/cake-studio'
+      preLoaderRoute: typeof CakeStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +304,66 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu/$category': {
+      id: '/menu/$category'
+      path: '/$category'
+      fullPath: '/menu/$category'
+      preLoaderRoute: typeof MenuCategoryRouteImport
+      parentRoute: typeof MenuRoute
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface MenuRouteChildren {
+  MenuCategoryRoute: typeof MenuCategoryRoute
+}
+
+const MenuRouteChildren: MenuRouteChildren = {
+  MenuCategoryRoute: MenuCategoryRoute,
+}
+
+const MenuRouteWithChildren = MenuRoute._addFileChildren(MenuRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AboutRoute: AboutRoute,
+  AuthRoute: AuthRoute,
+  CakeStudioRoute: CakeStudioRoute,
+  CheckoutRoute: CheckoutRoute,
+  ContactRoute: ContactRoute,
+  MenuRoute: MenuRouteWithChildren,
+  OurKitchenRoute: OurKitchenRoute,
+  PrivacyRoute: PrivacyRoute,
+  ServiceabilityRoute: ServiceabilityRoute,
+  TermsRoute: TermsRoute,
+  ProductSlugRoute: ProductSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
