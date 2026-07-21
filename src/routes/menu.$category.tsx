@@ -45,7 +45,7 @@ function CategoryPage() {
       </section>
       <section className="container-luxe pb-24">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {items.map((p, i) => <ProductCard key={p.slug} product={p} index={i} />)}
+          {items.map((p: import("@/lib/data").Product, i: number) => <ProductCard key={p.slug} product={p} index={i} />)}
         </div>
       </section>
     </div>

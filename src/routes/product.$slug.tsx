@@ -68,7 +68,7 @@ function ProductPage() {
           <div className="mt-8">
             <p className="eyebrow">Ingredients</p>
             <ul className="mt-3 flex flex-wrap gap-2">
-              {product.ingredients.map((i) => (
+              {product.ingredients.map((i: string) => (
                 <li key={i} className="rounded-full border border-border/60 bg-card/60 px-3 py-1.5 text-xs text-cream/80">{i}</li>
               ))}
             </ul>
