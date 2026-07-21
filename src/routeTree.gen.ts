@@ -10,6 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as MenuRouteImport } from './routes/menu'
+import { Route as CakeStudioRouteImport } from './routes/cake-studio'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
@@ -17,6 +19,16 @@ import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
 const MenuRoute = MenuRouteImport.update({
   id: '/menu',
   path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CakeStudioRoute = CakeStudioRouteImport.update({
+  id: '/cake-studio',
+  path: '/cake-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -37,12 +49,16 @@ const MenuCategoryRoute = MenuCategoryRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
   '/menu': typeof MenuRouteWithChildren
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
   '/menu': typeof MenuRouteWithChildren
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -50,20 +66,43 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/cake-studio': typeof CakeStudioRoute
   '/menu': typeof MenuRouteWithChildren
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/menu' | '/menu/$category' | '/product/$slug'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/cake-studio'
+    | '/menu'
+    | '/menu/$category'
+    | '/product/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/menu' | '/menu/$category' | '/product/$slug'
-  id: '__root__' | '/' | '/menu' | '/menu/$category' | '/product/$slug'
+  to:
+    | '/'
+    | '/auth'
+    | '/cake-studio'
+    | '/menu'
+    | '/menu/$category'
+    | '/product/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth'
+    | '/cake-studio'
+    | '/menu'
+    | '/menu/$category'
+    | '/product/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
+  CakeStudioRoute: typeof CakeStudioRoute
   MenuRoute: typeof MenuRouteWithChildren
   ProductSlugRoute: typeof ProductSlugRoute
 }
@@ -75,6 +114,20 @@ declare module '@tanstack/react-router' {
       path: '/menu'
       fullPath: '/menu'
       preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cake-studio': {
+      id: '/cake-studio'
+      path: '/cake-studio'
+      fullPath: '/cake-studio'
+      preLoaderRoute: typeof CakeStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -113,6 +166,8 @@ const MenuRouteWithChildren = MenuRoute._addFileChildren(MenuRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
+  CakeStudioRoute: CakeStudioRoute,
   MenuRoute: MenuRouteWithChildren,
   ProductSlugRoute: ProductSlugRoute,
 }
