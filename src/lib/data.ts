@@ -3,10 +3,30 @@ import biryani from "@/assets/dish-biryani.jpg";
 import burger from "@/assets/dish-burger.jpg";
 import wings from "@/assets/dish-wings.jpg";
 import cupcakes from "@/assets/dish-cupcakes.jpg";
-import tres from "@/assets/dish-tres.jpg";
 import roll from "@/assets/dish-roll.jpg";
 import fries from "@/assets/dish-fries.jpg";
 import craftCake from "@/assets/craft-cake.jpg";
+import popcornChickenAsset from "@/assets/popcorn-chicken.jpg.asset.json";
+import bomboloniAsset from "@/assets/bomboloni.jpg.asset.json";
+import gulabJamunAsset from "@/assets/gulab-jamun.jpg.asset.json";
+import tiramisuAsset from "@/assets/tiramisu.jpg.asset.json";
+import tresLechesAsset from "@/assets/tres-leches.jpg.asset.json";
+import vanillaCupcakeAsset from "@/assets/vanilla-cupcake.jpg.asset.json";
+import brownieCupcakeAsset from "@/assets/brownie-cupcake.jpg.asset.json";
+import redVelvetCupcakeAsset from "@/assets/red-velvet-cupcake.jpg.asset.json";
+import biscoffOverloadAsset from "@/assets/biscoff-overload.jpg.asset.json";
+import rasmalaiFusionAsset from "@/assets/rasmalai-fusion.jpg.asset.json";
+
+const popcornChicken = popcornChickenAsset.url;
+const bomboloni = bomboloniAsset.url;
+const gulabJamun = gulabJamunAsset.url;
+const tiramisu = tiramisuAsset.url;
+const tres = tresLechesAsset.url;
+const vanillaCupcake = vanillaCupcakeAsset.url;
+const brownieCupcake = brownieCupcakeAsset.url;
+const redVelvetCupcake = redVelvetCupcakeAsset.url;
+const biscoffOverload = biscoffOverloadAsset.url;
+const rasmalaiFusion = rasmalaiFusionAsset.url;
 
 export type Product = {
   slug: string;
@@ -40,23 +60,23 @@ export const PRODUCTS: Product[] = [
   { slug: "belgian-dark-truffle", name: "Belgian Dark Truffle", category: "cakes", price: 1499, description: "A cathedral of Belgian couverture, whipped ganache, and gold-leaf embellishments.", image: craftCake, veg: true, bestSeller: true, chefPick: true, prepMins: 1440, calories: 420, ingredients: ["Belgian dark chocolate", "Fresh cream", "Butter", "Cocoa", "24k gold leaf"] },
   { slug: "black-forest", name: "Black Forest Reserve", category: "cakes", price: 899, description: "Kirsch-soaked sponge, black cherries, and clouds of whipped cream.", image: cheesecake, veg: true, bestSeller: true, prepMins: 1440, calories: 380, ingredients: ["Chocolate sponge", "Fresh cream", "Cherries", "Dark chocolate shavings"] },
   { slug: "blueberry-cheesecake", name: "Blueberry Cheesecake", category: "cakes", price: 1199, description: "Silken cream cheese on a butter-crumb base with wild blueberry compote.", image: cheesecake, veg: true, chefPick: true, prepMins: 1440, calories: 410, ingredients: ["Cream cheese", "Blueberries", "Digestive", "Butter", "Vanilla"] },
-  { slug: "rasmalai-fusion", name: "Rasmalai Fusion", category: "cakes", price: 1299, description: "Cardamom sponge, saffron cream, pistachio crumb — an heirloom, reimagined.", image: craftCake, veg: true, prepMins: 1440, calories: 395, ingredients: ["Cardamom sponge", "Saffron cream", "Pistachio", "Rose petals"] },
-  { slug: "biscoff-overload", name: "Biscoff Overload", category: "cakes", price: 1099, description: "Layers of Biscoff cream, caramelised biscuit crunch, and warm spice.", image: craftCake, veg: true, prepMins: 1440, calories: 440, ingredients: ["Biscoff spread", "Vanilla sponge", "Whipped cream", "Biscoff biscuits"] },
+  { slug: "rasmalai-fusion", name: "Rasmalai Fusion", category: "cakes", price: 1299, description: "Cardamom sponge, saffron cream, pistachio crumb — an heirloom, reimagined.", image: rasmalaiFusion, veg: true, prepMins: 1440, calories: 395, ingredients: ["Cardamom sponge", "Saffron cream", "Pistachio", "Rose petals"] },
+  { slug: "biscoff-overload", name: "Biscoff Overload", category: "cakes", price: 1099, description: "Layers of Biscoff cream, caramelised biscuit crunch, and warm spice.", image: biscoffOverload, veg: true, prepMins: 1440, calories: 440, ingredients: ["Biscoff spread", "Vanilla sponge", "Whipped cream", "Biscoff biscuits"] },
 
   // Cupcakes
-  { slug: "red-velvet-cupcake", name: "Red Velvet Cupcake", category: "cupcakes", price: 129, description: "Cocoa-tinted crumb crowned with cream cheese frosting.", image: cupcakes, veg: true, prepMins: 60, calories: 260, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
-  { slug: "brownie-cupcake", name: "Brownie Cupcake", category: "cupcakes", price: 149, description: "Fudgy brownie in a cupcake shell, ganache glaze.", image: cupcakes, veg: true, chefPick: true, prepMins: 60, calories: 320, ingredients: ["Dark chocolate", "Butter", "Eggs", "Walnuts"] },
-  { slug: "vanilla-bean-cupcake", name: "Vanilla Bean Cupcake", category: "cupcakes", price: 119, description: "Madagascar vanilla, Swiss meringue buttercream.", image: cupcakes, veg: true, prepMins: 60, calories: 240, ingredients: ["Vanilla bean", "Butter", "Sugar", "Eggs"] },
+  { slug: "red-velvet-cupcake", name: "Red Velvet Cupcake", category: "cupcakes", price: 129, description: "Cocoa-tinted crumb crowned with cream cheese frosting.", image: redVelvetCupcake, veg: true, prepMins: 60, calories: 260, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
+  { slug: "brownie-cupcake", name: "Brownie Cupcake", category: "cupcakes", price: 149, description: "Fudgy brownie in a cupcake shell, ganache glaze.", image: brownieCupcake, veg: true, chefPick: true, prepMins: 60, calories: 320, ingredients: ["Dark chocolate", "Butter", "Eggs", "Walnuts"] },
+  { slug: "vanilla-bean-cupcake", name: "Vanilla Bean Cupcake", category: "cupcakes", price: 119, description: "Madagascar vanilla, Swiss meringue buttercream.", image: vanillaCupcake, veg: true, prepMins: 60, calories: 240, ingredients: ["Vanilla bean", "Butter", "Sugar", "Eggs"] },
 
   // Desserts
   { slug: "tres-leches", name: "Tres Leches", category: "desserts", price: 249, description: "Three-milk soaked sponge with a whisper of cinnamon.", image: tres, veg: true, bestSeller: true, prepMins: 30, calories: 310, ingredients: ["Milk", "Condensed milk", "Evaporated milk", "Vanilla", "Cinnamon"] },
-  { slug: "tiramisu", name: "Classic Tiramisu", category: "desserts", price: 279, description: "Espresso-soaked ladyfingers, mascarpone cream, cocoa dust.", image: tres, veg: true, chefPick: true, prepMins: 45, calories: 330, ingredients: ["Mascarpone", "Espresso", "Ladyfingers", "Cocoa"] },
-  { slug: "gulab-jamun", name: "Ghee Gulab Jamun", category: "desserts", price: 149, description: "Golden, saffron-scented, drenched in rose syrup.", image: tres, veg: true, prepMins: 20, calories: 280, ingredients: ["Khoya", "Ghee", "Saffron", "Rose", "Cardamom"] },
-  { slug: "bomboloni", name: "Bomboloni", category: "desserts", price: 199, description: "Cloud-soft Italian doughnuts filled with vanilla custard.", image: cupcakes, veg: true, prepMins: 25, calories: 290, ingredients: ["Enriched dough", "Vanilla custard", "Sugar"] },
+  { slug: "tiramisu", name: "Classic Tiramisu", category: "desserts", price: 279, description: "Espresso-soaked ladyfingers, mascarpone cream, cocoa dust.", image: tiramisu, veg: true, chefPick: true, prepMins: 45, calories: 330, ingredients: ["Mascarpone", "Espresso", "Ladyfingers", "Cocoa"] },
+  { slug: "gulab-jamun", name: "Ghee Gulab Jamun", category: "desserts", price: 149, description: "Golden, saffron-scented, drenched in rose syrup.", image: gulabJamun, veg: true, prepMins: 20, calories: 280, ingredients: ["Khoya", "Ghee", "Saffron", "Rose", "Cardamom"] },
+  { slug: "bomboloni", name: "Bomboloni", category: "desserts", price: 199, description: "Cloud-soft Italian doughnuts filled with vanilla custard.", image: bomboloni, veg: true, prepMins: 25, calories: 290, ingredients: ["Enriched dough", "Vanilla custard", "Sugar"] },
 
   // Fried Chicken
   { slug: "fire-wings", name: "Golden Fire Wings", category: "fried-chicken", price: 349, description: "Twice-fried wings tossed in house-smoked gochujang glaze.", image: wings, veg: false, bestSeller: true, prepMins: 25, calories: 480, ingredients: ["Chicken wings", "Gochujang", "Garlic", "Honey"] },
-  { slug: "popcorn-chicken", name: "Popcorn Chicken", category: "fried-chicken", price: 249, description: "Bite-sized, buttermilk brined, spiced crust.", image: wings, veg: false, prepMins: 20, calories: 420, ingredients: ["Chicken breast", "Buttermilk", "Spices", "Flour"] },
+  { slug: "popcorn-chicken", name: "Popcorn Chicken", category: "fried-chicken", price: 249, description: "Bite-sized, buttermilk brined, spiced crust.", image: popcornChicken, veg: false, prepMins: 20, calories: 420, ingredients: ["Chicken breast", "Buttermilk", "Spices", "Flour"] },
   { slug: "crispy-leg-pieces", name: "Crispy Leg Pieces", category: "fried-chicken", price: 299, description: "Whole leg pieces, 24-hour brine, shatter crust.", image: wings, veg: false, chefPick: true, prepMins: 25, calories: 510, ingredients: ["Chicken leg", "Buttermilk", "Herbs", "Panko"] },
 
   // Burgers

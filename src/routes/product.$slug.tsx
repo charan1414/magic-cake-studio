@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Heart, Minus, Plus, Share2, Star } from "lucide-react";
-import { getProduct, PRODUCTS } from "@/lib/data";
+import { getProduct, PRODUCTS, CAKE_SIZES } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -38,6 +38,10 @@ function ProductPage() {
   const product = Route.useLoaderData();
   const add = useCart((s) => s.add);
   const [qty, setQty] = useState(1);
+  const isCake = product.category === "cakes";
+  const [sizeIdx, setSizeIdx] = useState(1); // default 1 kg
+  const size = CAKE_SIZES[sizeIdx];
+  const unitPrice = isCake ? Math.round(product.price * size.mult) : product.price;
   const related = PRODUCTS.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
 
   return (
@@ -65,6 +69,24 @@ function ProductPage() {
 
           <p className="mt-6 text-base leading-relaxed text-muted-foreground">{product.description}</p>
 
+          {isCake && (
+            <div className="mt-8">
+              <p className="eyebrow">Choose weight</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {CAKE_SIZES.map((s, i) => (
+                  <button
+                    key={s.value}
+                    onClick={() => setSizeIdx(i)}
+                    className={`rounded-full border px-4 py-2 text-xs font-medium transition-all ${i === sizeIdx ? "border-primary bg-primary text-primary-foreground" : "border-border text-cream/80 hover:border-primary/50"}`}
+                  >
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+              <p className="mt-2 text-xs text-muted-foreground">Price scales with weight. Serves ~{Math.round(size.value / 125)} people.</p>
+            </div>
+          )}
+
           <div className="mt-8">
             <p className="eyebrow">Ingredients</p>
             <ul className="mt-3 flex flex-wrap gap-2">
@@ -75,8 +97,9 @@ function ProductPage() {
           </div>
 
           <div className="mt-8 flex items-baseline gap-3">
-            <span className="font-display text-5xl gold-text">₹{(product.price * qty).toLocaleString("en-IN")}</span>
-            {qty > 1 && <span className="text-sm text-muted-foreground">for {qty}</span>}
+            <span className="font-display text-5xl gold-text">₹{(unitPrice * qty).toLocaleString("en-IN")}</span>
+            {isCake && <span className="text-sm text-muted-foreground">{size.label}{qty > 1 ? ` × ${qty}` : ""}</span>}
+            {!isCake && qty > 1 && <span className="text-sm text-muted-foreground">for {qty}</span>}
           </div>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -86,7 +109,12 @@ function ProductPage() {
               <button onClick={() => setQty(qty + 1)} className="grid h-11 w-11 place-items-center text-cream"><Plus className="h-4 w-4" /></button>
             </div>
             <button
-              onClick={() => { add({ slug: product.slug, name: product.name, price: product.price, image: product.image }, qty); toast.success("Added to cart"); }}
+              onClick={() => {
+                const name = isCake ? `${product.name} (${size.label})` : product.name;
+                const slug = isCake ? `${product.slug}-${size.value}` : product.slug;
+                add({ slug, name, price: unitPrice, image: product.image }, qty);
+                toast.success("Added to cart");
+              }}
               className="btn-gold btn-gold-hover flex-1 rounded-full px-6 py-3.5 text-sm font-semibold"
             >
               Add to Cart
@@ -98,6 +126,7 @@ function ProductPage() {
               <Share2 className="h-4 w-4" />
             </button>
           </div>
+
 
           <div className="mt-8 rounded-2xl border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground">
             <p className="font-medium text-cream">Delivery</p>
