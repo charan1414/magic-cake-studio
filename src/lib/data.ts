@@ -3,10 +3,30 @@ import biryani from "@/assets/dish-biryani.jpg";
 import burger from "@/assets/dish-burger.jpg";
 import wings from "@/assets/dish-wings.jpg";
 import cupcakes from "@/assets/dish-cupcakes.jpg";
-import tres from "@/assets/dish-tres.jpg";
 import roll from "@/assets/dish-roll.jpg";
 import fries from "@/assets/dish-fries.jpg";
 import craftCake from "@/assets/craft-cake.jpg";
+import popcornChickenAsset from "@/assets/popcorn-chicken.jpg.asset.json";
+import bomboloniAsset from "@/assets/bomboloni.jpg.asset.json";
+import gulabJamunAsset from "@/assets/gulab-jamun.jpg.asset.json";
+import tiramisuAsset from "@/assets/tiramisu.jpg.asset.json";
+import tresLechesAsset from "@/assets/tres-leches.jpg.asset.json";
+import vanillaCupcakeAsset from "@/assets/vanilla-cupcake.jpg.asset.json";
+import brownieCupcakeAsset from "@/assets/brownie-cupcake.jpg.asset.json";
+import redVelvetCupcakeAsset from "@/assets/red-velvet-cupcake.jpg.asset.json";
+import biscoffOverloadAsset from "@/assets/biscoff-overload.jpg.asset.json";
+import rasmalaiFusionAsset from "@/assets/rasmalai-fusion.jpg.asset.json";
+
+const popcornChicken = popcornChickenAsset.url;
+const bomboloni = bomboloniAsset.url;
+const gulabJamun = gulabJamunAsset.url;
+const tiramisu = tiramisuAsset.url;
+const tres = tresLechesAsset.url;
+const vanillaCupcake = vanillaCupcakeAsset.url;
+const brownieCupcake = brownieCupcakeAsset.url;
+const redVelvetCupcake = redVelvetCupcakeAsset.url;
+const biscoffOverload = biscoffOverloadAsset.url;
+const rasmalaiFusion = rasmalaiFusionAsset.url;
 
 export type Product = {
   slug: string;
