@@ -1,11 +1,8 @@
-import cheesecake from "@/assets/dish-cheesecake.jpg";
-import biryani from "@/assets/dish-biryani.jpg";
 import burger from "@/assets/dish-burger.jpg";
 import wings from "@/assets/dish-wings.jpg";
-import cupcakes from "@/assets/dish-cupcakes.jpg";
 import roll from "@/assets/dish-roll.jpg";
 import fries from "@/assets/dish-fries.jpg";
-import craftCake from "@/assets/craft-cake.jpg";
+import biryani from "@/assets/dish-biryani.jpg";
 import popcornChickenAsset from "@/assets/popcorn-chicken.jpg.asset.json";
 import bomboloniAsset from "@/assets/bomboloni.jpg.asset.json";
 import gulabJamunAsset from "@/assets/gulab-jamun.jpg.asset.json";
@@ -16,6 +13,19 @@ import brownieCupcakeAsset from "@/assets/brownie-cupcake.jpg.asset.json";
 import redVelvetCupcakeAsset from "@/assets/red-velvet-cupcake.jpg.asset.json";
 import biscoffOverloadAsset from "@/assets/biscoff-overload.jpg.asset.json";
 import rasmalaiFusionAsset from "@/assets/rasmalai-fusion.jpg.asset.json";
+import blueberryCheesecakeAsset from "@/assets/blueberry-cheesecake.jpg.asset.json";
+import blackForestAsset from "@/assets/black-forest-cake.jpg.asset.json";
+import belgianTruffleAsset from "@/assets/belgian-dark-truffle.jpg.asset.json";
+import kurkureMomosAsset from "@/assets/kurkure-momos.jpg.asset.json";
+import eggRiceAsset from "@/assets/egg-rice.jpg.asset.json";
+import londonChocolateAsset from "@/assets/landon-chocholate-cake.jpg.asset.json";
+import mangoCakeAsset from "@/assets/mango-cake.jpg.asset.json";
+import redVelvetCakeAsset from "@/assets/red-velvet-cake.jpg.asset.json";
+import jamunCakeAsset from "@/assets/jamun-cake.jpg.asset.json";
+import ramenBowlAsset from "@/assets/ramen-bowl.jpg.asset.json";
+import strawberryCakeAsset from "@/assets/strawberry-cake.jpg.asset.json";
+import pineappleCakeAsset from "@/assets/pineapple-cake.jpg.asset.json";
+import fruitCakeAsset from "@/assets/fruit-cake.jpg.asset.json";
 
 const popcornChicken = popcornChickenAsset.url;
 const bomboloni = bomboloniAsset.url;
@@ -27,6 +37,19 @@ const brownieCupcake = brownieCupcakeAsset.url;
 const redVelvetCupcake = redVelvetCupcakeAsset.url;
 const biscoffOverload = biscoffOverloadAsset.url;
 const rasmalaiFusion = rasmalaiFusionAsset.url;
+const blueberryCheesecake = blueberryCheesecakeAsset.url;
+const blackForest = blackForestAsset.url;
+const belgianTruffle = belgianTruffleAsset.url;
+const kurkureMomosImg = kurkureMomosAsset.url;
+const eggRiceImg = eggRiceAsset.url;
+const londonChocolate = londonChocolateAsset.url;
+const mangoCake = mangoCakeAsset.url;
+const redVelvetCake = redVelvetCakeAsset.url;
+const jamunCake = jamunCakeAsset.url;
+const ramenBowl = ramenBowlAsset.url;
+const strawberryCake = strawberryCakeAsset.url;
+const pineappleCake = pineappleCakeAsset.url;
+const fruitCake = fruitCakeAsset.url;
 
 export type Product = {
   slug: string;
@@ -44,6 +67,7 @@ export type Product = {
 };
 
 export const CATEGORIES = [
+  { slug: "seasonal-special", name: "Seasonal Special", tagline: "Limited edition — while the season lasts" },
   { slug: "cakes", name: "Signature Cakes", tagline: "Handcrafted for celebrations" },
   { slug: "cupcakes", name: "Cupcakes", tagline: "Petite indulgence" },
   { slug: "desserts", name: "Desserts", tagline: "Sweet finales" },
@@ -56,12 +80,21 @@ export const CATEGORIES = [
 ];
 
 export const PRODUCTS: Product[] = [
+  // Seasonal Special
+  { slug: "mango-magic-cake", name: "Mango Magic Cake", category: "seasonal-special", price: 1199, description: "Alphonso mango cream, soft vanilla sponge, fresh mango cubes crowning the top.", image: mangoCake, veg: true, bestSeller: true, chefPick: true, prepMins: 1440, calories: 380, ingredients: ["Alphonso mango", "Vanilla sponge", "Fresh cream", "Mango compote"] },
+  { slug: "strawberry-bliss-cake", name: "Strawberry Bliss Cake", category: "seasonal-special", price: 1099, description: "Whipped strawberry cream, fresh berries, and a soft vanilla crumb.", image: strawberryCake, veg: true, chefPick: true, prepMins: 1440, calories: 360, ingredients: ["Fresh strawberries", "Vanilla sponge", "Whipped cream", "Strawberry compote"] },
+
   // Cakes
-  { slug: "belgian-dark-truffle", name: "Belgian Dark Truffle", category: "cakes", price: 1499, description: "A cathedral of Belgian couverture, whipped ganache, and gold-leaf embellishments.", image: craftCake, veg: true, bestSeller: true, chefPick: true, prepMins: 1440, calories: 420, ingredients: ["Belgian dark chocolate", "Fresh cream", "Butter", "Cocoa", "24k gold leaf"] },
-  { slug: "black-forest", name: "Black Forest Reserve", category: "cakes", price: 899, description: "Kirsch-soaked sponge, black cherries, and clouds of whipped cream.", image: cheesecake, veg: true, bestSeller: true, prepMins: 1440, calories: 380, ingredients: ["Chocolate sponge", "Fresh cream", "Cherries", "Dark chocolate shavings"] },
-  { slug: "blueberry-cheesecake", name: "Blueberry Cheesecake", category: "cakes", price: 1199, description: "Silken cream cheese on a butter-crumb base with wild blueberry compote.", image: cheesecake, veg: true, chefPick: true, prepMins: 1440, calories: 410, ingredients: ["Cream cheese", "Blueberries", "Digestive", "Butter", "Vanilla"] },
+  { slug: "belgian-dark-truffle", name: "Belgian Dark Truffle", category: "cakes", price: 1499, description: "A cathedral of Belgian couverture, whipped ganache, and gold-leaf embellishments.", image: belgianTruffle, veg: true, bestSeller: true, chefPick: true, prepMins: 1440, calories: 420, ingredients: ["Belgian dark chocolate", "Fresh cream", "Butter", "Cocoa", "24k gold leaf"] },
+  { slug: "black-forest", name: "Black Forest Reserve", category: "cakes", price: 899, description: "Kirsch-soaked sponge, black cherries, and clouds of whipped cream.", image: blackForest, veg: true, bestSeller: true, prepMins: 1440, calories: 380, ingredients: ["Chocolate sponge", "Fresh cream", "Cherries", "Dark chocolate shavings"] },
+  { slug: "blueberry-cheesecake", name: "Blueberry Cheesecake", category: "cakes", price: 1199, description: "Silken cream cheese on a butter-crumb base with wild blueberry compote.", image: blueberryCheesecake, veg: true, chefPick: true, prepMins: 1440, calories: 410, ingredients: ["Cream cheese", "Blueberries", "Digestive", "Butter", "Vanilla"] },
   { slug: "rasmalai-fusion", name: "Rasmalai Fusion", category: "cakes", price: 1299, description: "Cardamom sponge, saffron cream, pistachio crumb — an heirloom, reimagined.", image: rasmalaiFusion, veg: true, prepMins: 1440, calories: 395, ingredients: ["Cardamom sponge", "Saffron cream", "Pistachio", "Rose petals"] },
   { slug: "biscoff-overload", name: "Biscoff Overload", category: "cakes", price: 1099, description: "Layers of Biscoff cream, caramelised biscuit crunch, and warm spice.", image: biscoffOverload, veg: true, prepMins: 1440, calories: 440, ingredients: ["Biscoff spread", "Vanilla sponge", "Whipped cream", "Biscoff biscuits"] },
+  { slug: "london-chocolate", name: "London Chocolate Loaf", category: "cakes", price: 1199, description: "London-style layered chocolate loaf, molten ganache glaze, silken chocolate cream.", image: londonChocolate, veg: true, chefPick: true, prepMins: 1440, calories: 460, ingredients: ["Dark chocolate", "Cocoa sponge", "Ganache", "Butter"] },
+  { slug: "pineapple-cake", name: "Pineapple Cream Cake", category: "cakes", price: 849, description: "Fluffy vanilla sponge, whipped cream, ripe pineapple chunks.", image: pineappleCake, veg: true, prepMins: 1440, calories: 340, ingredients: ["Pineapple", "Vanilla sponge", "Whipped cream", "Sugar syrup"] },
+  { slug: "jamun-cake", name: "Gulab Jamun Cake", category: "cakes", price: 1099, description: "Vanilla cream cake studded with soft, syrup-soaked gulab jamun.", image: jamunCake, veg: true, prepMins: 1440, calories: 420, ingredients: ["Gulab jamun", "Vanilla sponge", "Whipped cream", "Cardamom"] },
+  { slug: "fruit-cake", name: "Fresh Fruit Cake", category: "cakes", price: 999, description: "Vanilla sponge crowned with kiwi, berries, and seasonal fresh fruits.", image: fruitCake, veg: true, prepMins: 1440, calories: 350, ingredients: ["Fresh fruits", "Vanilla sponge", "Whipped cream", "Fruit glaze"] },
+  { slug: "red-velvet-cake", name: "Red Velvet Cake", category: "cakes", price: 1049, description: "Cocoa-kissed crimson sponge with clouds of cream cheese frosting.", image: redVelvetCake, veg: true, prepMins: 1440, calories: 400, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
 
   // Cupcakes
   { slug: "red-velvet-cupcake", name: "Red Velvet Cupcake", category: "cupcakes", price: 129, description: "Cocoa-tinted crumb crowned with cream cheese frosting.", image: redVelvetCupcake, veg: true, prepMins: 60, calories: 260, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
@@ -87,7 +120,7 @@ export const PRODUCTS: Product[] = [
   // Main Course
   { slug: "dum-biryani", name: "Hyderabadi Dum Biryani", category: "main-course", price: 399, description: "Aged basmati, saffron, slow-sealed handi, unveiled at your table.", image: biryani, veg: false, bestSeller: true, chefPick: true, prepMins: 90, calories: 720, ingredients: ["Basmati rice", "Chicken", "Saffron", "Ghee", "Whole spices", "Yogurt"] },
   { slug: "pepper-chicken", name: "Malabar Pepper Chicken", category: "main-course", price: 349, description: "Coastal spice, cracked pepper, curry leaves.", image: biryani, veg: false, prepMins: 45, calories: 480, ingredients: ["Chicken", "Black pepper", "Curry leaves", "Coconut oil"] },
-  { slug: "egg-rice", name: "Ghee Egg Rice", category: "main-course", price: 219, description: "Wok-tossed rice, farm eggs, brown butter, spring onion.", image: biryani, veg: false, prepMins: 20, calories: 520, ingredients: ["Basmati rice", "Eggs", "Ghee", "Spring onion"] },
+  { slug: "egg-rice", name: "Ghee Egg Rice", category: "main-course", price: 219, description: "Wok-tossed rice, farm eggs, brown butter, spring onion.", image: eggRiceImg, veg: false, prepMins: 20, calories: 520, ingredients: ["Basmati rice", "Eggs", "Ghee", "Spring onion"] },
 
   // Rolls
   { slug: "chicken-roll", name: "Kolkata Chicken Roll", category: "rolls", price: 189, description: "Flaky paratha, spiced chicken, pickled onions.", image: roll, veg: false, prepMins: 15, calories: 460, ingredients: ["Paratha", "Chicken", "Onion", "Mint chutney"] },
@@ -95,8 +128,8 @@ export const PRODUCTS: Product[] = [
 
   // Street Food
   { slug: "loaded-fries", name: "Truffle Loaded Fries", category: "street-food", price: 269, description: "Hand-cut fries, aged cheddar, herb salt, black truffle oil.", image: fries, veg: true, bestSeller: true, prepMins: 15, calories: 560, ingredients: ["Potato", "Cheddar", "Truffle oil", "Herbs"] },
-  { slug: "kurkure-momos", name: "Kurkure Momos", category: "street-food", price: 199, description: "Crackling shell, molten spiced filling, house schezwan.", image: fries, veg: true, prepMins: 20, calories: 440, ingredients: ["Momos", "Corn flakes", "Schezwan sauce"] },
-  { slug: "ramen-bowl", name: "Chef's Ramen Bowl", category: "street-food", price: 329, description: "Slow-simmered broth, ramen noodles, soft egg, chilli oil.", image: fries, veg: false, prepMins: 25, calories: 560, ingredients: ["Ramen", "Chicken broth", "Egg", "Chilli oil"] },
+  { slug: "kurkure-momos", name: "Kurkure Momos", category: "street-food", price: 199, description: "Crackling shell, molten spiced filling, house schezwan.", image: kurkureMomosImg, veg: true, prepMins: 20, calories: 440, ingredients: ["Momos", "Corn flakes", "Schezwan sauce"] },
+  { slug: "ramen-bowl", name: "Chef's Ramen Bowl", category: "street-food", price: 329, description: "Slow-simmered broth, ramen noodles, soft egg, chilli oil.", image: ramenBowl, veg: false, prepMins: 25, calories: 560, ingredients: ["Ramen", "Chicken broth", "Egg", "Chilli oil"] },
 
   // Snacks
   { slug: "paneer-puff", name: "Paneer Puff", category: "snacks", price: 79, description: "Buttery puff pastry, spiced paneer heart.", image: fries, veg: true, prepMins: 10, calories: 260, ingredients: ["Puff pastry", "Paneer", "Onion", "Spices"] },

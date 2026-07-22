@@ -45,21 +45,33 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           </button>
         </div>
         <div className="mt-auto flex items-center justify-between pt-2">
-          <div>
-            <p className="font-display text-2xl text-primary">₹{product.price}</p>
-            <div className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
-              <Star className="h-3 w-3 fill-primary text-primary" /> 4.9 · {product.prepMins < 60 ? `${product.prepMins} min` : `${Math.round(product.prepMins/60)} hr`}
-            </div>
-          </div>
+          {(() => {
+            const isCake = product.category === "cakes" || product.category === "seasonal-special";
+            const displayPrice = isCake ? Math.round(product.price * 0.7) : product.price;
+            return (
+              <div>
+                {isCake && <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Starts at · 500 g</p>}
+                <p className="font-display text-2xl text-primary">₹{displayPrice.toLocaleString("en-IN")}</p>
+                <div className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
+                  <Star className="h-3 w-3 fill-primary text-primary" /> 4.9 · {product.prepMins < 60 ? `${product.prepMins} min` : `${Math.round(product.prepMins/60)} hr`}
+                </div>
+              </div>
+            );
+          })()}
           <button
-            onClick={() =>
-              add({ slug: product.slug, name: product.name, price: product.price, image: product.image })
-            }
+            onClick={() => {
+              const isCake = product.category === "cakes" || product.category === "seasonal-special";
+              const price = isCake ? Math.round(product.price * 0.7) : product.price;
+              const name = isCake ? `${product.name} (500 g)` : product.name;
+              const slug = isCake ? `${product.slug}-500` : product.slug;
+              add({ slug, name, price, image: product.image });
+            }}
             className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
           >
             <Plus className="h-3.5 w-3.5" /> Add
           </button>
         </div>
+
       </div>
     </motion.article>
   );
