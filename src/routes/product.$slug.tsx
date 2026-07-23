@@ -110,10 +110,10 @@ function ProductPage() {
             </div>
             <button
               onClick={() => {
-                const name = isCake ? `${product.name} (${size.label})` : product.name;
                 const slug = isCake ? `${product.slug}-${size.value}` : product.slug;
-                add({ slug, name, price: unitPrice, image: product.image }, qty);
-                toast.success("Added to cart");
+                const variant = isCake ? size.label : undefined;
+                add({ slug, name: product.name, price: unitPrice, image: product.image, variant }, qty);
+                toast.success(`Added · ${product.name}${variant ? ` (${variant})` : ""} × ${qty}`);
               }}
               className="btn-gold btn-gold-hover flex-1 rounded-full px-6 py-3.5 text-sm font-semibold"
             >
