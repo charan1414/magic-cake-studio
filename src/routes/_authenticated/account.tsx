@@ -61,32 +61,31 @@ function AccountPage() {
       <section className="container-luxe grid gap-4 pb-8 sm:grid-cols-3">
         <Stat icon={<Sparkles className="h-4 w-4" />} label="Loyalty points" value={profile?.loyalty_points ?? 0} />
         <Stat icon={<Cake className="h-4 w-4" />} label="Saved cake designs" value={designs.length} />
-        <Stat icon={<Package className="h-4 w-4" />} label="Orders" value={0} />
+        <Stat icon={<Package className="h-4 w-4" />} label="Orders" value={orders.length} />
       </section>
 
-      <section className="container-luxe grid gap-6 pb-24 lg:grid-cols-[2fr_1fr]">
+      <section className="container-luxe grid gap-6 pb-12 lg:grid-cols-[2fr_1fr]">
         <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
           <div className="mb-6 flex items-center justify-between">
-            <h2 className="font-display text-2xl text-cream">Saved cake designs</h2>
-            <Link to="/cake-studio" className="text-xs text-primary hover:underline">+ New design</Link>
+            <h2 className="font-display text-2xl text-cream">Recent orders</h2>
+            <Link to="/menu" className="text-xs text-primary hover:underline">Order again</Link>
           </div>
-          {designs.length === 0 ? (
-            <div className="py-16 text-center">
-              <Cake className="mx-auto h-8 w-8 text-primary" />
-              <p className="mt-4 text-sm text-muted-foreground">No designs yet. Start creating in the Cake Studio.</p>
-              <Link to="/cake-studio" className="btn-gold btn-gold-hover mt-6 inline-flex rounded-full px-6 py-3 text-sm font-semibold">Open Cake Studio</Link>
+          {orders.length === 0 ? (
+            <div className="py-12 text-center">
+              <Package className="mx-auto h-8 w-8 text-primary" />
+              <p className="mt-4 text-sm text-muted-foreground">No orders yet.</p>
             </div>
           ) : (
             <ul className="divide-y divide-border/60">
-              {designs.map((d) => (
-                <li key={d.id} className="flex items-center justify-between py-4">
+              {orders.map((o) => (
+                <li key={o.id} className="flex items-center justify-between py-4">
                   <div>
-                    <p className="font-medium text-cream">{d.design_code}</p>
-                    <p className="text-xs text-muted-foreground">{d.message ?? "No message"} · {new Date(d.created_at).toLocaleDateString()}</p>
+                    <p className="font-medium text-cream">{o.order_code}</p>
+                    <p className="text-xs text-muted-foreground">{new Date(o.created_at).toLocaleString("en-IN")} · <span className="uppercase tracking-wider text-primary">{o.status.replace(/_/g, " ")}</span></p>
                   </div>
-                  <div className="text-right">
-                    <p className="font-display gold-text">₹{Number(d.estimated_price).toLocaleString("en-IN")}</p>
-                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{d.status}</span>
+                  <div className="flex items-center gap-4">
+                    <p className="font-display gold-text">₹{Number(o.total).toLocaleString("en-IN")}</p>
+                    <Link to="/track/$orderId" params={{ orderId: o.id }} className="rounded-full border border-primary/50 px-3 py-1.5 text-[11px] font-medium text-primary hover:bg-primary/10">Track</Link>
                   </div>
                 </li>
               ))}
@@ -98,7 +97,33 @@ function AccountPage() {
           <Panel icon={<UserIcon className="h-4 w-4" />} title="Profile" to="/account" desc="Name, phone, birthday" />
           <Panel icon={<MapPin className="h-4 w-4" />} title="Addresses" to="/account" desc="Delivery addresses" />
           <Panel icon={<Heart className="h-4 w-4" />} title="Wishlist" to="/account" desc="Saved dishes" />
-          <Panel icon={<Package className="h-4 w-4" />} title="Orders" to="/account" desc="Track & history" />
+        </div>
+      </section>
+
+      <section className="container-luxe pb-24">
+        <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="font-display text-2xl text-cream">Saved cake designs</h2>
+            <Link to="/cake-studio" className="text-xs text-primary hover:underline">+ New design</Link>
+          </div>
+          {designs.length === 0 ? (
+            <div className="py-12 text-center">
+              <Cake className="mx-auto h-8 w-8 text-primary" />
+              <p className="mt-4 text-sm text-muted-foreground">No designs yet.</p>
+            </div>
+          ) : (
+            <ul className="divide-y divide-border/60">
+              {designs.map((d) => (
+                <li key={d.id} className="flex items-center justify-between py-4">
+                  <div>
+                    <p className="font-medium text-cream">{d.design_code}</p>
+                    <p className="text-xs text-muted-foreground">{d.message ?? "No message"} · {new Date(d.created_at).toLocaleDateString()}</p>
+                  </div>
+                  <p className="font-display gold-text">₹{Number(d.estimated_price).toLocaleString("en-IN")}</p>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
     </div>
