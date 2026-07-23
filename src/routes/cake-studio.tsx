@@ -95,8 +95,20 @@ function CakeStudio() {
       <section className="container-luxe grid gap-8 pb-24 lg:grid-cols-[0.9fr_1.1fr]">
         {/* Preview */}
         <div className="sticky top-28 h-fit rounded-3xl border border-border/60 glass-heavy p-6">
-          <CakePreview theme={theme} shape={shape} decors={decors} message={message} />
-          <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
+          <div className="aspect-square overflow-hidden rounded-2xl border border-border/60 bg-gradient-to-b from-ink to-cocoa/40">
+            <ClientOnly fallback={<CakePreview theme={theme} shape={shape} decors={decors} message={message} />}>
+              <Suspense fallback={<CakePreview theme={theme} shape={shape} decors={decors} message={message} />}>
+                <Cake3D
+                  color={theme.color}
+                  accent={theme.accent}
+                  tiers={shape.toLowerCase().includes("three") || shape === "Wedding Cake" ? 3 : shape.toLowerCase().includes("two") ? 2 : 1}
+                  decorations={decors}
+                  message={message}
+                />
+              </Suspense>
+            </ClientOnly>
+          </div>
+          <p className="mt-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">Drag to rotate · Live 3D preview</p>
             <Info label="Shape" value={shape} />
             <Info label="Size" value={size.label} />
             <Info label="Flavor" value={flavor} />
