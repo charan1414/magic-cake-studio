@@ -1,5 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { ClientOnly, createFileRoute } from "@tanstack/react-router";
+import { lazy, Suspense, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Save, Share2, Sparkles, Upload } from "lucide-react";
 import { CAKE_SHAPES, CAKE_SIZES, CAKE_FLAVORS, CAKE_FILLINGS, CAKE_FROSTINGS, CAKE_THEMES, CAKE_DECORATIONS } from "@/lib/data";
@@ -7,6 +7,8 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { toast } from "sonner";
+
+const Cake3D = lazy(() => import("@/components/cake-3d"));
 
 export const Route = createFileRoute("/cake-studio")({
   head: () => ({
