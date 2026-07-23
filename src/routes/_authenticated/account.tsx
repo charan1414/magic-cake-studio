@@ -19,11 +19,13 @@ export const Route = createFileRoute("/_authenticated/account")({
 });
 
 type Design = { id: string; design_code: string; estimated_price: number; message: string | null; created_at: string; status: string };
+type Order = { id: string; order_code: string; total: number; status: string; created_at: string };
 
 function AccountPage() {
   const user = useAuth((s) => s.user);
   const navigate = useNavigate();
   const [designs, setDesigns] = useState<Design[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
 
   useEffect(() => {
@@ -32,6 +34,8 @@ function AccountPage() {
       .then(({ data }) => setProfile(data as any));
     supabase.from("cake_designs").select("id,design_code,estimated_price,message,created_at,status").order("created_at", { ascending: false })
       .then(({ data }) => setDesigns((data ?? []) as any));
+    supabase.from("orders").select("id,order_code,total,status,created_at").order("created_at", { ascending: false })
+      .then(({ data }) => setOrders((data ?? []) as any));
   }, [user]);
 
   const signOut = async () => {

@@ -109,6 +109,7 @@ function CakeStudio() {
             </ClientOnly>
           </div>
           <p className="mt-2 text-center text-[10px] uppercase tracking-widest text-muted-foreground">Drag to rotate · Live 3D preview</p>
+          <div className="mt-6 grid grid-cols-2 gap-3 text-sm">
             <Info label="Shape" value={shape} />
             <Info label="Size" value={size.label} />
             <Info label="Flavor" value={flavor} />
