@@ -107,6 +107,110 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          image: string | null
+          name: string
+          order_id: string
+          price: number
+          qty: number
+          slug: string
+          variant: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          image?: string | null
+          name: string
+          order_id: string
+          price: number
+          qty: number
+          slug: string
+          variant?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          image?: string | null
+          name?: string
+          order_id?: string
+          price?: number
+          qty?: number
+          slug?: string
+          variant?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          address: Json | null
+          contact_name: string | null
+          contact_phone: string | null
+          created_at: string
+          delivery_fee: number
+          eta_minutes: number | null
+          id: string
+          notes: string | null
+          order_code: string
+          payment_method: string
+          payment_status: string
+          status: string
+          subtotal: number
+          tax: number
+          total: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          address?: Json | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          delivery_fee?: number
+          eta_minutes?: number | null
+          id?: string
+          notes?: string | null
+          order_code?: string
+          payment_method?: string
+          payment_status?: string
+          status?: string
+          subtotal?: number
+          tax?: number
+          total?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          address?: Json | null
+          contact_name?: string | null
+          contact_phone?: string | null
+          created_at?: string
+          delivery_fee?: number
+          eta_minutes?: number | null
+          id?: string
+          notes?: string | null
+          order_code?: string
+          payment_method?: string
+          payment_status?: string
+          status?: string
+          subtotal?: number
+          tax?: number
+          total?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

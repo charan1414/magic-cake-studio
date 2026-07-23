@@ -247,7 +247,14 @@ export function CartDrawer() {
                       <img src={i.image} alt={i.name} className="h-20 w-20 rounded-lg object-cover" />
                       <div className="flex flex-1 flex-col">
                         <p className="text-sm font-medium text-cream">{i.name}</p>
-                        <p className="text-xs text-muted-foreground">₹{i.price}</p>
+                        {i.variant && (
+                          <p className="mt-0.5 inline-flex w-fit items-center rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-primary">
+                            {i.variant}
+                          </p>
+                        )}
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          ₹{i.price.toLocaleString("en-IN")} × {i.qty} = <span className="text-cream">₹{(i.price * i.qty).toLocaleString("en-IN")}</span>
+                        </p>
                         <div className="mt-auto flex items-center justify-between">
                           <div className="inline-flex items-center rounded-full border border-border">
                             <button onClick={() => setQty(i.slug, i.qty - 1)} className="px-2.5 py-1 text-cream">−</button>

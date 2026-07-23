@@ -7,6 +7,7 @@ export type CartLine = {
   price: number;
   image: string;
   qty: number;
+  variant?: string; // e.g. "500 g", "Two Tier · 2 kg"
 };
 
 type CartState = {

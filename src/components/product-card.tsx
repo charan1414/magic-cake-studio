@@ -62,9 +62,9 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             onClick={() => {
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
               const price = isCake ? Math.round(product.price * 0.7) : product.price;
-              const name = isCake ? `${product.name} (500 g)` : product.name;
               const slug = isCake ? `${product.slug}-500` : product.slug;
-              add({ slug, name, price, image: product.image });
+              const variant = isCake ? "500 g" : undefined;
+              add({ slug, name: product.name, price, image: product.image, variant });
             }}
             className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
           >
