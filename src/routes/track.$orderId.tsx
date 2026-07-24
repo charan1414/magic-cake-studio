@@ -83,7 +83,7 @@ function TrackPage() {
     );
   }
 
-  const activeIdx = Math.max(0, STAGES.findIndex((s) => s.key === order.status));
+  const activeIdx = order.status === "cancelled" ? -1 : Math.max(0, STAGES.findIndex((s) => s.matches.includes(order.status)));
 
   return (
     <div className="pt-32">
