@@ -41,7 +41,7 @@ function ProductPage() {
   const isCake = product.category === "cakes" || product.category === "seasonal-special";
   const [sizeIdx, setSizeIdx] = useState(0); // default 500 g — most affordable entry
   const size = CAKE_SIZES[sizeIdx];
-  const unitPrice = isCake ? Math.round(product.price * size.mult) : product.price;
+  const unitPrice = isCake ? cakePrice(product.price, size) : product.price;
   const related = PRODUCTS.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
 
   return (
