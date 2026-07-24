@@ -23,7 +23,7 @@ export const Route = createFileRoute("/cake-studio")({
   component: CakeStudio,
 });
 
-const BASE_PRICE = 899;
+const BASE_PRICE_500G = 599; // base 500 g studio cake
 const DECOR_COST = 120;
 
 function CakeStudio() {
@@ -40,7 +40,7 @@ function CakeStudio() {
   const user = useAuth((s) => s.user);
 
   const price = useMemo(() => {
-    const base = Math.round(BASE_PRICE * size.mult);
+    const base = cakePrice(BASE_PRICE_500G, size);
     const decor = decors.length * DECOR_COST;
     const tier = shape.toLowerCase().includes("tier") ? 800 : shape === "Wedding Cake" ? 1600 : 0;
     return base + decor + tier;
