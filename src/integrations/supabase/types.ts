@@ -107,6 +107,53 @@ export type Database = {
         }
         Relationships: []
       }
+      notification_logs: {
+        Row: {
+          channel: string
+          created_at: string
+          error: string | null
+          event: string
+          id: string
+          order_id: string | null
+          payload: Json | null
+          recipient: string
+          sent_at: string | null
+          status: string
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          error?: string | null
+          event: string
+          id?: string
+          order_id?: string | null
+          payload?: Json | null
+          recipient: string
+          sent_at?: string | null
+          status?: string
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          error?: string | null
+          event?: string
+          id?: string
+          order_id?: string | null
+          payload?: Json | null
+          recipient?: string
+          sent_at?: string | null
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_logs_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       order_items: {
         Row: {
           created_at: string
@@ -151,6 +198,41 @@ export type Database = {
           },
         ]
       }
+      order_status_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          id: string
+          note: string | null
+          order_id: string
+          status: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          order_id: string
+          status: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          note?: string | null
+          order_id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_status_history_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           address: Json | null
@@ -158,6 +240,7 @@ export type Database = {
           contact_phone: string | null
           created_at: string
           delivery_fee: number
+          delivery_type: string
           eta_minutes: number | null
           id: string
           notes: string | null
@@ -177,6 +260,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           delivery_fee?: number
+          delivery_type?: string
           eta_minutes?: number | null
           id?: string
           notes?: string | null
@@ -196,6 +280,7 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           delivery_fee?: number
+          delivery_type?: string
           eta_minutes?: number | null
           id?: string
           notes?: string | null

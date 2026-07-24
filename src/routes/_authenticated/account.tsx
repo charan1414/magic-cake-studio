@@ -27,6 +27,7 @@ function AccountPage() {
   const [designs, setDesigns] = useState<Design[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -36,6 +37,10 @@ function AccountPage() {
       .then(({ data }) => setDesigns((data ?? []) as any));
     supabase.from("orders").select("id,order_code,total,status,created_at").order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data ?? []) as any));
+    Promise.all([
+      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
+      supabase.rpc("has_role", { _user_id: user.id, _role: "staff" }),
+    ]).then(([a, s]) => setIsStaff(Boolean(a.data) || Boolean(s.data)));
   }, [user]);
 
   const signOut = async () => {
@@ -56,6 +61,11 @@ function AccountPage() {
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
         </div>
+        {isStaff && (
+          <Link to="/admin/orders" className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+            <Package className="h-3.5 w-3.5" /> Admin · Manage orders
+          </Link>
+        )}
       </section>
 
       <section className="container-luxe grid gap-4 pb-8 sm:grid-cols-3">

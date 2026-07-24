@@ -31,12 +31,13 @@ type Order = {
   items: { name: string; variant: string | null; qty: number; price: number }[];
 };
 
+// Customer-facing condensed view of the 10 internal stages.
 const STAGES = [
-  { key: "placed", label: "Order placed", icon: CheckCircle2 },
-  { key: "confirmed", label: "Confirmed", icon: Package },
-  { key: "preparing", label: "In the kitchen", icon: ChefHat },
-  { key: "out_for_delivery", label: "Out for delivery", icon: Truck },
-  { key: "delivered", label: "Delivered", icon: MapPin },
+  { key: "received", label: "Order received", icon: CheckCircle2, matches: ["received", "confirmed"] },
+  { key: "preparing", label: "In the kitchen", icon: ChefHat, matches: ["preparing", "baking", "decoration", "quality_check"] },
+  { key: "packed", label: "Packed", icon: Package, matches: ["packed"] },
+  { key: "out_for_delivery", label: "Out for delivery", icon: Truck, matches: ["out_for_delivery"] },
+  { key: "delivered", label: "Delivered", icon: MapPin, matches: ["delivered"] },
 ];
 
 function TrackPage() {
@@ -82,7 +83,7 @@ function TrackPage() {
     );
   }
 
-  const activeIdx = Math.max(0, STAGES.findIndex((s) => s.key === order.status));
+  const activeIdx = order.status === "cancelled" ? -1 : Math.max(0, STAGES.findIndex((s) => s.matches.includes(order.status)));
 
   return (
     <div className="pt-32">
