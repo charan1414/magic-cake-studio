@@ -61,6 +61,11 @@ function AccountPage() {
             <LogOut className="h-3.5 w-3.5" /> Sign out
           </button>
         </div>
+        {isStaff && (
+          <Link to="/admin/orders" className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+            <Package className="h-3.5 w-3.5" /> Admin · Manage orders
+          </Link>
+        )}
       </section>
 
       <section className="container-luxe grid gap-4 pb-8 sm:grid-cols-3">
