@@ -144,14 +144,21 @@ export const getByCategory = (cat: string) => PRODUCTS.filter((p) => p.category 
 
 // Cake studio options
 export const CAKE_SHAPES = ["Round", "Heart", "Square", "Rectangle", "Hexagon", "Two Tier", "Three Tier", "Number", "Alphabet"];
+// Sizes for cakes. `units` = number of 500 g portions. `discount` = INR
+// off vs the strict linear (units × 500g price) — a bulk discount so
+// buying a larger cake is cheaper per kg. Rule of thumb per user:
+// ₹80 off at 1 kg, ₹200 off at 2 kg, and scaling up from there.
 export const CAKE_SIZES = [
-  { label: "500 g", value: 500, mult: 0.7 },
-  { label: "1 kg", value: 1000, mult: 1 },
-  { label: "1.5 kg", value: 1500, mult: 1.4 },
-  { label: "2 kg", value: 2000, mult: 1.8 },
-  { label: "3 kg", value: 3000, mult: 2.6 },
-  { label: "5 kg", value: 5000, mult: 4.2 },
+  { label: "500 g", value: 500, units: 1, discount: 0 },
+  { label: "1 kg", value: 1000, units: 2, discount: 80 },
+  { label: "1.5 kg", value: 1500, units: 3, discount: 140 },
+  { label: "2 kg", value: 2000, units: 4, discount: 200 },
+  { label: "3 kg", value: 3000, units: 6, discount: 320 },
+  { label: "5 kg", value: 5000, units: 10, discount: 560 },
 ];
+export type CakeSize = (typeof CAKE_SIZES)[number];
+export const cakePrice = (base500: number, size: CakeSize) =>
+  Math.max(base500, base500 * size.units - size.discount);
 export const CAKE_FLAVORS = ["Vanilla", "Chocolate", "Red Velvet", "Butterscotch", "Coffee", "Belgian Dark", "Biscoff", "Pistachio", "Rasmalai"];
 export const CAKE_FILLINGS = ["Chocolate Ganache", "Nutella", "Fresh Cream", "Biscoff", "Mango", "Strawberry", "Blueberry", "Salted Caramel", "Pistachio"];
 export const CAKE_FROSTINGS = ["Whipped Cream", "Buttercream", "Chocolate Ganache", "Cream Cheese", "Mirror Glaze", "Fondant"];
