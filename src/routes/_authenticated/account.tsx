@@ -27,6 +27,7 @@ function AccountPage() {
   const [designs, setDesigns] = useState<Design[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
+  const [isStaff, setIsStaff] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -36,6 +37,10 @@ function AccountPage() {
       .then(({ data }) => setDesigns((data ?? []) as any));
     supabase.from("orders").select("id,order_code,total,status,created_at").order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data ?? []) as any));
+    Promise.all([
+      supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
+      supabase.rpc("has_role", { _user_id: user.id, _role: "staff" }),
+    ]).then(([a, s]) => setIsStaff(Boolean(a.data) || Boolean(s.data)));
   }, [user]);
 
   const signOut = async () => {
