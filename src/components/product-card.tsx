@@ -47,7 +47,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         <div className="mt-auto flex items-center justify-between pt-2">
           {(() => {
             const isCake = product.category === "cakes" || product.category === "seasonal-special";
-            const displayPrice = isCake ? Math.round(product.price * 0.7) : product.price;
+            const displayPrice = product.price; // 500 g base for cakes, unit price otherwise
             return (
               <div>
                 {isCake && <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Starts at · 500 g</p>}
@@ -61,7 +61,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           <button
             onClick={() => {
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
-              const price = isCake ? Math.round(product.price * 0.7) : product.price;
+              const price = product.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
               const variant = isCake ? "500 g" : undefined;
               add({ slug, name: product.name, price, image: product.image, variant });
