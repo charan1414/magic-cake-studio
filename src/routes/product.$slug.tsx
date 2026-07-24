@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Heart, Minus, Plus, Share2, Star } from "lucide-react";
-import { getProduct, PRODUCTS, CAKE_SIZES } from "@/lib/data";
+import { getProduct, PRODUCTS, CAKE_SIZES, cakePrice } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
