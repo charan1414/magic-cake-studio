@@ -1,7 +1,7 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Heart, Minus, Plus, Share2, Star } from "lucide-react";
-import { getProduct, PRODUCTS, CAKE_SIZES } from "@/lib/data";
+import { getProduct, PRODUCTS, CAKE_SIZES, cakePrice } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -41,7 +41,7 @@ function ProductPage() {
   const isCake = product.category === "cakes" || product.category === "seasonal-special";
   const [sizeIdx, setSizeIdx] = useState(0); // default 500 g — most affordable entry
   const size = CAKE_SIZES[sizeIdx];
-  const unitPrice = isCake ? Math.round(product.price * size.mult) : product.price;
+  const unitPrice = isCake ? cakePrice(product.price, size) : product.price;
   const related = PRODUCTS.filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3);
 
   return (

@@ -2,7 +2,7 @@ import { ClientOnly, createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { Check, Save, Share2, Sparkles, Upload } from "lucide-react";
-import { CAKE_SHAPES, CAKE_SIZES, CAKE_FLAVORS, CAKE_FILLINGS, CAKE_FROSTINGS, CAKE_THEMES, CAKE_DECORATIONS } from "@/lib/data";
+import { CAKE_SHAPES, CAKE_SIZES, CAKE_FLAVORS, CAKE_FILLINGS, CAKE_FROSTINGS, CAKE_THEMES, CAKE_DECORATIONS, cakePrice } from "@/lib/data";
 import { Eyebrow } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
@@ -23,7 +23,7 @@ export const Route = createFileRoute("/cake-studio")({
   component: CakeStudio,
 });
 
-const BASE_PRICE = 899;
+const BASE_PRICE_500G = 599; // base 500 g studio cake
 const DECOR_COST = 120;
 
 function CakeStudio() {
@@ -40,7 +40,7 @@ function CakeStudio() {
   const user = useAuth((s) => s.user);
 
   const price = useMemo(() => {
-    const base = Math.round(BASE_PRICE * size.mult);
+    const base = cakePrice(BASE_PRICE_500G, size);
     const decor = decors.length * DECOR_COST;
     const tier = shape.toLowerCase().includes("tier") ? 800 : shape === "Wedding Cake" ? 1600 : 0;
     return base + decor + tier;
