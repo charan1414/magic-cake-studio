@@ -26,6 +26,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminDeliveryRouteImport } from './routes/_authenticated/admin.delivery'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -112,6 +113,12 @@ const AuthenticatedAdminOrdersRoute =
     path: '/admin/orders',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminDeliveryRoute =
+  AuthenticatedAdminDeliveryRouteImport.update({
+    id: '/admin/delivery',
+    path: '/admin/delivery',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
 }
 export interface FileRoutesByTo {
@@ -147,6 +155,7 @@ export interface FileRoutesByTo {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
 }
 export interface FileRoutesById {
@@ -167,6 +176,7 @@ export interface FileRoutesById {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/_authenticated/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
 }
 export interface FileRouteTypes {
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/admin/delivery'
     | '/admin/orders'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/admin/delivery'
     | '/admin/orders'
   id:
     | '__root__'
@@ -224,6 +236,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/_authenticated/admin/delivery'
     | '/_authenticated/admin/orders'
   fileRoutesById: FileRoutesById
 }
@@ -365,16 +378,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/delivery': {
+      id: '/_authenticated/admin/delivery'
+      path: '/admin/delivery'
+      fullPath: '/admin/delivery'
+      preLoaderRoute: typeof AuthenticatedAdminDeliveryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminDeliveryRoute: typeof AuthenticatedAdminDeliveryRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminDeliveryRoute: AuthenticatedAdminDeliveryRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
 }
 
