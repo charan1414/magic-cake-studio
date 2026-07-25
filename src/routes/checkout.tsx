@@ -1,10 +1,12 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { Minus, Plus, ShoppingBag, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { CheckCircle2, Loader2, Minus, Plus, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart, cartTotal } from "@/lib/cart-store";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
+import { checkServiceability, getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.functions";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/checkout")({
@@ -21,6 +23,8 @@ export const Route = createFileRoute("/checkout")({
   component: Checkout,
 });
 
+type Meta = { min_order_amount: number; free_delivery_threshold: number; delivery_radius_km: number; delivery_enabled: boolean };
+
 function Checkout() {
   const items = useCart((s) => s.items);
   const setQty = useCart((s) => s.setQty);
@@ -28,20 +32,70 @@ function Checkout() {
   const clear = useCart((s) => s.clear);
   const user = useAuth((s) => s.user);
   const navigate = useNavigate();
+  const check = useServerFn(checkServiceability);
+  const loadSettings = useServerFn(getDeliverySettings);
 
   const [contactName, setContactName] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [line1, setLine1] = useState("");
   const [line2, setLine2] = useState("");
+  const [city, setCity] = useState("Malur");
   const [pincode, setPincode] = useState("");
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"cod" | "online">("cod");
   const [placing, setPlacing] = useState(false);
 
+  const [meta, setMeta] = useState<Meta | null>(null);
+  const [service, setService] = useState<ServiceabilityResult | null>(null);
+  const [checking, setChecking] = useState(false);
+
   const subtotal = cartTotal(items);
-  const delivery = subtotal > 999 ? 0 : subtotal === 0 ? 0 : 79;
   const tax = Math.round(subtotal * 0.05);
+  const delivery = service?.ok ? service.delivery_fee ?? 0 : 0;
   const total = subtotal + delivery + tax;
+
+  const minOrder = meta?.min_order_amount ?? 0;
+  const belowMin = subtotal > 0 && subtotal < minOrder;
+
+  useEffect(() => {
+    loadSettings()
+      .then((s) =>
+        setMeta({
+          min_order_amount: Number(s.min_order_amount),
+          free_delivery_threshold: Number(s.free_delivery_threshold),
+          delivery_radius_km: Number(s.delivery_radius_km),
+          delivery_enabled: s.delivery_enabled,
+        }),
+      )
+      .catch(() => {});
+  }, [loadSettings]);
+
+  // Reset serviceability when address inputs change
+  useEffect(() => {
+    setService(null);
+  }, [pincode, line1, line2, city]);
+
+  const runCheck = async () => {
+    if (!/^\d{6}$/.test(pincode.trim())) {
+      toast.error("Enter a valid 6-digit pincode");
+      return;
+    }
+    if (!line1.trim()) {
+      toast.error("Enter your address");
+      return;
+    }
+    setChecking(true);
+    try {
+      const r = await check({ data: { pincode, line1, line2, city, state: "Karnataka", subtotal } });
+      setService(r);
+      if (!r.ok) toast.error(r.reason ?? "Out of delivery range");
+      else toast.success(`In zone · ${r.distance_km} km · delivery ₹${r.delivery_fee}`);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Could not verify address");
+    } finally {
+      setChecking(false);
+    }
+  };
 
   const place = async () => {
     if (!user) {
@@ -53,6 +107,15 @@ function Checkout() {
       toast.error("Please complete delivery details");
       return;
     }
+    if (!service?.ok) {
+      toast.error("Please verify your address to check delivery availability");
+      return;
+    }
+    if (belowMin) {
+      toast.error(`Minimum order is ₹${minOrder}`);
+      return;
+    }
+
     setPlacing(true);
     const { data: order, error } = await supabase
       .from("orders")
@@ -64,12 +127,15 @@ function Checkout() {
         total,
         contact_name: contactName,
         contact_phone: contactPhone,
-        address: { line1, line2, pincode, city: "Malur", state: "Karnataka" },
+        address: { line1, line2, city, pincode, state: "Karnataka" },
         notes,
         payment_method: payment,
-        payment_status: payment === "cod" ? "pending" : "pending",
+        payment_status: "pending",
         eta_minutes: 180,
-      })
+        delivery_distance_km: service.distance_km ?? null,
+        delivery_lat: service.lat ?? null,
+        delivery_lng: service.lng ?? null,
+      } as never)
       .select("id, order_code")
       .single();
 
@@ -112,12 +178,24 @@ function Checkout() {
     );
   }
 
+  const deliveryPaused = meta && !meta.delivery_enabled;
+  const canPlace = !!service?.ok && !belowMin && !deliveryPaused && !placing;
+
   return (
     <div className="pt-32">
       <section className="container-luxe pb-12">
         <Eyebrow>Checkout</Eyebrow>
         <h1 className="mt-4 font-display text-5xl leading-[1.02] text-cream md:text-6xl">Review your <span className="italic gold-text">order</span>.</h1>
       </section>
+
+      {deliveryPaused && (
+        <section className="container-luxe pb-6">
+          <div className="flex items-start gap-3 rounded-2xl border border-destructive/40 bg-destructive/10 p-4">
+            <ShieldAlert className="mt-0.5 h-4 w-4 text-destructive" />
+            <p className="text-sm text-cream">Delivery is temporarily paused. Please check back shortly.</p>
+          </div>
+        </section>
+      )}
 
       <section className="container-luxe grid gap-6 pb-24 lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-6">
@@ -160,14 +238,48 @@ function Checkout() {
               <Field label="Phone" value={contactPhone} onChange={setContactPhone} placeholder="+91…" />
               <Field label="Address line 1" value={line1} onChange={setLine1} className="md:col-span-2" />
               <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="md:col-span-2" />
-              <Field label="Pincode" value={pincode} onChange={setPincode} />
-              <Field label="Order notes (optional)" value={notes} onChange={setNotes} />
+              <Field label="City / Town" value={city} onChange={setCity} />
+              <Field label="Pincode" value={pincode} onChange={setPincode} placeholder="6 digits" />
+              <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="md:col-span-2" />
             </div>
+
+            <div className="mt-5 rounded-2xl border border-border/60 bg-background/40 p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-primary">Delivery availability</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    We deliver within {meta?.delivery_radius_km ?? 20} km. Verify your address before placing the order.
+                  </p>
+                </div>
+                <button
+                  onClick={runCheck}
+                  disabled={checking}
+                  className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
+                >
+                  {checking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
+                  {checking ? "Verifying…" : service?.ok ? "Re-check" : "Check delivery"}
+                </button>
+              </div>
+              {service && (
+                <div className={`mt-3 rounded-xl border p-3 text-xs ${service.ok ? "border-primary/40 bg-primary/5 text-cream" : "border-destructive/40 bg-destructive/10 text-cream"}`}>
+                  {service.ok ? (
+                    <p>
+                      In our zone · <span className="font-medium text-primary">{service.distance_km} km</span> away · delivery{" "}
+                      <span className="font-medium text-primary">{service.delivery_fee === 0 ? "Free" : `₹${service.delivery_fee}`}</span>
+                      {service.matched_address ? <span className="block text-muted-foreground mt-1">Matched: {service.matched_address}</span> : null}
+                    </p>
+                  ) : (
+                    <p>{service.reason}</p>
+                  )}
+                </div>
+              )}
+            </div>
+
             <div className="mt-6">
               <p className="eyebrow">Payment</p>
               <div className="mt-3 grid gap-3 md:grid-cols-2">
                 <PayOption active={payment === "cod"} onClick={() => setPayment("cod")} title="Cash on Delivery" desc="Pay when it arrives." />
-                <PayOption active={payment === "online"} onClick={() => setPayment("online")} title="Online (Razorpay)" desc="UPI, cards, wallets. Live payments coming soon." />
+                <PayOption active={payment === "online"} onClick={() => setPayment("online")} title="UPI / Online" desc="UPI QR + screenshot flow coming shortly." />
               </div>
             </div>
           </div>
@@ -190,7 +302,7 @@ function Checkout() {
           </ul>
           <dl className="mt-5 space-y-3 text-sm">
             <Row k="Subtotal" v={`₹${subtotal.toLocaleString("en-IN")}`} />
-            <Row k="Delivery" v={delivery === 0 ? "Free" : `₹${delivery}`} />
+            <Row k="Delivery" v={service?.ok ? (delivery === 0 ? "Free" : `₹${delivery}`) : "—"} />
             <Row k="Taxes (est.)" v={`₹${tax.toLocaleString("en-IN")}`} />
           </dl>
           <div className="my-5 h-px bg-border/60" />
@@ -198,7 +310,23 @@ function Checkout() {
             <span className="text-sm text-muted-foreground">Total</span>
             <span className="font-display text-3xl gold-text">₹{total.toLocaleString("en-IN")}</span>
           </div>
-          <button onClick={place} disabled={placing} className="btn-gold btn-gold-hover mt-4 w-full rounded-full py-3.5 text-sm font-semibold disabled:opacity-60">
+
+          {belowMin && (
+            <p className="mt-3 rounded-xl border border-destructive/40 bg-destructive/10 p-3 text-xs text-cream">
+              Minimum order is ₹{minOrder}. Add ₹{(minOrder - subtotal).toLocaleString("en-IN")} more.
+            </p>
+          )}
+          {!service && (
+            <p className="mt-3 rounded-xl border border-border/60 p-3 text-xs text-muted-foreground">
+              Enter your address and tap “Check delivery” to unlock ordering.
+            </p>
+          )}
+
+          <button
+            onClick={place}
+            disabled={!canPlace}
+            className="btn-gold btn-gold-hover mt-4 w-full rounded-full py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+          >
             {placing ? "Placing…" : `Place Order · ₹${total.toLocaleString("en-IN")}`}
           </button>
           <p className="mt-3 text-center text-[11px] text-muted-foreground">Cakes require 24 hours notice. Food arrives in ~3 hours.</p>

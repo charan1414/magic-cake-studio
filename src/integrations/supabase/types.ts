@@ -107,6 +107,57 @@ export type Database = {
         }
         Relationships: []
       }
+      delivery_settings: {
+        Row: {
+          base_delivery_fee: number
+          business_address: string
+          business_lat: number
+          business_lng: number
+          created_at: string
+          delivery_enabled: boolean
+          delivery_radius_km: number
+          free_delivery_threshold: number
+          id: string
+          min_order_amount: number
+          per_km_fee: number
+          serviceable_pincodes: string[]
+          singleton: boolean
+          updated_at: string
+        }
+        Insert: {
+          base_delivery_fee?: number
+          business_address?: string
+          business_lat?: number
+          business_lng?: number
+          created_at?: string
+          delivery_enabled?: boolean
+          delivery_radius_km?: number
+          free_delivery_threshold?: number
+          id?: string
+          min_order_amount?: number
+          per_km_fee?: number
+          serviceable_pincodes?: string[]
+          singleton?: boolean
+          updated_at?: string
+        }
+        Update: {
+          base_delivery_fee?: number
+          business_address?: string
+          business_lat?: number
+          business_lng?: number
+          created_at?: string
+          delivery_enabled?: boolean
+          delivery_radius_km?: number
+          free_delivery_threshold?: number
+          id?: string
+          min_order_amount?: number
+          per_km_fee?: number
+          serviceable_pincodes?: string[]
+          singleton?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_logs: {
         Row: {
           channel: string
@@ -239,7 +290,10 @@ export type Database = {
           contact_name: string | null
           contact_phone: string | null
           created_at: string
+          delivery_distance_km: number | null
           delivery_fee: number
+          delivery_lat: number | null
+          delivery_lng: number | null
           delivery_type: string
           eta_minutes: number | null
           id: string
@@ -259,7 +313,10 @@ export type Database = {
           contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
+          delivery_distance_km?: number | null
           delivery_fee?: number
+          delivery_lat?: number | null
+          delivery_lng?: number | null
           delivery_type?: string
           eta_minutes?: number | null
           id?: string
@@ -279,7 +336,10 @@ export type Database = {
           contact_name?: string | null
           contact_phone?: string | null
           created_at?: string
+          delivery_distance_km?: number | null
           delivery_fee?: number
+          delivery_lat?: number | null
+          delivery_lng?: number | null
           delivery_type?: string
           eta_minutes?: number | null
           id?: string

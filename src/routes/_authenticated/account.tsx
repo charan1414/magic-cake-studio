@@ -62,9 +62,14 @@ function AccountPage() {
           </button>
         </div>
         {isStaff && (
-          <Link to="/admin/orders" className="mt-4 inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
-            <Package className="h-3.5 w-3.5" /> Admin · Manage orders
-          </Link>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Link to="/admin/orders" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+              <Package className="h-3.5 w-3.5" /> Admin · Manage orders
+            </Link>
+            <Link to="/admin/delivery" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+              <MapPin className="h-3.5 w-3.5" /> Admin · Delivery settings
+            </Link>
+          </div>
         )}
       </section>
 
