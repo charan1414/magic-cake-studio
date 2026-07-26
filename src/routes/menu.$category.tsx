@@ -1,5 +1,5 @@
 import { createFileRoute, notFound, Link } from "@tanstack/react-router";
-import { CATEGORIES, getByCategory } from "@/lib/data";
+import { CATEGORIES, getByCategory, ICE_CREAM_GROUPS } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
 
@@ -34,6 +34,7 @@ export const Route = createFileRoute("/menu/$category")({
 
 function CategoryPage() {
   const { category, items } = Route.useLoaderData();
+  const isIceCream = category.slug === "ice-cream";
   return (
     <div className="pt-32">
       <section className="container-luxe pb-10">
@@ -44,9 +45,31 @@ function CategoryPage() {
         </div>
       </section>
       <section className="container-luxe pb-24">
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {items.map((p: import("@/lib/data").Product, i: number) => <ProductCard key={p.slug} product={p} index={i} />)}
-        </div>
+        {isIceCream ? (
+          <div className="space-y-16">
+            {ICE_CREAM_GROUPS.map((group) => {
+              const groupItems = items.filter((p: import("@/lib/data").Product) => p.subcategory === group.slug);
+              if (!groupItems.length) return null;
+              return (
+                <div key={group.slug}>
+                  <div className="mb-6 flex items-end justify-between border-b border-border/40 pb-3">
+                    <h2 className="font-display text-3xl text-cream md:text-4xl">
+                      <span className="mr-2">{group.emoji}</span>{group.name}
+                    </h2>
+                    <span className="text-xs uppercase tracking-wider text-muted-foreground">{groupItems.length} items</span>
+                  </div>
+                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                    {groupItems.map((p: import("@/lib/data").Product, i: number) => <ProductCard key={p.slug} product={p} index={i} />)}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {items.map((p: import("@/lib/data").Product, i: number) => <ProductCard key={p.slug} product={p} index={i} />)}
+          </div>
+        )}
       </section>
     </div>
   );

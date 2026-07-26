@@ -29,6 +29,15 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           {product.chefPick && (
             <span className="rounded-full border border-primary/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary backdrop-blur">Chef's Pick</span>
           )}
+          {product.stock === "low" && (
+            <span className="rounded-full border border-amber-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-300 backdrop-blur">Low stock</span>
+          )}
+          {product.stock === "out" && (
+            <span className="rounded-full border border-red-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-300 backdrop-blur">Out of stock</span>
+          )}
+          {product.stock === "in" && (
+            <span className="rounded-full border border-emerald-400/50 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-300 backdrop-blur">In stock</span>
+          )}
         </div>
         <span className={`absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-sm border ${product.veg ? "border-emerald-400/60" : "border-red-400/60"} bg-black/60 backdrop-blur`}>
           <span className={`h-2.5 w-2.5 rounded-full ${product.veg ? "bg-emerald-400" : "bg-red-400"}`} />
@@ -47,11 +56,14 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         <div className="mt-auto flex items-center justify-between pt-2">
           {(() => {
             const isCake = product.category === "cakes" || product.category === "seasonal-special";
-            const displayPrice = product.price; // 500 g base for cakes, unit price otherwise
+            const displayPrice = product.price;
             return (
               <div>
                 {isCake && <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Starts at · 500 g</p>}
-                <p className="font-display text-2xl text-primary">₹{displayPrice.toLocaleString("en-IN")}</p>
+                <p className="font-display text-2xl text-primary">
+                  ₹{displayPrice.toLocaleString("en-IN")}
+                  {product.unitLabel && <span className="ml-1 text-xs font-normal text-muted-foreground">/ {product.unitLabel}</span>}
+                </p>
                 <div className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
                   <Star className="h-3 w-3 fill-primary text-primary" /> 4.9 · {product.prepMins < 60 ? `${product.prepMins} min` : `${Math.round(product.prepMins/60)} hr`}
                 </div>
@@ -59,16 +71,18 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             );
           })()}
           <button
+            disabled={product.stock === "out"}
             onClick={() => {
+              if (product.stock === "out") return;
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
               const price = product.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
-              const variant = isCake ? "500 g" : undefined;
+              const variant = isCake ? "500 g" : product.unitLabel;
               add({ slug, name: product.name, price, image: product.image, variant });
             }}
-            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
+            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Plus className="h-3.5 w-3.5" /> Add
+            <Plus className="h-3.5 w-3.5" /> {product.stock === "out" ? "Sold out" : "Add"}
           </button>
         </div>
 
