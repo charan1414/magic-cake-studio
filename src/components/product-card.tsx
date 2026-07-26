@@ -29,6 +29,15 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           {product.chefPick && (
             <span className="rounded-full border border-primary/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary backdrop-blur">Chef's Pick</span>
           )}
+          {product.stock === "low" && (
+            <span className="rounded-full border border-amber-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-300 backdrop-blur">Low stock</span>
+          )}
+          {product.stock === "out" && (
+            <span className="rounded-full border border-red-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-300 backdrop-blur">Out of stock</span>
+          )}
+          {product.stock === "in" && (
+            <span className="rounded-full border border-emerald-400/50 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-300 backdrop-blur">In stock</span>
+          )}
         </div>
         <span className={`absolute right-3 top-3 grid h-6 w-6 place-items-center rounded-sm border ${product.veg ? "border-emerald-400/60" : "border-red-400/60"} bg-black/60 backdrop-blur`}>
           <span className={`h-2.5 w-2.5 rounded-full ${product.veg ? "bg-emerald-400" : "bg-red-400"}`} />
