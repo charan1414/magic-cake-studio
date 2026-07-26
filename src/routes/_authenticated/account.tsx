@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Cake, Heart, LogOut, MapPin, Package, Sparkles, User as UserIcon } from "lucide-react";
+import { Cake, Heart, LogOut, MapPin, Package, Sparkles, User as UserIcon, Warehouse } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -68,6 +68,9 @@ function AccountPage() {
             </Link>
             <Link to="/admin/delivery" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
               <MapPin className="h-3.5 w-3.5" /> Admin · Delivery settings
+            </Link>
+            <Link to="/admin/inventory" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+              <Warehouse className="h-3.5 w-3.5" /> Admin · Inventory
             </Link>
           </div>
         )}
