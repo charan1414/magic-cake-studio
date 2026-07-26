@@ -26,6 +26,24 @@ import ramenBowlAsset from "@/assets/ramen-bowl.jpg.asset.json";
 import strawberryCakeAsset from "@/assets/strawberry-cake.jpg.asset.json";
 import pineappleCakeAsset from "@/assets/pineapple-cake.jpg.asset.json";
 import fruitCakeAsset from "@/assets/fruit-cake.jpg.asset.json";
+import icMango from "@/assets/ic-mango.jpg";
+import icStrawberry from "@/assets/ic-strawberry.jpg";
+import icJackfruit from "@/assets/ic-jackfruit.jpg";
+import icVanilla from "@/assets/ic-vanilla.jpg";
+import icButterscotch from "@/assets/ic-butterscotch.jpg";
+import icChocolate from "@/assets/ic-chocolate.jpg";
+import icBlackcurrant from "@/assets/ic-blackcurrant.jpg";
+import icCoconut from "@/assets/ic-coconut.jpg";
+import icBiscoff from "@/assets/ic-biscoff.jpg";
+import icBlueberry from "@/assets/ic-blueberry.jpg";
+import icChocoNutSundae from "@/assets/ic-choco-nut-sundae.jpg";
+import icAlmondFudge from "@/assets/ic-almond-fudge.jpg";
+import icTrilogy from "@/assets/ic-trilogy.jpg";
+import icBananaSplit from "@/assets/ic-banana-split.jpg";
+import icGudbud from "@/assets/ic-gudbud.jpg";
+import icDbc from "@/assets/ic-dbc.jpg";
+import icGjIcecream from "@/assets/ic-gj-icecream.jpg";
+
 
 const popcornChicken = popcornChickenAsset.url;
 const bomboloni = bomboloniAsset.url;
