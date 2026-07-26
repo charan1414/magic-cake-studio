@@ -31,6 +31,9 @@ type Settings = {
   free_delivery_threshold: number;
   delivery_enabled: boolean;
   serviceable_pincodes: string[];
+  distance_mode: string;
+  require_complete_address: boolean;
+  allow_gps_checkout: boolean;
 };
 
 function AdminDeliveryPage() {
@@ -90,6 +93,9 @@ function AdminDeliveryPage() {
         free_delivery_threshold: s.free_delivery_threshold,
         delivery_enabled: s.delivery_enabled,
         serviceable_pincodes: s.serviceable_pincodes,
+        distance_mode: s.distance_mode,
+        require_complete_address: s.require_complete_address,
+        allow_gps_checkout: s.allow_gps_checkout,
       } as never)
       .eq("id", s.id);
     setSaving(false);
@@ -135,12 +141,33 @@ function AdminDeliveryPage() {
             <NumField label="Longitude" value={s.business_lng} step={0.0001} onChange={(v) => update("business_lng", v)} />
           </div>
           <NumField label="Delivery radius (km)" value={s.delivery_radius_km} onChange={(v) => update("delivery_radius_km", v)} />
+          <label className="block">
+            <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-muted-foreground">Distance mode</span>
+            <select value={s.distance_mode} onChange={(e) => update("distance_mode", e.target.value)} className="w-full rounded-xl border border-border bg-input/50 px-4 py-3 text-sm text-cream focus:border-primary focus:outline-none">
+              <option value="road" className="bg-black">Road distance (OSRM)</option>
+              <option value="straight" className="bg-black">Straight-line distance</option>
+            </select>
+          </label>
           <div className="flex items-center justify-between rounded-xl border border-border bg-input/40 px-4 py-3">
             <div>
               <p className="text-sm text-cream">Delivery enabled</p>
               <p className="text-xs text-muted-foreground">Turn off to pause all delivery orders.</p>
             </div>
             <Toggle checked={s.delivery_enabled} onChange={(v) => update("delivery_enabled", v)} />
+          </div>
+          <div className="flex items-center justify-between rounded-xl border border-border bg-input/40 px-4 py-3">
+            <div>
+              <p className="text-sm text-cream">Require complete address</p>
+              <p className="text-xs text-muted-foreground">Customer must provide street, city, district, state and pincode.</p>
+            </div>
+            <Toggle checked={s.require_complete_address} onChange={(v) => update("require_complete_address", v)} />
+          </div>
+          <div className="flex items-center justify-between rounded-xl border border-border bg-input/40 px-4 py-3">
+            <div>
+              <p className="text-sm text-cream">Allow GPS checkout</p>
+              <p className="text-xs text-muted-foreground">Shows “Use GPS” on checkout for exact customer location.</p>
+            </div>
+            <Toggle checked={s.allow_gps_checkout} onChange={(v) => update("allow_gps_checkout", v)} />
           </div>
         </Card>
 

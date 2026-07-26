@@ -109,6 +109,7 @@ export type Database = {
       }
       delivery_settings: {
         Row: {
+          allow_gps_checkout: boolean
           base_delivery_fee: number
           business_address: string
           business_lat: number
@@ -116,15 +117,18 @@ export type Database = {
           created_at: string
           delivery_enabled: boolean
           delivery_radius_km: number
+          distance_mode: string
           free_delivery_threshold: number
           id: string
           min_order_amount: number
           per_km_fee: number
+          require_complete_address: boolean
           serviceable_pincodes: string[]
           singleton: boolean
           updated_at: string
         }
         Insert: {
+          allow_gps_checkout?: boolean
           base_delivery_fee?: number
           business_address?: string
           business_lat?: number
@@ -132,15 +136,18 @@ export type Database = {
           created_at?: string
           delivery_enabled?: boolean
           delivery_radius_km?: number
+          distance_mode?: string
           free_delivery_threshold?: number
           id?: string
           min_order_amount?: number
           per_km_fee?: number
+          require_complete_address?: boolean
           serviceable_pincodes?: string[]
           singleton?: boolean
           updated_at?: string
         }
         Update: {
+          allow_gps_checkout?: boolean
           base_delivery_fee?: number
           business_address?: string
           business_lat?: number
@@ -148,10 +155,12 @@ export type Database = {
           created_at?: string
           delivery_enabled?: boolean
           delivery_radius_km?: number
+          distance_mode?: string
           free_delivery_threshold?: number
           id?: string
           min_order_amount?: number
           per_km_fee?: number
+          require_complete_address?: boolean
           serviceable_pincodes?: string[]
           singleton?: boolean
           updated_at?: string
@@ -291,12 +300,16 @@ export type Database = {
           contact_phone: string | null
           created_at: string
           delivery_distance_km: number | null
+          delivery_distance_method: string | null
           delivery_fee: number
           delivery_lat: number | null
           delivery_lng: number | null
+          delivery_matched_address: string | null
+          delivery_road_distance_km: number | null
           delivery_type: string
           eta_minutes: number | null
           id: string
+          inventory_decremented_at: string | null
           notes: string | null
           order_code: string
           payment_method: string
@@ -314,12 +327,16 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           delivery_distance_km?: number | null
+          delivery_distance_method?: string | null
           delivery_fee?: number
           delivery_lat?: number | null
           delivery_lng?: number | null
+          delivery_matched_address?: string | null
+          delivery_road_distance_km?: number | null
           delivery_type?: string
           eta_minutes?: number | null
           id?: string
+          inventory_decremented_at?: string | null
           notes?: string | null
           order_code?: string
           payment_method?: string
@@ -337,12 +354,16 @@ export type Database = {
           contact_phone?: string | null
           created_at?: string
           delivery_distance_km?: number | null
+          delivery_distance_method?: string | null
           delivery_fee?: number
           delivery_lat?: number | null
           delivery_lng?: number | null
+          delivery_matched_address?: string | null
+          delivery_road_distance_km?: number | null
           delivery_type?: string
           eta_minutes?: number | null
           id?: string
+          inventory_decremented_at?: string | null
           notes?: string | null
           order_code?: string
           payment_method?: string
@@ -353,6 +374,39 @@ export type Database = {
           total?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      product_inventory: {
+        Row: {
+          active: boolean
+          created_at: string
+          low_stock_threshold: number
+          quantity_remaining: number
+          slug: string
+          stock_status: string | null
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          low_stock_threshold?: number
+          quantity_remaining?: number
+          slug: string
+          stock_status?: string | null
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          low_stock_threshold?: number
+          quantity_remaining?: number
+          slug?: string
+          stock_status?: string | null
+          updated_at?: string
+          updated_by?: string | null
         }
         Relationships: []
       }

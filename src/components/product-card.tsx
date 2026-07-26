@@ -1,11 +1,34 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Heart, Plus, Star } from "lucide-react";
+import { useEffect, useState } from "react";
 import type { Product } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
+import { supabase } from "@/integrations/supabase/client";
+
+type StockStatus = "in" | "low" | "out";
 
 export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const add = useCart((s) => s.add);
+  const [stock, setStock] = useState<StockStatus>(product.stock ?? "in");
+
+  useEffect(() => {
+    let active = true;
+    supabase
+      .from("product_inventory")
+      .select("stock_status, active")
+      .eq("slug", product.slug)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (!active || !data) return;
+        if (!data.active) setStock("out");
+        else setStock((data.stock_status as StockStatus | null) ?? product.stock ?? "in");
+      });
+    return () => {
+      active = false;
+    };
+  }, [product.slug, product.stock]);
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 30 }}
@@ -29,13 +52,13 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           {product.chefPick && (
             <span className="rounded-full border border-primary/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary backdrop-blur">Chef's Pick</span>
           )}
-          {product.stock === "low" && (
+          {stock === "low" && (
             <span className="rounded-full border border-amber-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-300 backdrop-blur">Low stock</span>
           )}
-          {product.stock === "out" && (
+          {stock === "out" && (
             <span className="rounded-full border border-red-400/60 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-red-300 backdrop-blur">Out of stock</span>
           )}
-          {product.stock === "in" && (
+          {stock === "in" && (
             <span className="rounded-full border border-emerald-400/50 bg-black/60 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-300 backdrop-blur">In stock</span>
           )}
         </div>
@@ -71,9 +94,9 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             );
           })()}
           <button
-            disabled={product.stock === "out"}
+            disabled={stock === "out"}
             onClick={() => {
-              if (product.stock === "out") return;
+              if (stock === "out") return;
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
               const price = product.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
@@ -82,7 +105,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             }}
             className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Plus className="h-3.5 w-3.5" /> {product.stock === "out" ? "Sold out" : "Add"}
+            <Plus className="h-3.5 w-3.5" /> {stock === "out" ? "Sold out" : "Add"}
           </button>
         </div>
 

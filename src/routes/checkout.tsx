@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, Loader2, Minus, Plus, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
+import { CheckCircle2, IceCreamBowl, Loader2, LocateFixed, Minus, Plus, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart, cartTotal } from "@/lib/cart-store";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -23,7 +23,15 @@ export const Route = createFileRoute("/checkout")({
   component: Checkout,
 });
 
-type Meta = { min_order_amount: number; free_delivery_threshold: number; delivery_radius_km: number; delivery_enabled: boolean };
+type Meta = {
+  min_order_amount: number;
+  free_delivery_threshold: number;
+  delivery_radius_km: number;
+  delivery_enabled: boolean;
+  require_complete_address: boolean;
+  allow_gps_checkout: boolean;
+  distance_mode: string;
+};
 
 function Checkout() {
   const items = useCart((s) => s.items);
@@ -39,8 +47,12 @@ function Checkout() {
   const [contactPhone, setContactPhone] = useState("");
   const [line1, setLine1] = useState("");
   const [line2, setLine2] = useState("");
+  const [locality, setLocality] = useState("");
   const [city, setCity] = useState("Malur");
+  const [district, setDistrict] = useState("Kolar");
+  const [state, setState] = useState("Karnataka");
   const [pincode, setPincode] = useState("");
+  const [gps, setGps] = useState<{ lat: number; lng: number } | null>(null);
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"cod" | "online">("cod");
   const [placing, setPlacing] = useState(false);
@@ -65,6 +77,9 @@ function Checkout() {
           free_delivery_threshold: Number(s.free_delivery_threshold),
           delivery_radius_km: Number(s.delivery_radius_km),
           delivery_enabled: s.delivery_enabled,
+          require_complete_address: s.require_complete_address,
+          allow_gps_checkout: s.allow_gps_checkout,
+          distance_mode: s.distance_mode,
         }),
       )
       .catch(() => {});
@@ -73,20 +88,44 @@ function Checkout() {
   // Reset serviceability when address inputs change
   useEffect(() => {
     setService(null);
-  }, [pincode, line1, line2, city]);
+  }, [pincode, line1, line2, locality, city, district, state, gps]);
+
+  const useGps = () => {
+    if (!meta?.allow_gps_checkout) {
+      toast.error("GPS checkout is currently disabled");
+      return;
+    }
+    if (!("geolocation" in navigator)) {
+      toast.error("GPS is not available on this device");
+      return;
+    }
+    setChecking(true);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        setGps({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+        setChecking(false);
+        toast.success("GPS location captured. Tap Check delivery to verify.");
+      },
+      () => {
+        setChecking(false);
+        toast.error("Could not access your location");
+      },
+      { enableHighAccuracy: true, timeout: 10000 },
+    );
+  };
 
   const runCheck = async () => {
     if (!/^\d{6}$/.test(pincode.trim())) {
       toast.error("Enter a valid 6-digit pincode");
       return;
     }
-    if (!line1.trim()) {
-      toast.error("Enter your address");
+    if (!line1.trim() || !city.trim() || !district.trim() || !state.trim()) {
+      toast.error("Enter your complete address");
       return;
     }
     setChecking(true);
     try {
-      const r = await check({ data: { pincode, line1, line2, city, state: "Karnataka", subtotal } });
+      const r = await check({ data: { pincode, line1, line2, locality, city, district, state, subtotal, lat: gps?.lat, lng: gps?.lng } });
       setService(r);
       if (!r.ok) toast.error(r.reason ?? "Out of delivery range");
       else toast.success(`In zone · ${r.distance_km} km · delivery ₹${r.delivery_fee}`);
@@ -103,7 +142,7 @@ function Checkout() {
       navigate({ to: "/auth" });
       return;
     }
-    if (!contactName || !contactPhone || !line1 || !pincode) {
+    if (!contactName || !contactPhone || !line1 || !city || !district || !state || !pincode) {
       toast.error("Please complete delivery details");
       return;
     }
@@ -127,12 +166,15 @@ function Checkout() {
         total,
         contact_name: contactName,
         contact_phone: contactPhone,
-        address: { line1, line2, city, pincode, state: "Karnataka" },
+        address: { line1, line2, locality, city, district, pincode, state },
         notes,
         payment_method: payment,
         payment_status: "pending",
         eta_minutes: 180,
         delivery_distance_km: service.distance_km ?? null,
+        delivery_road_distance_km: service.road_distance_km ?? null,
+        delivery_distance_method: service.distance_method ?? null,
+        delivery_matched_address: service.matched_address ?? null,
         delivery_lat: service.lat ?? null,
         delivery_lng: service.lng ?? null,
       } as never)
@@ -238,27 +280,47 @@ function Checkout() {
               <Field label="Phone" value={contactPhone} onChange={setContactPhone} placeholder="+91…" />
               <Field label="Address line 1" value={line1} onChange={setLine1} className="md:col-span-2" />
               <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="md:col-span-2" />
+              <Field label="Village / Locality" value={locality} onChange={setLocality} />
               <Field label="City / Town" value={city} onChange={setCity} />
+              <Field label="District" value={district} onChange={setDistrict} />
+              <Field label="State" value={state} onChange={setState} />
               <Field label="Pincode" value={pincode} onChange={setPincode} placeholder="6 digits" />
               <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="md:col-span-2" />
             </div>
+
+            {items.some((i) => i.slug.startsWith("ic-")) && (
+              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-primary/40 bg-primary/10 p-4">
+                <IceCreamBowl className="mt-0.5 h-4 w-4 text-primary" />
+                <p className="text-xs leading-relaxed text-cream">Ice cream is packed for short-radius delivery. Please be available at the phone number provided for a quick handoff.</p>
+              </div>
+            )}
 
             <div className="mt-5 rounded-2xl border border-border/60 bg-background/40 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <p className="text-xs uppercase tracking-widest text-primary">Delivery availability</p>
                   <p className="mt-1 text-sm text-muted-foreground">
-                    We deliver within {meta?.delivery_radius_km ?? 20} km. Verify your address before placing the order.
+                    We deliver within {meta?.delivery_radius_km ?? 20} km of Lakkur using {meta?.distance_mode === "road" ? "road distance" : "straight-line distance"}. Verify your complete address before placing the order.
                   </p>
+                  {gps && <p className="mt-1 text-[11px] text-primary">GPS captured: {gps.lat.toFixed(5)}, {gps.lng.toFixed(5)}</p>}
                 </div>
-                <button
-                  onClick={runCheck}
-                  disabled={checking}
-                  className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
-                >
-                  {checking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
-                  {checking ? "Verifying…" : service?.ok ? "Re-check" : "Check delivery"}
-                </button>
+                <div className="flex flex-wrap gap-2">
+                  <button
+                    onClick={useGps}
+                    disabled={checking || !meta?.allow_gps_checkout}
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-input/30 px-4 py-2 text-xs font-medium text-cream hover:border-primary/50 disabled:opacity-60"
+                  >
+                    <LocateFixed className="h-3.5 w-3.5" /> Use GPS
+                  </button>
+                  <button
+                    onClick={runCheck}
+                    disabled={checking}
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
+                  >
+                    {checking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
+                    {checking ? "Verifying…" : service?.ok ? "Re-check" : "Check delivery"}
+                  </button>
+                </div>
               </div>
               {service && (
                 <div className={`mt-3 rounded-xl border p-3 text-xs ${service.ok ? "border-primary/40 bg-primary/5 text-cream" : "border-destructive/40 bg-destructive/10 text-cream"}`}>
