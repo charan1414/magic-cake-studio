@@ -56,11 +56,14 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         <div className="mt-auto flex items-center justify-between pt-2">
           {(() => {
             const isCake = product.category === "cakes" || product.category === "seasonal-special";
-            const displayPrice = product.price; // 500 g base for cakes, unit price otherwise
+            const displayPrice = product.price;
             return (
               <div>
                 {isCake && <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Starts at · 500 g</p>}
-                <p className="font-display text-2xl text-primary">₹{displayPrice.toLocaleString("en-IN")}</p>
+                <p className="font-display text-2xl text-primary">
+                  ₹{displayPrice.toLocaleString("en-IN")}
+                  {product.unitLabel && <span className="ml-1 text-xs font-normal text-muted-foreground">/ {product.unitLabel}</span>}
+                </p>
                 <div className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
                   <Star className="h-3 w-3 fill-primary text-primary" /> 4.9 · {product.prepMins < 60 ? `${product.prepMins} min` : `${Math.round(product.prepMins/60)} hr`}
                 </div>
@@ -68,16 +71,18 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             );
           })()}
           <button
+            disabled={product.stock === "out"}
             onClick={() => {
+              if (product.stock === "out") return;
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
               const price = product.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
-              const variant = isCake ? "500 g" : undefined;
+              const variant = isCake ? "500 g" : product.unitLabel;
               add({ slug, name: product.name, price, image: product.image, variant });
             }}
-            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
+            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Plus className="h-3.5 w-3.5" /> Add
+            <Plus className="h-3.5 w-3.5" /> {product.stock === "out" ? "Sold out" : "Add"}
           </button>
         </div>
 
