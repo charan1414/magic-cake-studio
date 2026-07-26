@@ -51,10 +51,13 @@ const strawberryCake = strawberryCakeAsset.url;
 const pineappleCake = pineappleCakeAsset.url;
 const fruitCake = fruitCakeAsset.url;
 
+export type StockStatus = "in" | "low" | "out";
+
 export type Product = {
   slug: string;
   name: string;
   category: string;
+  subcategory?: string;
   price: number;
   description: string;
   image: string;
@@ -64,11 +67,14 @@ export type Product = {
   prepMins: number;
   calories: number;
   ingredients: string[];
+  stock?: StockStatus;
+  unitLabel?: string; // e.g. "Scoop", "Piece"
 };
 
 export const CATEGORIES = [
   { slug: "seasonal-special", name: "Seasonal Special", tagline: "Limited edition — while the season lasts" },
   { slug: "cakes", name: "Signature Cakes", tagline: "Handcrafted for celebrations" },
+  { slug: "ice-cream", name: "Ice Cream", tagline: "Small-batch scoops & signature sundaes" },
   { slug: "cupcakes", name: "Cupcakes", tagline: "Petite indulgence" },
   { slug: "desserts", name: "Desserts", tagline: "Sweet finales" },
   { slug: "fried-chicken", name: "Fried Chicken", tagline: "Crisp. Golden. Unmatched." },
@@ -77,6 +83,14 @@ export const CATEGORIES = [
   { slug: "rolls", name: "Rolls", tagline: "Rolled with care" },
   { slug: "street-food", name: "Street Food", tagline: "Bold. Loaded. Alive." },
   { slug: "snacks", name: "Snacks", tagline: "Little bites, big joy" },
+];
+
+// Ice cream sub-category groupings — surfaced by the category page.
+export const ICE_CREAM_GROUPS = [
+  { slug: "seasonal", name: "Seasonal Specials", emoji: "🌴" },
+  { slug: "classics", name: "Everyday Classics", emoji: "🍦" },
+  { slug: "sundaes", name: "Signature Sundaes", emoji: "⭐" },
+  { slug: "combo", name: "Dessert Combo", emoji: "🍨" },
 ];
 
 // NOTE: For cake categories (`cakes` and `seasonal-special`) `price` is the
