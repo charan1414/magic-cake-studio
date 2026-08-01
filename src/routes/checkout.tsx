@@ -1,12 +1,14 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { CheckCircle2, IceCreamBowl, Loader2, LocateFixed, Minus, Plus, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
+import { IceCreamBowl, Minus, Plus, Plus as PlusIcon, ShieldAlert, ShoppingBag, Trash2 } from "lucide-react";
 import { useCart, cartTotal } from "@/lib/cart-store";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
-import { checkServiceability, getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.functions";
+import { PinChecker } from "@/components/pin-checker";
+import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.functions";
+import { PRODUCTS } from "@/lib/data";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/checkout")({
@@ -28,19 +30,16 @@ type Meta = {
   free_delivery_threshold: number;
   delivery_radius_km: number;
   delivery_enabled: boolean;
-  require_complete_address: boolean;
-  allow_gps_checkout: boolean;
-  distance_mode: string;
 };
 
 function Checkout() {
   const items = useCart((s) => s.items);
   const setQty = useCart((s) => s.setQty);
   const remove = useCart((s) => s.remove);
+  const add = useCart((s) => s.add);
   const clear = useCart((s) => s.clear);
   const user = useAuth((s) => s.user);
   const navigate = useNavigate();
-  const check = useServerFn(checkServiceability);
   const loadSettings = useServerFn(getDeliverySettings);
 
   const [contactName, setContactName] = useState("");
@@ -51,15 +50,12 @@ function Checkout() {
   const [city, setCity] = useState("Malur");
   const [district, setDistrict] = useState("Kolar");
   const [state, setState] = useState("Karnataka");
-  const [pincode, setPincode] = useState("");
-  const [gps, setGps] = useState<{ lat: number; lng: number } | null>(null);
   const [notes, setNotes] = useState("");
   const [payment, setPayment] = useState<"cod" | "online">("cod");
   const [placing, setPlacing] = useState(false);
 
   const [meta, setMeta] = useState<Meta | null>(null);
   const [service, setService] = useState<ServiceabilityResult | null>(null);
-  const [checking, setChecking] = useState(false);
 
   const subtotal = cartTotal(items);
   const tax = Math.round(subtotal * 0.05);
@@ -69,6 +65,11 @@ function Checkout() {
   const minOrder = meta?.min_order_amount ?? 0;
   const belowMin = subtotal > 0 && subtotal < minOrder;
 
+  const inCart = new Set(items.map((i) => i.slug.split("-").slice(0, -1).join("-") || i.slug));
+  const upsells = PRODUCTS.filter(
+    (p) => (p.category === "cookies" || p.category === "ice-cream" || p.category === "desserts") && !inCart.has(p.slug) && !items.some((i) => i.slug === p.slug),
+  ).slice(0, 4);
+
   useEffect(() => {
     loadSettings()
       .then((s) =>
@@ -77,64 +78,10 @@ function Checkout() {
           free_delivery_threshold: Number(s.free_delivery_threshold),
           delivery_radius_km: Number(s.delivery_radius_km),
           delivery_enabled: s.delivery_enabled,
-          require_complete_address: s.require_complete_address,
-          allow_gps_checkout: s.allow_gps_checkout,
-          distance_mode: s.distance_mode,
         }),
       )
       .catch(() => {});
   }, [loadSettings]);
-
-  // Reset serviceability when address inputs change
-  useEffect(() => {
-    setService(null);
-  }, [pincode, line1, line2, locality, city, district, state, gps]);
-
-  const useGps = () => {
-    if (!meta?.allow_gps_checkout) {
-      toast.error("GPS checkout is currently disabled");
-      return;
-    }
-    if (!("geolocation" in navigator)) {
-      toast.error("GPS is not available on this device");
-      return;
-    }
-    setChecking(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setGps({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-        setChecking(false);
-        toast.success("GPS location captured. Tap Check delivery to verify.");
-      },
-      () => {
-        setChecking(false);
-        toast.error("Could not access your location");
-      },
-      { enableHighAccuracy: true, timeout: 10000 },
-    );
-  };
-
-  const runCheck = async () => {
-    if (!/^\d{6}$/.test(pincode.trim())) {
-      toast.error("Enter a valid 6-digit pincode");
-      return;
-    }
-    if (!line1.trim() || !city.trim() || !district.trim() || !state.trim()) {
-      toast.error("Enter your complete address");
-      return;
-    }
-    setChecking(true);
-    try {
-      const r = await check({ data: { pincode, line1, line2, locality, city, district, state, subtotal, lat: gps?.lat, lng: gps?.lng } });
-      setService(r);
-      if (!r.ok) toast.error(r.reason ?? "Out of delivery range");
-      else toast.success(`In zone · ${r.distance_km} km · delivery ₹${r.delivery_fee}`);
-    } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Could not verify address");
-    } finally {
-      setChecking(false);
-    }
-  };
 
   const place = async () => {
     if (!user) {
@@ -142,12 +89,12 @@ function Checkout() {
       navigate({ to: "/auth" });
       return;
     }
-    if (!contactName || !contactPhone || !line1 || !city || !district || !state || !pincode) {
+    if (!contactName || !contactPhone || !line1 || !city || !district || !state) {
       toast.error("Please complete delivery details");
       return;
     }
-    if (!service?.ok) {
-      toast.error("Please verify your address to check delivery availability");
+    if (!service?.ok || !service.pincode) {
+      toast.error("Please check your pincode to confirm delivery availability");
       return;
     }
     if (belowMin) {
@@ -166,17 +113,13 @@ function Checkout() {
         total,
         contact_name: contactName,
         contact_phone: contactPhone,
-        address: { line1, line2, locality, city, district, pincode, state },
+        address: { line1, line2, locality, city, district, pincode: service.pincode, state },
         notes,
         payment_method: payment,
         payment_status: "pending",
         eta_minutes: 180,
         delivery_distance_km: service.distance_km ?? null,
-        delivery_road_distance_km: service.road_distance_km ?? null,
-        delivery_distance_method: service.distance_method ?? null,
-        delivery_matched_address: service.matched_address ?? null,
-        delivery_lat: service.lat ?? null,
-        delivery_lng: service.lng ?? null,
+        delivery_distance_method: "pincode",
       } as never)
       .select("id, order_code")
       .single();
@@ -249,7 +192,7 @@ function Checkout() {
             <ul className="divide-y divide-border/60">
               {items.map((i) => (
                 <li key={i.slug} className="flex items-center gap-4 py-4">
-                  <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" />
+                  <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" loading="lazy" />
                   <div className="flex-1">
                     <p className="font-medium text-cream">{i.name}</p>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
@@ -273,6 +216,30 @@ function Checkout() {
             </ul>
           </div>
 
+          {upsells.length > 0 && (
+            <div className="rounded-3xl border border-primary/25 bg-primary/5 p-6">
+              <h2 className="font-display text-2xl text-cream">Complete your order</h2>
+              <p className="mt-1 text-xs text-muted-foreground">Small additions our guests love alongside this basket.</p>
+              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {upsells.map((p) => (
+                  <div key={p.slug} className="overflow-hidden rounded-2xl border border-border/60 bg-card/60">
+                    <img src={p.image} alt={p.name} className="aspect-square w-full object-cover" loading="lazy" />
+                    <div className="p-3">
+                      <p className="line-clamp-1 text-sm font-medium text-cream">{p.name}</p>
+                      <p className="mt-1 text-xs gold-text">₹{p.price.toLocaleString("en-IN")}{p.unitLabel ? ` / ${p.unitLabel}` : ""}</p>
+                      <button
+                        onClick={() => { add({ slug: p.slug, name: p.name, price: p.price, image: p.image, variant: p.unitLabel }); toast.success(`Added · ${p.name}`); }}
+                        className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-primary/50 py-2 text-xs font-medium text-primary hover:bg-primary/10"
+                      >
+                        <PlusIcon className="h-3 w-3" /> Add
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
             <h2 className="font-display text-2xl text-cream">Delivery details</h2>
             <div className="mt-5 grid gap-3 md:grid-cols-2">
@@ -284,7 +251,6 @@ function Checkout() {
               <Field label="City / Town" value={city} onChange={setCity} />
               <Field label="District" value={district} onChange={setDistrict} />
               <Field label="State" value={state} onChange={setState} />
-              <Field label="Pincode" value={pincode} onChange={setPincode} placeholder="6 digits" />
               <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="md:col-span-2" />
             </div>
 
@@ -295,46 +261,11 @@ function Checkout() {
               </div>
             )}
 
-            <div className="mt-5 rounded-2xl border border-border/60 bg-background/40 p-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs uppercase tracking-widest text-primary">Delivery availability</p>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    We deliver within {meta?.delivery_radius_km ?? 20} km of Lakkur using {meta?.distance_mode === "road" ? "road distance" : "straight-line distance"}. Verify your complete address before placing the order.
-                  </p>
-                  {gps && <p className="mt-1 text-[11px] text-primary">GPS captured: {gps.lat.toFixed(5)}, {gps.lng.toFixed(5)}</p>}
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={useGps}
-                    disabled={checking || !meta?.allow_gps_checkout}
-                    className="inline-flex items-center gap-2 rounded-full border border-border bg-input/30 px-4 py-2 text-xs font-medium text-cream hover:border-primary/50 disabled:opacity-60"
-                  >
-                    <LocateFixed className="h-3.5 w-3.5" /> Use GPS
-                  </button>
-                  <button
-                    onClick={runCheck}
-                    disabled={checking}
-                    className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20 disabled:opacity-60"
-                  >
-                    {checking ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle2 className="h-3.5 w-3.5" />}
-                    {checking ? "Verifying…" : service?.ok ? "Re-check" : "Check delivery"}
-                  </button>
-                </div>
-              </div>
-              {service && (
-                <div className={`mt-3 rounded-xl border p-3 text-xs ${service.ok ? "border-primary/40 bg-primary/5 text-cream" : "border-destructive/40 bg-destructive/10 text-cream"}`}>
-                  {service.ok ? (
-                    <p>
-                      In our zone · <span className="font-medium text-primary">{service.distance_km} km</span> away · delivery{" "}
-                      <span className="font-medium text-primary">{service.delivery_fee === 0 ? "Free" : `₹${service.delivery_fee}`}</span>
-                      {service.matched_address ? <span className="block text-muted-foreground mt-1">Matched: {service.matched_address}</span> : null}
-                    </p>
-                  ) : (
-                    <p>{service.reason}</p>
-                  )}
-                </div>
-              )}
+            <div className="mt-5">
+              <p className="mb-3 text-xs text-muted-foreground">
+                We deliver to serviceable pincodes within {meta?.delivery_radius_km ?? 20} km of our Lakkur kitchen. Confirm your pincode to unlock ordering.
+              </p>
+              <PinChecker subtotal={subtotal} onResult={setService} />
             </div>
 
             <div className="mt-6">
@@ -378,9 +309,9 @@ function Checkout() {
               Minimum order is ₹{minOrder}. Add ₹{(minOrder - subtotal).toLocaleString("en-IN")} more.
             </p>
           )}
-          {!service && (
+          {!service?.ok && (
             <p className="mt-3 rounded-xl border border-border/60 p-3 text-xs text-muted-foreground">
-              Enter your address and tap “Check delivery” to unlock ordering.
+              Confirm your delivery pincode to unlock ordering.
             </p>
           )}
 

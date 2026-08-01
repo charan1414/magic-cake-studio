@@ -43,6 +43,35 @@ import icBananaSplit from "@/assets/ic-banana-split.jpg";
 import icGudbud from "@/assets/ic-gudbud.jpg";
 import icDbc from "@/assets/ic-dbc.jpg";
 import icGjIcecream from "@/assets/ic-gj-icecream.jpg";
+import cakeButterscotch from "@/assets/cake-butterscotch.jpg";
+import cakeTiramisu from "@/assets/cake-tiramisu.jpg";
+import cakeBrownie from "@/assets/cake-brownie.jpg";
+import cakeKunafa from "@/assets/cake-kunafa.jpg";
+import cakePineappleLychee from "@/assets/cake-pineapple-lychee-cherry.jpg";
+import ckButter from "@/assets/ck-butter.jpg";
+import ckJamdrop from "@/assets/ck-jamdrop.jpg";
+import ckCoconut from "@/assets/ck-coconut.jpg";
+import ckSweetsalt from "@/assets/ck-sweetsalt.jpg";
+import ckBanana from "@/assets/ck-banana.jpg";
+import ckChocochip from "@/assets/ck-chocochip.jpg";
+import ckChunk from "@/assets/ck-chunk.jpg";
+import ckBelgian from "@/assets/ck-belgian.jpg";
+import ckCashew from "@/assets/ck-cashew.jpg";
+import ckPistachio from "@/assets/ck-pistachio.jpg";
+import ckBiscoff from "@/assets/ck-biscoff.jpg";
+import ckNutella from "@/assets/ck-nutella.jpg";
+import ckCranberry from "@/assets/ck-cranberry.jpg";
+import ckNankhatai from "@/assets/ck-nankhatai.jpg";
+import ckJeera from "@/assets/ck-jeera.jpg";
+import ckOats from "@/assets/ck-oats.jpg";
+import ckRagi from "@/assets/ck-ragi.jpg";
+import ckSaltedcaramel from "@/assets/ck-saltedcaramel.jpg";
+import ckMultigrain from "@/assets/ck-multigrain.jpg";
+import ckPeanutbutter from "@/assets/ck-peanutbutter.jpg";
+import ckSeedmix from "@/assets/ck-seedmix.jpg";
+import ckDryfruit from "@/assets/ck-dryfruit.jpg";
+
+
 
 
 const popcornChicken = popcornChickenAsset.url;
@@ -93,6 +122,7 @@ export const CATEGORIES = [
   { slug: "seasonal-special", name: "Seasonal Special", tagline: "Limited edition — while the season lasts" },
   { slug: "cakes", name: "Signature Cakes", tagline: "Handcrafted for celebrations" },
   { slug: "ice-cream", name: "Ice Cream", tagline: "Small-batch scoops & signature sundaes" },
+  { slug: "cookies", name: "Cookies", tagline: "Baked fresh, boxed with care" },
   { slug: "cupcakes", name: "Cupcakes", tagline: "Petite indulgence" },
   { slug: "desserts", name: "Desserts", tagline: "Sweet finales" },
   { slug: "fried-chicken", name: "Fried Chicken", tagline: "Crisp. Golden. Unmatched." },
@@ -110,6 +140,14 @@ export const ICE_CREAM_GROUPS = [
   { slug: "sundaes", name: "Signature Sundaes", emoji: "⭐" },
   { slug: "combo", name: "Dessert Combo", emoji: "🍨" },
 ];
+
+// Cookie sub-category groupings — surfaced by the category page.
+export const COOKIE_GROUPS = [
+  { slug: "everyday", name: "Everyday Favourites", emoji: "🍪" },
+  { slug: "signature", name: "Signature Indulgence", emoji: "✨" },
+  { slug: "healthy", name: "Healthy & Wholesome", emoji: "🌾" },
+];
+
 
 // NOTE: For cake categories (`cakes` and `seasonal-special`) `price` is the
 // 500 g base price. Larger sizes are computed via `cakePrice()` with bulk
@@ -130,6 +168,12 @@ export const PRODUCTS: Product[] = [
   { slug: "jamun-cake", name: "Gulab Jamun Cake", category: "cakes", price: 389, description: "Vanilla cream cake studded with soft, syrup-soaked gulab jamun.", image: jamunCake, veg: true, prepMins: 1440, calories: 420, ingredients: ["Gulab jamun", "Vanilla sponge", "Whipped cream", "Cardamom"] },
   { slug: "fruit-cake", name: "Fresh Fruit Cake", category: "cakes", price: 449, description: "Vanilla sponge crowned with kiwi, berries, and seasonal fresh fruits.", image: fruitCake, veg: true, prepMins: 1440, calories: 350, ingredients: ["Fresh fruits", "Vanilla sponge", "Whipped cream", "Fruit glaze"] },
   { slug: "red-velvet-cake", name: "Red Velvet Cake", category: "cakes", price: 379, description: "Cocoa-kissed crimson sponge with clouds of cream cheese frosting.", image: redVelvetCake, veg: true, prepMins: 1440, calories: 400, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
+  { slug: "butterscotch-cake", name: "Butterscotch Crunch Cake", category: "cakes", price: 369, description: "Golden butterscotch cream, caramel praline crunch, soft vanilla sponge.", image: cakeButterscotch, veg: true, bestSeller: true, prepMins: 1440, calories: 390, ingredients: ["Butterscotch", "Caramel praline", "Vanilla sponge", "Whipped cream"] },
+  { slug: "tiramisu-cake", name: "Tiramisu Cake", category: "cakes", price: 449, description: "Espresso-soaked sponge, mascarpone cream, a veil of dark cocoa.", image: cakeTiramisu, veg: true, chefPick: true, prepMins: 1440, calories: 430, ingredients: ["Mascarpone", "Espresso", "Cocoa", "Vanilla sponge"] },
+  { slug: "brownie-cake", name: "Fudge Brownie Cake", category: "cakes", price: 429, description: "Dense fudge brownie layers, molten ganache, toasted walnut crumb.", image: cakeBrownie, veg: true, prepMins: 1440, calories: 470, ingredients: ["Dark chocolate", "Butter", "Walnuts", "Ganache"] },
+  { slug: "kunafa-cake", name: "Kunafa Pistachio Cake", category: "cakes", price: 549, description: "Crisp kataifi threads, pistachio cream, rose-scented syrup — Middle Eastern opulence.", image: cakeKunafa, veg: true, chefPick: true, prepMins: 1440, calories: 480, ingredients: ["Kataifi", "Pistachio cream", "Rose syrup", "Ghee", "Cheese"] },
+  { slug: "tropical-cake", name: "Tropical Pineapple Lychee Cake", category: "cakes", price: 419, description: "Pineapple compote, lychee cream and glazed cherries on airy vanilla sponge.", image: cakePineappleLychee, veg: true, prepMins: 1440, calories: 360, ingredients: ["Pineapple", "Lychee", "Cherries", "Whipped cream", "Vanilla sponge"] },
+
 
   // Cupcakes (per piece)
   { slug: "red-velvet-cupcake", name: "Red Velvet Cupcake", category: "cupcakes", price: 49, description: "Cocoa-tinted crumb crowned with cream cheese frosting.", image: redVelvetCupcake, veg: true, prepMins: 60, calories: 260, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
@@ -194,7 +238,40 @@ export const PRODUCTS: Product[] = [
 
   // Ice Cream · Dessert Combo
   { slug: "ic-gulab-jamun-icecream", name: "Gulab Jamun with Ice Cream", category: "ice-cream", subcategory: "combo", price: 49, description: "Warm gulab jamun served with creamy vanilla ice cream.", image: icGjIcecream, veg: true, prepMins: 8, calories: 380, ingredients: ["Gulab jamun", "Sugar syrup", "Vanilla ice cream"], stock: "in" },
+
+  // Cookies · Everyday Favourites (200 g box)
+  { slug: "ck-butter", name: "Classic Butter Cookies", category: "cookies", subcategory: "everyday", price: 129, unitLabel: "200 g box", description: "Pure butter, slow-creamed and baked to a golden snap.", image: ckButter, veg: true, bestSeller: true, prepMins: 120, calories: 480, ingredients: ["Butter", "Wheat flour", "Sugar", "Vanilla"], stock: "in" },
+  { slug: "ck-parisian-butter", name: "Parisian Butter Shortbread", category: "cookies", subcategory: "everyday", price: 149, unitLabel: "200 g box", description: "French-style shortbread — sandy, rich, melts on contact.", image: ckButter, veg: true, prepMins: 120, calories: 500, ingredients: ["Cultured butter", "Wheat flour", "Icing sugar", "Sea salt"], stock: "in" },
+  { slug: "ck-jam-drop", name: "Jam Drop Cookies", category: "cookies", subcategory: "everyday", price: 139, unitLabel: "200 g box", description: "Buttery thumbprints pooled with glossy fruit preserve.", image: ckJamdrop, veg: true, prepMins: 120, calories: 460, ingredients: ["Butter", "Wheat flour", "Mixed fruit jam", "Sugar"], stock: "in" },
+  { slug: "ck-ruby-jam", name: "Ruby Raspberry Jam Cookies", category: "cookies", subcategory: "everyday", price: 159, unitLabel: "200 g box", description: "Raspberry preserve set in a vanilla-scented butter shell.", image: ckJamdrop, veg: true, chefPick: true, prepMins: 120, calories: 465, ingredients: ["Butter", "Raspberry preserve", "Wheat flour", "Vanilla"], stock: "in" },
+  { slug: "ck-coconut", name: "Coconut Cookies", category: "cookies", subcategory: "everyday", price: 129, unitLabel: "200 g box", description: "Toasted desiccated coconut in a crisp, fragrant bake.", image: ckCoconut, veg: true, prepMins: 120, calories: 470, ingredients: ["Desiccated coconut", "Butter", "Wheat flour", "Sugar"], stock: "in" },
+  { slug: "ck-sweet-salt", name: "Sweet & Salt Cookies", category: "cookies", subcategory: "everyday", price: 139, unitLabel: "200 g box", description: "A quiet balance of caramelised sugar and flaked sea salt.", image: ckSweetsalt, veg: true, prepMins: 120, calories: 455, ingredients: ["Butter", "Sea salt", "Wheat flour", "Brown sugar"], stock: "in" },
+  { slug: "ck-banana", name: "Banana Cookies", category: "cookies", subcategory: "everyday", price: 129, unitLabel: "200 g box", description: "Ripe banana folded through a soft, chewy crumb.", image: ckBanana, veg: true, prepMins: 120, calories: 440, ingredients: ["Banana", "Butter", "Wheat flour", "Cinnamon"], stock: "in" },
+  { slug: "ck-choco-chip", name: "Golden Choco Chip Cookies", category: "cookies", subcategory: "everyday", price: 149, unitLabel: "200 g box", description: "The classic — crisp rim, soft middle, generous chips.", image: ckChocochip, veg: true, bestSeller: true, prepMins: 120, calories: 510, ingredients: ["Dark chocolate chips", "Butter", "Wheat flour", "Brown sugar"], stock: "in" },
+  { slug: "ck-nankhatai", name: "Nankhatai", category: "cookies", subcategory: "everyday", price: 119, unitLabel: "200 g box", description: "Ghee-rich Indian shortbread with cardamom and pistachio.", image: ckNankhatai, veg: true, prepMins: 120, calories: 470, ingredients: ["Ghee", "Gram flour", "Cardamom", "Pistachio"], stock: "in" },
+  { slug: "ck-jeera", name: "Salted Jeera Cookies", category: "cookies", subcategory: "everyday", price: 119, unitLabel: "200 g box", description: "Roasted cumin and salt — the perfect companion to chai.", image: ckJeera, veg: true, prepMins: 120, calories: 430, ingredients: ["Cumin seeds", "Butter", "Wheat flour", "Salt"], stock: "in" },
+
+  // Cookies · Signature Indulgence (200 g box)
+  { slug: "ck-choco-chunk", name: "Molten Choco Chunk Cookies", category: "cookies", subcategory: "signature", price: 189, unitLabel: "200 g box", description: "Thick bakery-style cookies pooled with molten chocolate chunks.", image: ckChunk, veg: true, bestSeller: true, chefPick: true, prepMins: 150, calories: 560, ingredients: ["Couverture chunks", "Butter", "Wheat flour", "Brown sugar"], stock: "in" },
+  { slug: "ck-belgian-cocoa", name: "Belgian Dark Cocoa Cookies", category: "cookies", subcategory: "signature", price: 199, unitLabel: "200 g box", description: "Deep Belgian cocoa, fudgy centre, a whisper of sea salt.", image: ckBelgian, veg: true, chefPick: true, prepMins: 150, calories: 540, ingredients: ["Belgian cocoa", "Dark chocolate", "Butter", "Sea salt"], stock: "in" },
+  { slug: "ck-cashew", name: "Roasted Cashew Cookies", category: "cookies", subcategory: "signature", price: 189, unitLabel: "200 g box", description: "Whole roasted cashews set in buttery shortbread.", image: ckCashew, veg: true, prepMins: 150, calories: 530, ingredients: ["Cashew nuts", "Butter", "Wheat flour", "Sugar"], stock: "in" },
+  { slug: "ck-pistachio", name: "Pistachio Cardamom Cookies", category: "cookies", subcategory: "signature", price: 219, unitLabel: "200 g box", description: "Slivered pistachio and green cardamom in a delicate crumb.", image: ckPistachio, veg: true, chefPick: true, prepMins: 150, calories: 520, ingredients: ["Pistachio", "Cardamom", "Butter", "Wheat flour"], stock: "in" },
+  { slug: "ck-biscoff", name: "Biscoff Caramel Cookies", category: "cookies", subcategory: "signature", price: 209, unitLabel: "200 g box", description: "Caramelised biscuit spread swirled into a spiced cookie.", image: ckBiscoff, veg: true, bestSeller: true, prepMins: 150, calories: 555, ingredients: ["Biscoff spread", "Butter", "Wheat flour", "Cinnamon"], stock: "in" },
+  { slug: "ck-nutella", name: "Nutella Stuffed Cookies", category: "cookies", subcategory: "signature", price: 229, unitLabel: "200 g box", description: "Hazelnut chocolate lava sealed inside a soft cookie shell.", image: ckNutella, veg: true, chefPick: true, prepMins: 150, calories: 590, ingredients: ["Hazelnut chocolate spread", "Butter", "Wheat flour", "Cocoa"], stock: "in" },
+  { slug: "ck-cranberry-almond", name: "Cranberry Almond Cookies", category: "cookies", subcategory: "signature", price: 199, unitLabel: "200 g box", description: "Tart dried cranberries and toasted almond slivers.", image: ckCranberry, veg: true, prepMins: 150, calories: 505, ingredients: ["Dried cranberries", "Almonds", "Butter", "Wheat flour"], stock: "in" },
+  { slug: "ck-salted-caramel", name: "Salted Caramel Swirl Cookies", category: "cookies", subcategory: "signature", price: 209, unitLabel: "200 g box", description: "Ribbons of salted caramel through a buttery bake.", image: ckSaltedcaramel, veg: true, prepMins: 150, calories: 545, ingredients: ["Salted caramel", "Butter", "Wheat flour", "Sea salt"], stock: "in" },
+  { slug: "ck-dry-fruit", name: "Royal Dry Fruit Cookies", category: "cookies", subcategory: "signature", price: 239, unitLabel: "200 g box", description: "Loaded with almond, cashew, raisin and date — a festive box.", image: ckDryfruit, veg: true, prepMins: 150, calories: 570, ingredients: ["Almonds", "Cashews", "Raisins", "Dates", "Ghee"], stock: "in" },
+
+  // Cookies · Healthy & Wholesome (200 g box)
+  { slug: "ck-oats", name: "Honey Oats Cookies", category: "cookies", subcategory: "healthy", price: 149, unitLabel: "200 g box", description: "Rolled oats bound with honey — wholesome, lightly sweet.", image: ckOats, veg: true, prepMins: 120, calories: 420, ingredients: ["Rolled oats", "Honey", "Wheat flour", "Butter"], stock: "in" },
+  { slug: "ck-oats-shortbread", name: "Oat Shortbread", category: "cookies", subcategory: "healthy", price: 159, unitLabel: "200 g box", description: "Crumbly oat shortbread with jaggery instead of refined sugar.", image: ckOats, veg: true, prepMins: 120, calories: 430, ingredients: ["Rolled oats", "Jaggery", "Butter", "Whole wheat"], stock: "in" },
+  { slug: "ck-ragi", name: "Ragi Millet Cookies", category: "cookies", subcategory: "healthy", price: 149, unitLabel: "200 g box", description: "Finger millet and jaggery — earthy, iron-rich, guilt-free.", image: ckRagi, veg: true, prepMins: 120, calories: 400, ingredients: ["Ragi flour", "Jaggery", "Ghee", "Cardamom"], stock: "in" },
+  { slug: "ck-roasted-ragi", name: "Roasted Ragi Choco Cookies", category: "cookies", subcategory: "healthy", price: 169, unitLabel: "200 g box", description: "Roasted ragi with dark cocoa nibs — wholesome and deep.", image: ckRagi, veg: true, prepMins: 120, calories: 425, ingredients: ["Ragi flour", "Cocoa nibs", "Jaggery", "Ghee"], stock: "in" },
+  { slug: "ck-multigrain", name: "Multigrain Cookies", category: "cookies", subcategory: "healthy", price: 159, unitLabel: "200 g box", description: "Five grains, bran and jaggery in a hearty everyday bake.", image: ckMultigrain, veg: true, prepMins: 120, calories: 410, ingredients: ["Multigrain flour", "Bran", "Jaggery", "Ghee"], stock: "in" },
+  { slug: "ck-peanut-butter", name: "Peanut Butter Cookies", category: "cookies", subcategory: "healthy", price: 159, unitLabel: "200 g box", description: "Stone-ground peanut butter, criss-crossed and baked soft.", image: ckPeanutbutter, veg: true, bestSeller: true, prepMins: 120, calories: 490, ingredients: ["Peanut butter", "Jaggery", "Whole wheat", "Butter"], stock: "in" },
+  { slug: "ck-seed-mix", name: "Super Seed Mix Cookies", category: "cookies", subcategory: "healthy", price: 179, unitLabel: "200 g box", description: "Pumpkin, sunflower, flax and sesame in every bite.", image: ckSeedmix, veg: true, chefPick: true, prepMins: 120, calories: 445, ingredients: ["Pumpkin seeds", "Sunflower seeds", "Flax seeds", "Sesame", "Whole wheat"], stock: "in" },
 ];
+
 
 export const getProduct = (slug: string) => PRODUCTS.find((p) => p.slug === slug);
 export const getByCategory = (cat: string) => PRODUCTS.filter((p) => p.category === cat);
@@ -235,17 +312,8 @@ export const CAKE_DECORATIONS = [
   "Silver Pearls", "Edible Glitter", "Mini Cupcakes", "Custom Topper",
 ];
 
-// Serviceability: Lakkur, Malur (approx)
-export const LAKKUR = { lat: 13.0071, lng: 77.9436 };
+// Serviceability is pincode-driven and lives in the database
+// (`serviceable_pincodes`). See src/lib/delivery.server.ts.
 export const DELIVERY_RADIUS_KM = 20;
-export const MALUR_PINCODES = ["563130", "563125", "563135", "562123", "562135", "563159"];
+export const KITCHEN_ADDRESS = "Lakkur, Malur, Kolar District, Karnataka 563163";
 
-export function haversine(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-  const R = 6371;
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
-  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const s =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(s));
-}

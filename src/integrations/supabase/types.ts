@@ -443,6 +443,42 @@ export type Database = {
         }
         Relationships: []
       }
+      serviceable_pincodes: {
+        Row: {
+          active: boolean
+          created_at: string
+          delivery_fee_override: number | null
+          distance_km: number
+          district: string
+          pincode: string
+          sample_areas: string
+          state: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          delivery_fee_override?: number | null
+          distance_km?: number
+          district?: string
+          pincode: string
+          sample_areas?: string
+          state?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          delivery_fee_override?: number | null
+          distance_km?: number
+          district?: string
+          pincode?: string
+          sample_areas?: string
+          state?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

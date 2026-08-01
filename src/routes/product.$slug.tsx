@@ -4,6 +4,7 @@ import { Heart, Minus, Plus, Share2, Star } from "lucide-react";
 import { getProduct, PRODUCTS, CAKE_SIZES, cakePrice } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { ProductCard } from "@/components/product-card";
+import { PinChecker } from "@/components/pin-checker";
 import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
 
@@ -128,10 +129,15 @@ function ProductPage() {
           </div>
 
 
-          <div className="mt-8 rounded-2xl border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground">
+          <div className="mt-8">
+            <PinChecker />
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground">
             <p className="font-medium text-cream">Delivery</p>
             <p className="mt-1">Cakes need 24 hours of advance notice. Food orders arrive within 3 hours. Available within 20 km of Lakkur.</p>
           </div>
+
         </div>
       </div>
 
