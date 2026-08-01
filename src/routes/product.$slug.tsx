@@ -128,10 +128,15 @@ function ProductPage() {
           </div>
 
 
-          <div className="mt-8 rounded-2xl border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground">
+          <div className="mt-8">
+            <PinChecker />
+          </div>
+
+          <div className="mt-4 rounded-2xl border border-border/60 bg-card/60 p-5 text-sm text-muted-foreground">
             <p className="font-medium text-cream">Delivery</p>
             <p className="mt-1">Cakes need 24 hours of advance notice. Food orders arrive within 3 hours. Available within 20 km of Lakkur.</p>
           </div>
+
         </div>
       </div>
 
