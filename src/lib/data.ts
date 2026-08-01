@@ -312,17 +312,8 @@ export const CAKE_DECORATIONS = [
   "Silver Pearls", "Edible Glitter", "Mini Cupcakes", "Custom Topper",
 ];
 
-// Serviceability: Lakkur, Malur (approx)
-export const LAKKUR = { lat: 13.0071, lng: 77.9436 };
+// Serviceability is pincode-driven and lives in the database
+// (`serviceable_pincodes`). See src/lib/delivery.server.ts.
 export const DELIVERY_RADIUS_KM = 20;
-export const MALUR_PINCODES = ["563130", "563125", "563135", "562123", "562135", "563159"];
+export const KITCHEN_ADDRESS = "Lakkur, Malur, Kolar District, Karnataka 563163";
 
-export function haversine(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-  const R = 6371;
-  const dLat = ((b.lat - a.lat) * Math.PI) / 180;
-  const dLng = ((b.lng - a.lng) * Math.PI) / 180;
-  const s =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos((a.lat * Math.PI) / 180) * Math.cos((b.lat * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(s));
-}
