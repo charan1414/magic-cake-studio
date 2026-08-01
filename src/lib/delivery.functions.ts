@@ -1,10 +1,20 @@
 import { createServerFn } from "@tanstack/react-start";
-import { calculateServiceability, loadDeliverySettings, type ServiceabilityInput, type ServiceabilityResult } from "./delivery.server";
+import {
+  calculateServiceability,
+  loadDeliverySettings,
+  loadServiceablePincodes,
+  type ServiceabilityInput,
+  type ServiceabilityResult,
+} from "./delivery.server";
 
-export type { ServiceabilityResult } from "./delivery.server";
+export type { ServiceabilityResult, PincodeRow } from "./delivery.server";
 
 export const getDeliverySettings = createServerFn({ method: "GET" }).handler(async () => {
   return await loadDeliverySettings();
+});
+
+export const getServiceablePincodes = createServerFn({ method: "GET" }).handler(async () => {
+  return await loadServiceablePincodes();
 });
 
 export const checkServiceability = createServerFn({ method: "POST" })
