@@ -122,6 +122,7 @@ export const CATEGORIES = [
   { slug: "seasonal-special", name: "Seasonal Special", tagline: "Limited edition — while the season lasts" },
   { slug: "cakes", name: "Signature Cakes", tagline: "Handcrafted for celebrations" },
   { slug: "ice-cream", name: "Ice Cream", tagline: "Small-batch scoops & signature sundaes" },
+  { slug: "cookies", name: "Cookies", tagline: "Baked fresh, boxed with care" },
   { slug: "cupcakes", name: "Cupcakes", tagline: "Petite indulgence" },
   { slug: "desserts", name: "Desserts", tagline: "Sweet finales" },
   { slug: "fried-chicken", name: "Fried Chicken", tagline: "Crisp. Golden. Unmatched." },
@@ -139,6 +140,14 @@ export const ICE_CREAM_GROUPS = [
   { slug: "sundaes", name: "Signature Sundaes", emoji: "⭐" },
   { slug: "combo", name: "Dessert Combo", emoji: "🍨" },
 ];
+
+// Cookie sub-category groupings — surfaced by the category page.
+export const COOKIE_GROUPS = [
+  { slug: "everyday", name: "Everyday Favourites", emoji: "🍪" },
+  { slug: "signature", name: "Signature Indulgence", emoji: "✨" },
+  { slug: "healthy", name: "Healthy & Wholesome", emoji: "🌾" },
+];
+
 
 // NOTE: For cake categories (`cakes` and `seasonal-special`) `price` is the
 // 500 g base price. Larger sizes are computed via `cakePrice()` with bulk
