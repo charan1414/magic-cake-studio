@@ -43,6 +43,35 @@ import icBananaSplit from "@/assets/ic-banana-split.jpg";
 import icGudbud from "@/assets/ic-gudbud.jpg";
 import icDbc from "@/assets/ic-dbc.jpg";
 import icGjIcecream from "@/assets/ic-gj-icecream.jpg";
+import cakeButterscotch from "@/assets/cake-butterscotch.jpg";
+import cakeTiramisu from "@/assets/cake-tiramisu.jpg";
+import cakeBrownie from "@/assets/cake-brownie.jpg";
+import cakeKunafa from "@/assets/cake-kunafa.jpg";
+import cakePineappleLychee from "@/assets/cake-pineapple-lychee-cherry.jpg";
+import ckButter from "@/assets/ck-butter.jpg";
+import ckJamdrop from "@/assets/ck-jamdrop.jpg";
+import ckCoconut from "@/assets/ck-coconut.jpg";
+import ckSweetsalt from "@/assets/ck-sweetsalt.jpg";
+import ckBanana from "@/assets/ck-banana.jpg";
+import ckChocochip from "@/assets/ck-chocochip.jpg";
+import ckChunk from "@/assets/ck-chunk.jpg";
+import ckBelgian from "@/assets/ck-belgian.jpg";
+import ckCashew from "@/assets/ck-cashew.jpg";
+import ckPistachio from "@/assets/ck-pistachio.jpg";
+import ckBiscoff from "@/assets/ck-biscoff.jpg";
+import ckNutella from "@/assets/ck-nutella.jpg";
+import ckCranberry from "@/assets/ck-cranberry.jpg";
+import ckNankhatai from "@/assets/ck-nankhatai.jpg";
+import ckJeera from "@/assets/ck-jeera.jpg";
+import ckOats from "@/assets/ck-oats.jpg";
+import ckRagi from "@/assets/ck-ragi.jpg";
+import ckSaltedcaramel from "@/assets/ck-saltedcaramel.jpg";
+import ckMultigrain from "@/assets/ck-multigrain.jpg";
+import ckPeanutbutter from "@/assets/ck-peanutbutter.jpg";
+import ckSeedmix from "@/assets/ck-seedmix.jpg";
+import ckDryfruit from "@/assets/ck-dryfruit.jpg";
+
+
 
 
 const popcornChicken = popcornChickenAsset.url;
