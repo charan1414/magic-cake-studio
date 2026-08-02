@@ -2,7 +2,6 @@ import burger from "@/assets/dish-burger.jpg";
 import wings from "@/assets/dish-wings.jpg";
 import roll from "@/assets/dish-roll.jpg";
 import fries from "@/assets/dish-fries.jpg";
-import biryani from "@/assets/dish-biryani.jpg";
 import popcornChickenAsset from "@/assets/popcorn-chicken.jpg.asset.json";
 import bomboloniAsset from "@/assets/bomboloni.jpg.asset.json";
 import gulabJamunAsset from "@/assets/gulab-jamun.jpg.asset.json";
