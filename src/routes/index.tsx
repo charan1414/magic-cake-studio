@@ -3,9 +3,11 @@ import { motion } from "framer-motion";
 import { ArrowRight, ChefHat, Play, Sparkles, Truck, Clock, MapPin, Star } from "lucide-react";
 import heroImg from "@/assets/hero-cake.jpg";
 import craftImg from "@/assets/craft-cake.jpg";
-import { CATEGORIES, PRODUCTS } from "@/lib/data";
+import { CATEGORIES, PRODUCTS, cfcBucketImg, cfcCloseupImg } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
 import { Reveal, SplitReveal, Eyebrow } from "@/components/motion-primitives";
+import { DBCShowcase } from "@/components/dbc-showcase";
+import { CinematicLoop } from "@/components/cinematic-loop";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,12 +28,42 @@ function HomePage() {
     <>
       <Hero />
       <Marquee />
+      <DBCShowcase />
+      <CFCBanner />
       <CraftSection />
       <CategoryShowcase />
       <Signatures products={featured} />
       <CakeStudioCTA />
       <Promise />
     </>
+  );
+}
+
+function CFCBanner() {
+  return (
+    <section className="relative isolate min-h-[60svh] w-full overflow-hidden border-b border-border/60">
+      <CinematicLoop frames={[cfcBucketImg, cfcCloseupImg]} duration={9} />
+      <div className="absolute inset-0 bg-gradient-to-l from-ink via-ink/80 to-ink/30" />
+      <div className="container-luxe relative z-10 flex min-h-[60svh] items-center justify-end py-20">
+        <Reveal>
+          <div className="max-w-md text-right">
+            <p className="text-[11px] uppercase tracking-[0.35em] text-amber-300">Crispy · Golden · Shareable</p>
+            <h2 className="mt-4 font-display text-5xl leading-tight text-cream md:text-6xl">
+              The <span className="italic text-amber-300">CFC Fried Bucket</span>
+            </h2>
+            <p className="mt-4 text-base text-cream/80">
+              Eight pieces of hand-breaded, hot &amp; crispy fried chicken — built for sharing.
+            </p>
+            <a
+              href="/cfc-fried-bucket"
+              className="btn-gold btn-gold-hover mt-7 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold"
+            >
+              Order Now · ₹599 <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 

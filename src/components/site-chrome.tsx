@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, ShoppingBag, Sparkles, User, X } from "lucide-react";
+import { Menu, ShoppingBag, User, X } from "lucide-react";
+import logoAsset from "@/assets/logo.png.asset.json";
 import { useEffect, useState } from "react";
 import { useCart, cartCount } from "@/lib/cart-store";
 import { useAuth } from "@/lib/auth-context";
@@ -41,9 +42,12 @@ export function SiteHeader() {
       >
         <div className="container-luxe flex h-20 items-center justify-between">
           <Link to="/" className="group flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-full border border-primary/40 text-primary transition-transform group-hover:rotate-12">
-              <Sparkles className="h-4 w-4" />
-            </span>
+            <img
+              src={logoAsset.url}
+              alt="C & It's Magic logo"
+              className="h-11 w-11 object-contain transition-transform duration-500 group-hover:rotate-6"
+            />
+
             <span className="flex flex-col leading-none">
               <span className="font-display text-lg tracking-tight text-cream">
                 C &amp; It's <span className="gold-text italic">Magic</span>
@@ -138,12 +142,11 @@ export function SiteFooter() {
       <div className="container-luxe grid gap-14 py-20 md:grid-cols-4">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2.5">
-            <span className="grid h-9 w-9 place-items-center rounded-full border border-primary/40 text-primary">
-              <Sparkles className="h-4 w-4" />
-            </span>
+            <img src={logoAsset.url} alt="C & It's Magic logo" className="h-12 w-12 object-contain" loading="lazy" />
             <span className="font-display text-2xl text-cream">
               C &amp; It's <span className="gold-text italic">Magic</span>
             </span>
+
           </div>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
             A cloud kitchen crafting cakes, desserts and gourmet food with obsessive care —
