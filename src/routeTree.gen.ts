@@ -16,6 +16,7 @@ import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as CfcFriedBucketRouteImport } from './routes/cfc-fried-bucket'
 import { Route as CakeStudioRouteImport } from './routes/cake-studio'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AboutRouteImport } from './routes/about'
@@ -62,6 +63,11 @@ const ContactRoute = ContactRouteImport.update({
 const CheckoutRoute = CheckoutRouteImport.update({
   id: '/checkout',
   path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CfcFriedBucketRoute = CfcFriedBucketRouteImport.update({
+  id: '/cfc-fried-bucket',
+  path: '/cfc-fried-bucket',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CakeStudioRoute = CakeStudioRouteImport.update({
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/cake-studio': typeof CakeStudioRoute
+  '/cfc-fried-bucket': typeof CfcFriedBucketRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
@@ -152,6 +159,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/cake-studio': typeof CakeStudioRoute
+  '/cfc-fried-bucket': typeof CfcFriedBucketRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
   '/cake-studio': typeof CakeStudioRoute
+  '/cfc-fried-bucket': typeof CfcFriedBucketRoute
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
@@ -196,6 +205,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/cake-studio'
+    | '/cfc-fried-bucket'
     | '/checkout'
     | '/contact'
     | '/menu'
@@ -216,6 +226,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/cake-studio'
+    | '/cfc-fried-bucket'
     | '/checkout'
     | '/contact'
     | '/menu'
@@ -237,6 +248,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/auth'
     | '/cake-studio'
+    | '/cfc-fried-bucket'
     | '/checkout'
     | '/contact'
     | '/menu'
@@ -259,6 +271,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
   CakeStudioRoute: typeof CakeStudioRoute
+  CfcFriedBucketRoute: typeof CfcFriedBucketRoute
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   MenuRoute: typeof MenuRouteWithChildren
@@ -319,6 +332,13 @@ declare module '@tanstack/react-router' {
       path: '/checkout'
       fullPath: '/checkout'
       preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cfc-fried-bucket': {
+      id: '/cfc-fried-bucket'
+      path: '/cfc-fried-bucket'
+      fullPath: '/cfc-fried-bucket'
+      preLoaderRoute: typeof CfcFriedBucketRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cake-studio': {
@@ -441,6 +461,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
   CakeStudioRoute: CakeStudioRoute,
+  CfcFriedBucketRoute: CfcFriedBucketRoute,
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   MenuRoute: MenuRouteWithChildren,
