@@ -128,6 +128,8 @@ export type Product = {
   ingredients: string[];
   stock?: StockStatus;
   unitLabel?: string; // e.g. "Scoop", "Piece"
+  badge?: string; // e.g. "NEW"
+  landing?: string; // dedicated landing page path, instead of /product/$slug
 };
 
 export const CATEGORIES = [
@@ -185,6 +187,7 @@ export const PRODUCTS: Product[] = [
   { slug: "brownie-cake", name: "Fudge Brownie Cake", category: "cakes", price: 429, description: "Dense fudge brownie layers, molten ganache, toasted walnut crumb.", image: cakeBrownie, veg: true, prepMins: 1440, calories: 470, ingredients: ["Dark chocolate", "Butter", "Walnuts", "Ganache"] },
   { slug: "kunafa-cake", name: "Kunafa Pistachio Cake", category: "cakes", price: 549, description: "Crisp kataifi threads, pistachio cream, rose-scented syrup — Middle Eastern opulence.", image: cakeKunafa, veg: true, chefPick: true, prepMins: 1440, calories: 480, ingredients: ["Kataifi", "Pistachio cream", "Rose syrup", "Ghee", "Cheese"] },
   { slug: "tropical-cake", name: "Tropical Pineapple Lychee Cake", category: "cakes", price: 419, description: "Pineapple compote, lychee cream and glazed cherries on airy vanilla sponge.", image: cakePineappleLychee, veg: true, prepMins: 1440, calories: 360, ingredients: ["Pineapple", "Lychee", "Cherries", "Whipped cream", "Vanilla sponge"] },
+  { slug: "white-forest-cake", name: "White Forest Cake", category: "cakes", price: 369, badge: "NEW", description: "The classic Black Forest, reimagined in white — layers of soft vanilla sponge, whipped cream, and delicate white chocolate shavings, with a hint of cherry.", image: whiteForestAsset.url, veg: true, prepMins: 1440, calories: 370, ingredients: ["Vanilla sponge", "Whipped cream", "White chocolate shavings", "Cherries"] },
 
 
   // Cupcakes (per piece)
@@ -202,6 +205,7 @@ export const PRODUCTS: Product[] = [
   { slug: "fire-wings", name: "Golden Fire Wings", category: "fried-chicken", price: 349, description: "Twice-fried wings tossed in house-smoked gochujang glaze.", image: wings, veg: false, bestSeller: true, prepMins: 25, calories: 480, ingredients: ["Chicken wings", "Gochujang", "Garlic", "Honey"] },
   { slug: "popcorn-chicken", name: "Popcorn Chicken", category: "fried-chicken", price: 249, description: "Bite-sized, buttermilk brined, spiced crust.", image: popcornChicken, veg: false, prepMins: 20, calories: 420, ingredients: ["Chicken breast", "Buttermilk", "Spices", "Flour"] },
   { slug: "crispy-leg-pieces", name: "Crispy Leg Pieces", category: "fried-chicken", price: 79, description: "Whole leg pieces, 24-hour brine, shatter crust. Per piece.", image: cfcCloseup, veg: false, chefPick: true, prepMins: 25, calories: 510, ingredients: ["Chicken leg", "Buttermilk", "Herbs", "Panko"] },
+  { slug: "cfc-fried-bucket", name: "CFC Fried Bucket", category: "fried-chicken", price: 599, badge: "NEW", landing: "/cfc-fried-bucket", description: "8 pieces of our signature hot & crispy fried chicken, hand-breaded and cooked to golden perfection — a bucket built for sharing.", image: cfcBucketAsset.url, veg: false, bestSeller: true, prepMins: 30, calories: 1800, ingredients: ["Chicken", "Buttermilk", "House seasoning blend", "Flour"] },
 
   // Burgers
   { slug: "signature-crispy", name: "Signature Crispy Burger", category: "burgers", price: 89, description: "Buttermilk-fried chicken, house pickles, gold-toasted brioche.", image: burger, veg: false, bestSeller: true, prepMins: 20, calories: 620, ingredients: ["Chicken", "Brioche", "Pickles", "House mayo", "Lettuce"] },
