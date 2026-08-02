@@ -37,15 +37,30 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
       transition={{ duration: 0.7, delay: (index % 6) * 0.05, ease: [0.16, 1, 0.3, 1] }}
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/70 backdrop-blur-sm transition-all duration-500 hover:border-primary/50 hover:shadow-luxe"
     >
-      <Link to="/product/$slug" params={{ slug: product.slug }} className="relative block aspect-[4/5] overflow-hidden">
-        <img
-          src={product.image}
-          alt={product.name}
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-70" />
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+      {(() => {
+        const inner = (
+          <>
+            <img
+              src={product.image}
+              alt={product.name}
+              loading="lazy"
+              className="h-full w-full object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-110"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-70" />
+          </>
+        );
+        const cls = "relative block aspect-[4/5] overflow-hidden";
+        return product.landing ? (
+          <a href={product.landing} className={cls}>{inner}</a>
+        ) : (
+          <Link to="/product/$slug" params={{ slug: product.slug }} className={cls}>{inner}</Link>
+        );
+      })()}
+      <div className="pointer-events-none absolute left-3 top-3 flex flex-wrap gap-1.5">
+          {product.badge && (
+            <span className="rounded-full bg-cream px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">{product.badge}</span>
+          )}
+
           {product.bestSeller && (
             <span className="rounded-full bg-primary/95 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary-foreground">Bestseller</span>
           )}
