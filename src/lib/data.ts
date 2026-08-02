@@ -70,6 +70,12 @@ import ckMultigrain from "@/assets/ck-multigrain.jpg";
 import ckPeanutbutter from "@/assets/ck-peanutbutter.jpg";
 import ckSeedmix from "@/assets/ck-seedmix.jpg";
 import ckDryfruit from "@/assets/ck-dryfruit.jpg";
+import samosaAsset from "@/assets/samosa.jpg.asset.json";
+import biryaniAsset from "@/assets/hyderabadi-dum-biryani.png.asset.json";
+import pepperChickenAsset from "@/assets/malabar-pepper-chicken.png.asset.json";
+import whiteForestAsset from "@/assets/white-forest-cake.jpg.asset.json";
+import cfcBucketAsset from "@/assets/cfc-fried-bucket.png.asset.json";
+import cfcCloseup from "@/assets/cfc-closeup.jpg";
 
 
 
@@ -97,6 +103,12 @@ const ramenBowl = ramenBowlAsset.url;
 const strawberryCake = strawberryCakeAsset.url;
 const pineappleCake = pineappleCakeAsset.url;
 const fruitCake = fruitCakeAsset.url;
+const samosaImg = samosaAsset.url;
+const biryani = biryaniAsset.url;
+const pepperChickenImg = pepperChickenAsset.url;
+export const whiteForestImg = whiteForestAsset.url;
+export const cfcBucketImg = cfcBucketAsset.url;
+export const cfcCloseupImg = cfcCloseup;
 
 export type StockStatus = "in" | "low" | "out";
 
