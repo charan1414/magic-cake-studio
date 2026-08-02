@@ -2,6 +2,7 @@ import burger from "@/assets/dish-burger.jpg";
 import wings from "@/assets/dish-wings.jpg";
 import roll from "@/assets/dish-roll.jpg";
 import fries from "@/assets/dish-fries.jpg";
+import paneerPuffImg from "@/assets/paneer-puff.jpg";
 import popcornChickenAsset from "@/assets/popcorn-chicken.jpg.asset.json";
 import bomboloniAsset from "@/assets/bomboloni.jpg.asset.json";
 import gulabJamunAsset from "@/assets/gulab-jamun.jpg.asset.json";
@@ -200,7 +201,7 @@ export const PRODUCTS: Product[] = [
   // Fried Chicken
   { slug: "fire-wings", name: "Golden Fire Wings", category: "fried-chicken", price: 349, description: "Twice-fried wings tossed in house-smoked gochujang glaze.", image: wings, veg: false, bestSeller: true, prepMins: 25, calories: 480, ingredients: ["Chicken wings", "Gochujang", "Garlic", "Honey"] },
   { slug: "popcorn-chicken", name: "Popcorn Chicken", category: "fried-chicken", price: 249, description: "Bite-sized, buttermilk brined, spiced crust.", image: popcornChicken, veg: false, prepMins: 20, calories: 420, ingredients: ["Chicken breast", "Buttermilk", "Spices", "Flour"] },
-  { slug: "crispy-leg-pieces", name: "Crispy Leg Pieces", category: "fried-chicken", price: 79, description: "Whole leg pieces, 24-hour brine, shatter crust. Per piece.", image: wings, veg: false, chefPick: true, prepMins: 25, calories: 510, ingredients: ["Chicken leg", "Buttermilk", "Herbs", "Panko"] },
+  { slug: "crispy-leg-pieces", name: "Crispy Leg Pieces", category: "fried-chicken", price: 79, description: "Whole leg pieces, 24-hour brine, shatter crust. Per piece.", image: cfcCloseup, veg: false, chefPick: true, prepMins: 25, calories: 510, ingredients: ["Chicken leg", "Buttermilk", "Herbs", "Panko"] },
 
   // Burgers
   { slug: "signature-crispy", name: "Signature Crispy Burger", category: "burgers", price: 89, description: "Buttermilk-fried chicken, house pickles, gold-toasted brioche.", image: burger, veg: false, bestSeller: true, prepMins: 20, calories: 620, ingredients: ["Chicken", "Brioche", "Pickles", "House mayo", "Lettuce"] },
@@ -209,7 +210,7 @@ export const PRODUCTS: Product[] = [
 
   // Main Course
   { slug: "dum-biryani", name: "Hyderabadi Dum Biryani", category: "main-course", price: 159, description: "Aged basmati, saffron, slow-sealed handi, unveiled at your table.", image: biryani, veg: false, bestSeller: true, chefPick: true, prepMins: 90, calories: 720, ingredients: ["Basmati rice", "Chicken", "Saffron", "Ghee", "Whole spices", "Yogurt"] },
-  { slug: "pepper-chicken", name: "Malabar Pepper Chicken", category: "main-course", price: 349, description: "Coastal spice, cracked pepper, curry leaves.", image: biryani, veg: false, prepMins: 45, calories: 480, ingredients: ["Chicken", "Black pepper", "Curry leaves", "Coconut oil"] },
+  { slug: "pepper-chicken", name: "Malabar Pepper Chicken", category: "main-course", price: 349, description: "Coastal spice, cracked pepper, curry leaves.", image: pepperChickenImg, veg: false, prepMins: 45, calories: 480, ingredients: ["Chicken", "Black pepper", "Curry leaves", "Coconut oil"] },
   { slug: "egg-rice", name: "Ghee Egg Rice", category: "main-course", price: 69, description: "Wok-tossed rice, farm eggs, brown butter, spring onion.", image: eggRiceImg, veg: false, prepMins: 20, calories: 520, ingredients: ["Basmati rice", "Eggs", "Ghee", "Spring onion"] },
 
   // Rolls
@@ -222,8 +223,8 @@ export const PRODUCTS: Product[] = [
   { slug: "ramen-bowl", name: "Chef's Ramen Bowl", category: "street-food", price: 329, description: "Slow-simmered broth, ramen noodles, soft egg, chilli oil.", image: ramenBowl, veg: false, prepMins: 25, calories: 560, ingredients: ["Ramen", "Chicken broth", "Egg", "Chilli oil"] },
 
   // Snacks
-  { slug: "paneer-puff", name: "Paneer Puff", category: "snacks", price: 25, description: "Buttery puff pastry, spiced paneer heart.", image: fries, veg: true, prepMins: 10, calories: 260, ingredients: ["Puff pastry", "Paneer", "Onion", "Spices"] },
-  { slug: "samosa", name: "Handmade Samosa", category: "snacks", price: 19, description: "Golden crust, spiced potato and pea filling.", image: fries, veg: true, prepMins: 10, calories: 220, ingredients: ["Wheat", "Potato", "Peas", "Spices"] },
+  { slug: "paneer-puff", name: "Paneer Puff", category: "snacks", price: 25, description: "Buttery puff pastry, spiced paneer heart.", image: paneerPuffImg, veg: true, prepMins: 10, calories: 260, ingredients: ["Puff pastry", "Paneer", "Onion", "Spices"] },
+  { slug: "samosa", name: "Handmade Samosa", category: "snacks", price: 19, description: "Golden crust, spiced potato and pea filling.", image: samosaImg, veg: true, prepMins: 10, calories: 220, ingredients: ["Wheat", "Potato", "Peas", "Spices"] },
 
   // Ice Cream · Seasonal Specials
   { slug: "ic-mango-bliss", name: "Mango Bliss", category: "ice-cream", subcategory: "seasonal", price: 29, unitLabel: "Scoop", description: "Made using real seasonal Alphonso mango pulp, delivering a naturally sweet tropical flavour.", image: icMango, veg: true, bestSeller: true, chefPick: true, prepMins: 5, calories: 180, ingredients: ["Alphonso mango pulp", "Milk", "Cream", "Sugar"], stock: "in" },
