@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Eyebrow } from "@/components/motion-primitives";
+import { FOUNDER_PHOTO, useFounder } from "@/lib/founder";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -38,6 +39,8 @@ function About() {
         </div>
       </section>
 
+      <FounderSection />
+
       <section className="container-luxe pb-24">
         <div className="rounded-3xl border border-primary/30 bg-primary/5 p-10 text-center">
           <p className="eyebrow">Come taste the difference</p>
@@ -58,5 +61,78 @@ function Stat({ n, l }: { n: string; l: string }) {
       <span className="font-display text-4xl gold-text">{n}</span>
       <span className="text-sm text-cream/80">{l}</span>
     </div>
+  );
+}
+
+function FounderSection() {
+  const f = useFounder();
+  return (
+    <section className="border-y border-border/60 bg-card/20">
+      <div className="container-luxe py-24">
+        <Eyebrow>Meet the founder</Eyebrow>
+        <div className="mt-8 grid gap-12 md:grid-cols-[minmax(0,22rem)_1fr]">
+          <div>
+            <div className="overflow-hidden rounded-3xl border border-primary/30">
+              <img src={f.photo_url ?? FOUNDER_PHOTO} alt={`${f.name}, ${f.designation} of ${f.company}`} className="aspect-[4/5] w-full object-cover" />
+            </div>
+            <p className="mt-5 font-display text-3xl text-cream">{f.name}</p>
+            <p className="text-sm gold-text">{f.designation}</p>
+            <p className="mt-1 text-xs text-muted-foreground">{f.location} · Est. {f.founded}</p>
+            {(f.instagram_url || f.linkedin_url) && (
+              <div className="mt-4 flex gap-3 text-xs">
+                {f.instagram_url && <a href={f.instagram_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Instagram</a>}
+                {f.linkedin_url && <a href={f.linkedin_url} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">LinkedIn</a>}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h2 className="font-display text-4xl leading-tight text-cream md:text-5xl">
+              The hands behind every <span className="italic gold-text">signature</span>.
+            </h2>
+            <p className="mt-6 whitespace-pre-line text-base leading-relaxed text-muted-foreground">{f.bio}</p>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-2xl border border-border/60 bg-black/30 p-5">
+                <p className="eyebrow">Mission</p>
+                <p className="mt-2 text-sm text-cream/85">{f.mission}</p>
+              </div>
+              <div className="rounded-2xl border border-border/60 bg-black/30 p-5">
+                <p className="eyebrow">Vision</p>
+                <p className="mt-2 text-sm text-cream/85">{f.vision}</p>
+              </div>
+            </div>
+
+            {f.timeline.length > 0 && (
+              <ol className="mt-10 space-y-5 border-l border-primary/30 pl-6">
+                {f.timeline.map((t, i) => (
+                  <li key={i} className="relative">
+                    <span className="absolute -left-[1.72rem] top-2 h-2 w-2 rounded-full bg-primary" />
+                    <p className="font-display text-xl gold-text">{t.year}</p>
+                    <p className="text-sm font-medium text-cream">{t.title}</p>
+                    <p className="text-sm text-muted-foreground">{t.detail}</p>
+                  </li>
+                ))}
+              </ol>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: f.name,
+            jobTitle: f.designation,
+            worksFor: { "@type": "Organization", name: f.company },
+            address: f.location,
+            sameAs: [f.instagram_url, f.linkedin_url].filter(Boolean),
+          }),
+        }}
+      />
+    </section>
   );
 }
