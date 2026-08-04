@@ -10,6 +10,7 @@ import { PinChecker } from "@/components/pin-checker";
 import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.functions";
 import { PRODUCTS } from "@/lib/data";
 import { toast } from "sonner";
+import { CheckoutUpsells } from "@/components/checkout-upsells";
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
@@ -65,10 +66,6 @@ function Checkout() {
   const minOrder = meta?.min_order_amount ?? 0;
   const belowMin = subtotal > 0 && subtotal < minOrder;
 
-  const inCart = new Set(items.map((i) => i.slug.split("-").slice(0, -1).join("-") || i.slug));
-  const upsells = PRODUCTS.filter(
-    (p) => (p.category === "cookies" || p.category === "ice-cream" || p.category === "desserts") && !inCart.has(p.slug) && !items.some((i) => i.slug === p.slug),
-  ).slice(0, 4);
 
   useEffect(() => {
     loadSettings()
@@ -216,29 +213,7 @@ function Checkout() {
             </ul>
           </div>
 
-          {upsells.length > 0 && (
-            <div className="rounded-3xl border border-primary/25 bg-primary/5 p-6">
-              <h2 className="font-display text-2xl text-cream">Complete your order</h2>
-              <p className="mt-1 text-xs text-muted-foreground">Small additions our guests love alongside this basket.</p>
-              <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {upsells.map((p) => (
-                  <div key={p.slug} className="overflow-hidden rounded-2xl border border-border/60 bg-card/60">
-                    <img src={p.image} alt={p.name} className="aspect-square w-full object-cover" loading="lazy" />
-                    <div className="p-3">
-                      <p className="line-clamp-1 text-sm font-medium text-cream">{p.name}</p>
-                      <p className="mt-1 text-xs gold-text">₹{p.price.toLocaleString("en-IN")}{p.unitLabel ? ` / ${p.unitLabel}` : ""}</p>
-                      <button
-                        onClick={() => { add({ slug: p.slug, name: p.name, price: p.price, image: p.image, variant: p.unitLabel }); toast.success(`Added · ${p.name}`); }}
-                        className="mt-3 inline-flex w-full items-center justify-center gap-1.5 rounded-full border border-primary/50 py-2 text-xs font-medium text-primary hover:bg-primary/10"
-                      >
-                        <PlusIcon className="h-3 w-3" /> Add
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
+          <CheckoutUpsells cartSlugs={items.map((i) => i.slug)} />
 
           <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
             <h2 className="font-display text-2xl text-cream">Delivery details</h2>
