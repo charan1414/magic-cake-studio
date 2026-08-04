@@ -167,6 +167,57 @@ export type Database = {
         }
         Relationships: []
       }
+      founder_profile: {
+        Row: {
+          bio: string
+          company: string
+          designation: string
+          founded: string
+          id: boolean
+          instagram_url: string | null
+          linkedin_url: string | null
+          location: string
+          mission: string
+          name: string
+          photo_url: string | null
+          timeline: Json
+          updated_at: string
+          vision: string
+        }
+        Insert: {
+          bio?: string
+          company?: string
+          designation?: string
+          founded?: string
+          id?: boolean
+          instagram_url?: string | null
+          linkedin_url?: string | null
+          location?: string
+          mission?: string
+          name?: string
+          photo_url?: string | null
+          timeline?: Json
+          updated_at?: string
+          vision?: string
+        }
+        Update: {
+          bio?: string
+          company?: string
+          designation?: string
+          founded?: string
+          id?: boolean
+          instagram_url?: string | null
+          linkedin_url?: string | null
+          location?: string
+          mission?: string
+          name?: string
+          photo_url?: string | null
+          timeline?: Json
+          updated_at?: string
+          vision?: string
+        }
+        Relationships: []
+      }
       notification_logs: {
         Row: {
           channel: string
@@ -213,6 +264,54 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      offers: {
+        Row: {
+          active: boolean
+          categories: string[]
+          created_at: string
+          discount_type: string
+          discount_value: number
+          ends_at: string | null
+          id: string
+          min_items: number
+          offer_type: string
+          product_slugs: string[]
+          starts_at: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          categories?: string[]
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          min_items?: number
+          offer_type?: string
+          product_slugs?: string[]
+          starts_at?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          categories?: string[]
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          min_items?: number
+          offer_type?: string
+          product_slugs?: string[]
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
       }
       order_items: {
         Row: {
@@ -410,6 +509,69 @@ export type Database = {
         }
         Relationships: []
       }
+      product_overrides: {
+        Row: {
+          availability: string
+          category: string | null
+          created_at: string
+          description: string | null
+          discount_type: string
+          discount_value: number
+          display_order: number
+          highlighted: boolean
+          image: string | null
+          labels: string[]
+          mrp: number | null
+          name: string | null
+          pinned: boolean
+          price: number | null
+          sku: string | null
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          availability?: string
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          display_order?: number
+          highlighted?: boolean
+          image?: string | null
+          labels?: string[]
+          mrp?: number | null
+          name?: string | null
+          pinned?: boolean
+          price?: number | null
+          sku?: string | null
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          availability?: string
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          discount_type?: string
+          discount_value?: number
+          display_order?: number
+          highlighted?: boolean
+          image?: string | null
+          labels?: string[]
+          mrp?: number | null
+          name?: string | null
+          pinned?: boolean
+          price?: number | null
+          sku?: string | null
+          slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -440,6 +602,36 @@ export type Database = {
           loyalty_points?: number
           phone?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      recommendation_rules: {
+        Row: {
+          active: boolean
+          created_at: string
+          id: string
+          priority: number
+          recommend_categories: string[]
+          recommend_slugs: string[]
+          trigger_category: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          priority?: number
+          recommend_categories?: string[]
+          recommend_slugs?: string[]
+          trigger_category: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          id?: string
+          priority?: number
+          recommend_categories?: string[]
+          recommend_slugs?: string[]
+          trigger_category?: string
         }
         Relationships: []
       }
@@ -475,6 +667,78 @@ export type Database = {
           pincode?: string
           sample_areas?: string
           state?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      upsell_items: {
+        Row: {
+          active: boolean
+          created_at: string
+          discount_type: string
+          discount_value: number
+          ends_at: string | null
+          id: string
+          priority: number
+          promo_price: number | null
+          slug: string
+          starts_at: string | null
+          tags: string[]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          priority?: number
+          promo_price?: number | null
+          slug: string
+          starts_at?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          discount_type?: string
+          discount_value?: number
+          ends_at?: string | null
+          id?: string
+          priority?: number
+          promo_price?: number | null
+          slug?: string
+          starts_at?: string | null
+          tags?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      upsell_settings: {
+        Row: {
+          enabled: boolean
+          id: boolean
+          layout: string
+          max_items: number
+          section_title: string
+          updated_at: string
+        }
+        Insert: {
+          enabled?: boolean
+          id?: boolean
+          layout?: string
+          max_items?: number
+          section_title?: string
+          updated_at?: string
+        }
+        Update: {
+          enabled?: boolean
+          id?: boolean
+          layout?: string
+          max_items?: number
+          section_title?: string
           updated_at?: string
         }
         Relationships: []

@@ -5,12 +5,20 @@ import { useEffect, useState } from "react";
 import type { Product } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { supabase } from "@/integrations/supabase/client";
+import { useCatalog, pricingFor, labelMeta } from "@/lib/catalog";
 
 type StockStatus = "in" | "low" | "out";
 
 export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
   const add = useCart((s) => s.add);
   const [stock, setStock] = useState<StockStatus>(product.stock ?? "in");
+  const { overrides, offers } = useCatalog();
+  const override = overrides[product.slug];
+  const pricing = pricingFor(product, override, offers);
+
+  useEffect(() => {
+    if (override?.availability) setStock(override.availability as StockStatus);
+  }, [override?.availability]);
 
   useEffect(() => {
     let active = true;
@@ -57,6 +65,18 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         );
       })()}
       <div className="pointer-events-none absolute left-3 top-3 flex flex-wrap gap-1.5">
+          {(override?.labels ?? []).map((key) => {
+            const meta = labelMeta(key);
+            if (!meta) return null;
+            return (
+              <span key={key} className="rounded-full border border-primary/60 bg-black/70 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-primary backdrop-blur">
+                {meta.emoji} {meta.label}
+              </span>
+            );
+          })}
+          {pricing.discountPct > 0 && (
+            <span className="rounded-full bg-red-500/90 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">{pricing.discountPct}% off</span>
+          )}
           {product.badge && (
             <span className="rounded-full bg-cream px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">{product.badge}</span>
           )}
@@ -95,14 +115,20 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         <div className="mt-auto flex items-center justify-between pt-2">
           {(() => {
             const isCake = product.category === "cakes" || product.category === "seasonal-special";
-            const displayPrice = product.price;
+            const displayPrice = pricing.price;
             return (
               <div>
                 {isCake && <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Starts at · 500 g</p>}
                 <p className="font-display text-2xl text-primary">
                   ₹{displayPrice.toLocaleString("en-IN")}
+                  {pricing.mrp && (
+                    <span className="ml-2 text-sm font-normal text-muted-foreground line-through">₹{pricing.mrp.toLocaleString("en-IN")}</span>
+                  )}
                   {product.unitLabel && <span className="ml-1 text-xs font-normal text-muted-foreground">/ {product.unitLabel}</span>}
                 </p>
+                {pricing.saved > 0 && (
+                  <p className="text-[11px] font-medium text-emerald-400">You save ₹{pricing.saved.toLocaleString("en-IN")}</p>
+                )}
                 <div className="mt-0.5 flex items-center gap-1 text-[11px] text-muted-foreground">
                   <Star className="h-3 w-3 fill-primary text-primary" /> 4.9 · {product.prepMins < 60 ? `${product.prepMins} min` : `${Math.round(product.prepMins/60)} hr`}
                 </div>
@@ -114,7 +140,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
             onClick={() => {
               if (stock === "out") return;
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
-              const price = product.price;
+              const price = pricing.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
               const variant = isCake ? "500 g" : product.unitLabel;
               add({ slug, name: product.name, price, image: product.image, variant });
