@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { PRODUCTS } from "@/lib/data";
 import { Eyebrow } from "@/components/motion-primitives";
 import { UPSELL_TAGS, type RecommendationRule, type UpsellItem, type UpsellSettings } from "@/lib/catalog";
-import { Check, DateTime, Num, Select, Text } from "./admin.products";
+import { Check, DateTime, Num, Select, Text } from "@/components/admin-form";
 
 export const Route = createFileRoute("/_authenticated/admin/upsells")({
   ssr: false,

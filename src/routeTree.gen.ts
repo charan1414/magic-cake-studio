@@ -30,6 +30,7 @@ import { Route as AuthenticatedAdminUpsellsRouteImport } from './routes/_authent
 import { Route as AuthenticatedAdminProductsRouteImport } from './routes/_authenticated/admin.products'
 import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
 import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authenticated/admin.inventory'
+import { Route as AuthenticatedAdminFounderRouteImport } from './routes/_authenticated/admin.founder'
 import { Route as AuthenticatedAdminDeliveryRouteImport } from './routes/_authenticated/admin.delivery'
 
 const TermsRoute = TermsRouteImport.update({
@@ -140,6 +141,12 @@ const AuthenticatedAdminInventoryRoute =
     path: '/admin/inventory',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminFounderRoute =
+  AuthenticatedAdminFounderRouteImport.update({
+    id: '/admin/founder',
+    path: '/admin/founder',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedAdminDeliveryRoute =
   AuthenticatedAdminDeliveryRouteImport.update({
     id: '/admin/delivery',
@@ -165,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
   '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
+  '/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -188,6 +196,7 @@ export interface FileRoutesByTo {
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
   '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
+  '/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -213,6 +222,7 @@ export interface FileRoutesById {
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
   '/_authenticated/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
+  '/_authenticated/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/_authenticated/admin/inventory': typeof AuthenticatedAdminInventoryRoute
   '/_authenticated/admin/orders': typeof AuthenticatedAdminOrdersRoute
   '/_authenticated/admin/products': typeof AuthenticatedAdminProductsRoute
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/track/$orderId'
     | '/admin/delivery'
+    | '/admin/founder'
     | '/admin/inventory'
     | '/admin/orders'
     | '/admin/products'
@@ -261,6 +272,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/track/$orderId'
     | '/admin/delivery'
+    | '/admin/founder'
     | '/admin/inventory'
     | '/admin/orders'
     | '/admin/products'
@@ -285,6 +297,7 @@ export interface FileRouteTypes {
     | '/product/$slug'
     | '/track/$orderId'
     | '/_authenticated/admin/delivery'
+    | '/_authenticated/admin/founder'
     | '/_authenticated/admin/inventory'
     | '/_authenticated/admin/orders'
     | '/_authenticated/admin/products'
@@ -458,6 +471,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminInventoryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/founder': {
+      id: '/_authenticated/admin/founder'
+      path: '/admin/founder'
+      fullPath: '/admin/founder'
+      preLoaderRoute: typeof AuthenticatedAdminFounderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/admin/delivery': {
       id: '/_authenticated/admin/delivery'
       path: '/admin/delivery'
@@ -471,6 +491,7 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
   AuthenticatedAdminDeliveryRoute: typeof AuthenticatedAdminDeliveryRoute
+  AuthenticatedAdminFounderRoute: typeof AuthenticatedAdminFounderRoute
   AuthenticatedAdminInventoryRoute: typeof AuthenticatedAdminInventoryRoute
   AuthenticatedAdminOrdersRoute: typeof AuthenticatedAdminOrdersRoute
   AuthenticatedAdminProductsRoute: typeof AuthenticatedAdminProductsRoute
@@ -480,6 +501,7 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
   AuthenticatedAdminDeliveryRoute: AuthenticatedAdminDeliveryRoute,
+  AuthenticatedAdminFounderRoute: AuthenticatedAdminFounderRoute,
   AuthenticatedAdminInventoryRoute: AuthenticatedAdminInventoryRoute,
   AuthenticatedAdminOrdersRoute: AuthenticatedAdminOrdersRoute,
   AuthenticatedAdminProductsRoute: AuthenticatedAdminProductsRoute,
