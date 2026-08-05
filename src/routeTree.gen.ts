@@ -13,6 +13,7 @@ import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ServiceabilityRouteImport } from './routes/serviceability'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
+import { Route as NoMaidaNoSugarRouteImport } from './routes/no-maida-no-sugar'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -51,6 +52,11 @@ const PrivacyRoute = PrivacyRouteImport.update({
 const OurKitchenRoute = OurKitchenRouteImport.update({
   id: '/our-kitchen',
   path: '/our-kitchen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoMaidaNoSugarRoute = NoMaidaNoSugarRouteImport.update({
+  id: '/no-maida-no-sugar',
+  path: '/no-maida-no-sugar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -163,6 +169,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
   '/serviceability': typeof ServiceabilityRoute
@@ -187,6 +194,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
   '/serviceability': typeof ServiceabilityRoute
@@ -213,6 +221,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
   '/serviceability': typeof ServiceabilityRoute
@@ -239,6 +248,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
     | '/serviceability'
@@ -263,6 +273,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
     | '/serviceability'
@@ -288,6 +299,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
     | '/serviceability'
@@ -314,6 +326,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   MenuRoute: typeof MenuRouteWithChildren
+  NoMaidaNoSugarRoute: typeof NoMaidaNoSugarRoute
   OurKitchenRoute: typeof OurKitchenRoute
   PrivacyRoute: typeof PrivacyRoute
   ServiceabilityRoute: typeof ServiceabilityRoute
@@ -350,6 +363,13 @@ declare module '@tanstack/react-router' {
       path: '/our-kitchen'
       fullPath: '/our-kitchen'
       preLoaderRoute: typeof OurKitchenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-maida-no-sugar': {
+      id: '/no-maida-no-sugar'
+      path: '/no-maida-no-sugar'
+      fullPath: '/no-maida-no-sugar'
+      preLoaderRoute: typeof NoMaidaNoSugarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -531,6 +551,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   MenuRoute: MenuRouteWithChildren,
+  NoMaidaNoSugarRoute: NoMaidaNoSugarRoute,
   OurKitchenRoute: OurKitchenRoute,
   PrivacyRoute: PrivacyRoute,
   ServiceabilityRoute: ServiceabilityRoute,
@@ -541,13 +562,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
