@@ -32,7 +32,7 @@ export const Route = createFileRoute("/_authenticated/admin/healthy")({
       { name: "robots", content: "noindex" },
     ],
   }),
-  component: AdminHealthy;
+  component: AdminHealthy,
 });
 
 const toLocal = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 16) : "");

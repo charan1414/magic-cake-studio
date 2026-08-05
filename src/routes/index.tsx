@@ -8,6 +8,8 @@ import { ProductCard } from "@/components/product-card";
 import { Reveal, SplitReveal, Eyebrow } from "@/components/motion-primitives";
 import { DBCShowcase } from "@/components/dbc-showcase";
 import { CinematicLoop } from "@/components/cinematic-loop";
+import { HealthyBanner, HealthySection } from "@/components/healthy-range";
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -30,8 +32,11 @@ function HomePage() {
       <Marquee />
       <DBCShowcase />
       <CFCBanner />
+      <HealthyBanner compact />
+      <HealthySection limit={3} />
       <CraftSection />
       <CategoryShowcase />
+
       <Signatures products={featured} />
       <CakeStudioCTA />
       <Promise />
