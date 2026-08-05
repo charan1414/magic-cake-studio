@@ -218,6 +218,60 @@ export type Database = {
         }
         Relationships: []
       }
+      healthy_products: {
+        Row: {
+          badges: string[]
+          created_at: string
+          description: string
+          discount_ends_at: string | null
+          discount_percent: number
+          discount_starts_at: string | null
+          display_order: number
+          enabled: boolean
+          id: string
+          image_url: string | null
+          name: string
+          price: number
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          badges?: string[]
+          created_at?: string
+          description?: string
+          discount_ends_at?: string | null
+          discount_percent?: number
+          discount_starts_at?: string | null
+          display_order?: number
+          enabled?: boolean
+          id?: string
+          image_url?: string | null
+          name: string
+          price?: number
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          badges?: string[]
+          created_at?: string
+          description?: string
+          discount_ends_at?: string | null
+          discount_percent?: number
+          discount_starts_at?: string | null
+          display_order?: number
+          enabled?: boolean
+          id?: string
+          image_url?: string | null
+          name?: string
+          price?: number
+          slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_logs: {
         Row: {
           channel: string
