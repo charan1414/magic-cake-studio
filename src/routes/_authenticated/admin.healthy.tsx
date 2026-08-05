@@ -52,7 +52,7 @@ function AdminHealthy() {
       .update({
         slug: row.slug,
         name: row.name,
-        description: row.description,
+        description: row.description ?? "",
         image_url: row.image_url,
         price: Number(row.price) || 0,
         discount_percent: Number(row.discount_percent) || 0,
