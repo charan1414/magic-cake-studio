@@ -9,6 +9,8 @@ import { supabase } from "@/integrations/supabase/client";
 
 const NAV = [
   { to: "/menu", label: "Menu" },
+  { to: "/no-maida-no-sugar", label: "No Maida No Sugar" },
+
   { to: "/cake-studio", label: "Cake Studio" },
   { to: "/our-kitchen", label: "Our Kitchen" },
   { to: "/about", label: "About" },
@@ -158,7 +160,9 @@ export function SiteFooter() {
           <p className="eyebrow mb-4">Explore</p>
           <ul className="space-y-2.5 text-sm text-cream/80">
             <li><Link to="/menu" className="hover:text-primary">Menu</Link></li>
+            <li><Link to="/no-maida-no-sugar" className="hover:text-primary">No Maida No Sugar</Link></li>
             <li><Link to="/cake-studio" className="hover:text-primary">Cake Studio</Link></li>
+
             <li><Link to="/our-kitchen" className="hover:text-primary">Our Kitchen</Link></li>
             <li><Link to="/about" className="hover:text-primary">About</Link></li>
             <li><Link to="/serviceability" className="hover:text-primary">Delivery Areas</Link></li>
