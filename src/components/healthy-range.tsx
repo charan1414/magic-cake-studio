@@ -1,17 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ArrowRight, Leaf, ShoppingBag } from "lucide-react";
+import { ArrowRight, Flame, Leaf, ShoppingBag, Sparkles, Wheat } from "lucide-react";
 import { toast } from "sonner";
 import { Reveal, Eyebrow } from "@/components/motion-primitives";
+import { NotifyMeButton } from "@/components/notify-me";
 import { useCart } from "@/lib/cart-store";
+import { sortRows } from "@/lib/inventory";
 import {
   HEALTHY_HERO,
   healthyBadgeMeta,
   healthyImage,
   healthyPricing,
   useHealthyProducts,
+  useHealthySettings,
+  type HealthyBlock,
   type HealthyProduct,
 } from "@/lib/healthy";
+
 
 /** Cinematic banner for the No Maida No Sugar collection. */
 export function HealthyBanner({ compact = false }: { compact?: boolean }) {
@@ -110,26 +115,38 @@ export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; i
             <p className="font-display text-3xl gold-text">₹{price.toLocaleString("en-IN")}</p>
             {saved > 0 && <p className="text-[11px] text-emerald-400">You save ₹{saved.toLocaleString("en-IN")}</p>}
           </div>
-          <button
-            disabled={out}
-            onClick={() => {
-              add({ slug: `healthy-${product.slug}`, name: product.name, price, image: healthyImage(product), variant: "No Maida · No Sugar" });
-              toast.success(`${product.name} added to cart`);
-            }}
-            className="btn-gold btn-gold-hover inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <ShoppingBag className="h-3.5 w-3.5" /> {out ? "Sold out" : "Add to Cart"}
-          </button>
+          {out ? (
+            <NotifyMeButton slug={product.slug} productName={product.name} />
+          ) : (
+            <button
+              onClick={() => {
+                add({ slug: `healthy-${product.slug}`, name: product.name, price, image: healthyImage(product), variant: "No Maida · No Sugar" });
+                toast.success(`${product.name} added to cart`);
+              }}
+              className="btn-gold btn-gold-hover inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" /> Add to Cart
+            </button>
+          )}
         </div>
       </div>
     </motion.article>
   );
 }
 
-/** Full collection grid, CMS-driven. */
+/** Full collection grid, CMS-driven with admin-controlled sorting. */
 export function HealthySection({ limit }: { limit?: number }) {
   const { items, loading } = useHealthyProducts();
-  const list = limit ? items.slice(0, limit) : items;
+  const { settings } = useHealthySettings();
+
+  const ordered = sortRows(
+    items.map((p) => {
+      const { price, mrp } = healthyPricing(p);
+      return { ...p, labels: p.badges ?? [], price, mrp: mrp ?? price };
+    }),
+    settings.sort_mode,
+  );
+  const list = limit ? ordered.slice(0, limit) : ordered;
 
   if (!loading && list.length === 0) return null;
 
@@ -165,3 +182,89 @@ export function HealthySection({ limit }: { limit?: number }) {
     </section>
   );
 }
+
+function BlockGrid({ blocks, cols }: { blocks: HealthyBlock[]; cols: string }) {
+  return (
+    <div className={`mt-12 grid gap-5 ${cols}`}>
+      {blocks.map((b, i) => (
+        <Reveal key={`${b.title}-${i}`} delay={i * 0.06}>
+          <div className="h-full rounded-2xl border border-border/60 bg-card/50 p-6 transition-colors hover:border-emerald-400/40">
+            <p className="font-display text-2xl text-cream">{b.title}</p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
+          </div>
+        </Reveal>
+      ))}
+    </div>
+  );
+}
+
+/** Cinematic CMS-driven storytelling sections: ingredients, nutrition, process. */
+export function HealthyStory() {
+  const { settings, loading } = useHealthySettings();
+  if (loading) return null;
+  const { ingredients, nutrition, process } = settings;
+
+  return (
+    <>
+      {ingredients.length > 0 && (
+        <section className="border-y border-border/60 bg-black/30 py-24">
+          <div className="container-luxe">
+            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.3em] text-emerald-300">
+              <Wheat className="h-3.5 w-3.5" /> Ingredients
+            </span>
+            <h2 className="mt-6 max-w-2xl font-display text-5xl leading-tight text-cream">
+              {settings.ingredients_title}
+            </h2>
+            <BlockGrid blocks={ingredients} cols="md:grid-cols-2 lg:grid-cols-4" />
+          </div>
+        </section>
+      )}
+
+      {nutrition.length > 0 && (
+        <section className="container-luxe py-24">
+          <span className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.3em] text-primary">
+            <Flame className="h-3.5 w-3.5" /> Nutrition
+          </span>
+          <h2 className="mt-6 max-w-2xl font-display text-5xl leading-tight text-cream">
+            {settings.nutrition_title}
+          </h2>
+          <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {nutrition.map((n, i) => (
+              <Reveal key={`${n.title}-${i}`} delay={i * 0.06}>
+                <div className="h-full rounded-2xl border border-border/60 bg-gradient-to-b from-card/70 to-card/20 p-7 text-center">
+                  <p className="font-display text-5xl gold-text">{n.title}</p>
+                  <p className="mt-3 text-sm text-muted-foreground">{n.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {process.length > 0 && (
+        <section className="border-t border-border/60 py-24">
+          <div className="container-luxe">
+            <span className="inline-flex items-center gap-2 rounded-full border border-cream/25 bg-white/5 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.3em] text-cream/80">
+              <Sparkles className="h-3.5 w-3.5" /> The craft
+            </span>
+            <h2 className="mt-6 max-w-2xl font-display text-5xl leading-tight text-cream">
+              {settings.process_title}
+            </h2>
+            <div className="mt-12 grid gap-5 md:grid-cols-3">
+              {process.map((s, i) => (
+                <Reveal key={`${s.title}-${i}`} delay={i * 0.08}>
+                  <div className="relative h-full rounded-2xl border border-border/60 bg-card/50 p-7">
+                    <span className="font-display text-6xl leading-none text-primary/25">0{i + 1}</span>
+                    <p className="mt-4 font-display text-2xl text-cream">{s.title}</p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+    </>
+  );
+}
+

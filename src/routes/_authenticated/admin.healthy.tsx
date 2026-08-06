@@ -198,6 +198,179 @@ function AdminHealthy() {
           {!loading && items.length === 0 && <p className="text-sm text-muted-foreground">No healthy products yet — add your first one.</p>}
         </div>
       </section>
+
+      <StorefrontPanel />
+      <NotifyInbox />
     </div>
   );
 }
+
+/** Storefront sorting + cinematic content blocks for the healthy range. */
+function StorefrontPanel() {
+  const { settings, setSettings, refresh } = useHealthySettings();
+  const [busy, setBusy] = useState(false);
+
+  const setBlock = (key: "ingredients" | "nutrition" | "process", i: number, p: Partial<HealthyBlock>) =>
+    setSettings((s) => ({ ...s, [key]: s[key].map((b, idx) => (idx === i ? { ...b, ...p } : b)) }));
+  const addBlock = (key: "ingredients" | "nutrition" | "process") =>
+    setSettings((s) => ({ ...s, [key]: [...s[key], { title: "New block", body: "" }] }));
+  const removeBlock = (key: "ingredients" | "nutrition" | "process", i: number) =>
+    setSettings((s) => ({ ...s, [key]: s[key].filter((_, idx) => idx !== i) }));
+
+  const saveSettings = async () => {
+    setBusy(true);
+    const { error } = await supabase.from("healthy_settings").upsert({ id: true, ...settings }, { onConflict: "id" });
+    setBusy(false);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Storefront updated");
+      refresh();
+    }
+  };
+
+  const groups: [string, "ingredients" | "nutrition" | "process", "ingredients_title" | "nutrition_title" | "process_title"][] = [
+    ["Ingredients", "ingredients", "ingredients_title"],
+    ["Nutrition highlights", "nutrition", "nutrition_title"],
+    ["How it's made", "process", "process_title"],
+  ];
+
+  return (
+    <section className="container-luxe pb-24">
+      <div className="rounded-2xl border border-border/60 bg-card/30 p-6">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <Eyebrow>Storefront</Eyebrow>
+            <h2 className="mt-2 font-display text-3xl text-cream">Menu sorting & page content</h2>
+            <p className="mt-2 text-sm text-muted-foreground">Promote items and rewrite the cinematic sections without touching code.</p>
+          </div>
+          <button onClick={saveSettings} disabled={busy} className="btn-gold btn-gold-hover inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold disabled:opacity-60">
+            <Save className="h-3.5 w-3.5" /> {busy ? "Saving…" : "Save storefront"}
+          </button>
+        </div>
+
+        <div className="mt-6 max-w-sm">
+          <Select label="Menu sorting" value={settings.sort_mode} onChange={(v) => setSettings((s) => ({ ...s, sort_mode: v }))} options={SORT_MODES} />
+        </div>
+
+        <div className="mt-8 space-y-8">
+          {groups.map(([label, key, titleKey]) => (
+            <div key={key}>
+              <p className="eyebrow mb-2">{label}</p>
+              <Text label="Section heading" value={settings[titleKey]} onChange={(v) => setSettings((s) => ({ ...s, [titleKey]: v }))} />
+              <div className="mt-3 space-y-3">
+                {settings[key].map((b, i) => (
+                  <div key={i} className="grid gap-3 rounded-xl border border-border/50 p-4 md:grid-cols-[1fr_2fr_auto]">
+                    <Text label="Title" value={b.title} onChange={(v) => setBlock(key, i, { title: v })} />
+                    <TextArea label="Body" rows={2} value={b.body} onChange={(v) => setBlock(key, i, { body: v })} />
+                    <button onClick={() => removeBlock(key, i)} className="self-end pb-2 text-xs text-muted-foreground hover:text-destructive">
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => addBlock(key)} className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-border/60 px-3.5 py-2 text-xs text-cream/85 hover:border-primary/60 hover:text-primary">
+                <Plus className="h-3.5 w-3.5" /> Add block
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+type NotifyRow = {
+  id: string;
+  slug: string;
+  product_name: string | null;
+  email: string | null;
+  phone: string | null;
+  notified_at: string | null;
+  created_at: string;
+};
+
+/** Waitlist captured from out-of-stock "Notify me" forms. */
+function NotifyInbox() {
+  const [rows, setRows] = useState<NotifyRow[]>([]);
+
+  const load = async () => {
+    const { data } = await supabase.from("notify_requests").select("*").order("created_at", { ascending: false }).limit(100);
+    setRows((data ?? []) as NotifyRow[]);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const markNotified = async (row: NotifyRow) => {
+    const { error } = await supabase.from("notify_requests").update({ notified_at: new Date().toISOString() }).eq("id", row.id);
+    if (error) toast.error(error.message);
+    else {
+      toast.success("Marked as notified");
+      load();
+    }
+  };
+
+  const contactLink = (row: NotifyRow) => {
+    const msg = encodeURIComponent(`Good news! ${row.product_name ?? "Your item"} from C & It's Magic is back in stock.`);
+    if (row.phone) return `https://wa.me/91${row.phone.slice(-10)}?text=${msg}`;
+    return `mailto:${row.email}?subject=${encodeURIComponent("Back in stock — C & It's Magic")}&body=${msg}`;
+  };
+
+  return (
+    <section className="container-luxe pb-24">
+      <div className="rounded-2xl border border-border/60 bg-card/30 p-6">
+        <div className="flex items-center gap-3">
+          <BellRing className="h-5 w-5 text-primary" />
+          <h2 className="font-display text-3xl text-cream">Notify-me waitlist</h2>
+          <span className="rounded-full border border-border/60 px-2.5 py-1 text-[11px] text-muted-foreground">{rows.filter((r) => !r.notified_at).length} pending</span>
+        </div>
+        <div className="mt-5 overflow-x-auto">
+          <table className="min-w-full text-sm">
+            <thead className="text-left text-[11px] uppercase tracking-wider text-muted-foreground">
+              <tr>
+                <th className="py-2 pr-4">Product</th>
+                <th className="py-2 pr-4">Contact</th>
+                <th className="py-2 pr-4">Requested</th>
+                <th className="py-2 pr-4">Status</th>
+                <th className="py-2" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/40">
+              {rows.map((r) => (
+                <tr key={r.id}>
+                  <td className="py-3 pr-4 text-cream">{r.product_name ?? r.slug}</td>
+                  <td className="py-3 pr-4 text-muted-foreground">{r.email ?? r.phone}</td>
+                  <td className="py-3 pr-4 text-xs text-muted-foreground">{new Date(r.created_at).toLocaleString("en-IN")}</td>
+                  <td className="py-3 pr-4">
+                    <span className={`rounded-full border px-2.5 py-1 text-[10px] uppercase ${r.notified_at ? "border-emerald-400/50 text-emerald-300" : "border-amber-400/50 text-amber-300"}`}>
+                      {r.notified_at ? "Notified" : "Pending"}
+                    </span>
+                  </td>
+                  <td className="py-3">
+                    <div className="flex gap-2">
+                      <a href={contactLink(r)} target="_blank" rel="noreferrer" className="rounded-full border border-border/60 px-3 py-1.5 text-[11px] text-cream/85 hover:border-primary/60 hover:text-primary">
+                        Confirm availability
+                      </a>
+                      {!r.notified_at && (
+                        <button onClick={() => markNotified(r)} className="rounded-full border border-border/60 px-3 py-1.5 text-[11px] text-cream/85 hover:border-primary/60 hover:text-primary">
+                          Mark notified
+                        </button>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+              {rows.length === 0 && (
+                <tr>
+                  <td colSpan={5} className="py-6 text-sm text-muted-foreground">No requests yet.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  );
+}
+

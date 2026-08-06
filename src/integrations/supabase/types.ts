@@ -272,6 +272,42 @@ export type Database = {
         }
         Relationships: []
       }
+      healthy_settings: {
+        Row: {
+          id: boolean
+          ingredients: Json
+          ingredients_title: string
+          nutrition: Json
+          nutrition_title: string
+          process: Json
+          process_title: string
+          sort_mode: string
+          updated_at: string
+        }
+        Insert: {
+          id?: boolean
+          ingredients?: Json
+          ingredients_title?: string
+          nutrition?: Json
+          nutrition_title?: string
+          process?: Json
+          process_title?: string
+          sort_mode?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: boolean
+          ingredients?: Json
+          ingredients_title?: string
+          nutrition?: Json
+          nutrition_title?: string
+          process?: Json
+          process_title?: string
+          sort_mode?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_logs: {
         Row: {
           channel: string
@@ -318,6 +354,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      notify_requests: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+          notified_at: string | null
+          phone: string | null
+          product_name: string | null
+          slug: string
+          source: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          notified_at?: string | null
+          phone?: string | null
+          product_name?: string | null
+          slug: string
+          source?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+          notified_at?: string | null
+          phone?: string | null
+          product_name?: string | null
+          slug?: string
+          source?: string
+        }
+        Relationships: []
       }
       offers: {
         Row: {
@@ -527,6 +596,45 @@ export type Database = {
           total?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      price_history: {
+        Row: {
+          changed_by: string | null
+          created_at: string
+          id: string
+          name: string | null
+          new_discount: number | null
+          new_price: number | null
+          previous_discount: number | null
+          previous_price: number | null
+          slug: string
+          source: string
+        }
+        Insert: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          new_discount?: number | null
+          new_price?: number | null
+          previous_discount?: number | null
+          previous_price?: number | null
+          slug: string
+          source?: string
+        }
+        Update: {
+          changed_by?: string | null
+          created_at?: string
+          id?: string
+          name?: string | null
+          new_discount?: number | null
+          new_price?: number | null
+          previous_discount?: number | null
+          previous_price?: number | null
+          slug?: string
+          source?: string
         }
         Relationships: []
       }

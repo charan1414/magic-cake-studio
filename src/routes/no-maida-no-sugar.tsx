@@ -1,20 +1,82 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Leaf, Wheat, Droplets, HeartPulse } from "lucide-react";
-import { HealthyBanner, HealthySection } from "@/components/healthy-range";
+import { HealthyBanner, HealthySection, HealthyStory } from "@/components/healthy-range";
 import { Reveal, Eyebrow } from "@/components/motion-primitives";
+
+const URL = "https://magic-cake-studio.lovable.app/no-maida-no-sugar";
+const TITLE = "No Maida No Sugar Cakes & Protein Bars | C & It's Magic";
+const DESC =
+  "Guilt-free cakes, protein bars and granola bars baked with whole grains, jaggery and dates — zero maida, zero refined sugar. Fresh delivery around Malur & Lakkur.";
 
 export const Route = createFileRoute("/no-maida-no-sugar")({
   head: () => ({
     meta: [
-      { title: "No Maida No Sugar — Clean Baking | C & It's Magic" },
-      {
-        name: "description",
-        content: "Whole grain, jaggery and date-sweetened cakes and bars from C & It's Magic. No refined flour, no white sugar — delivered fresh around Malur.",
-      },
-      { property: "og:title", content: "No Maida No Sugar — Clean Baking | C & It's Magic" },
-      { property: "og:description", content: "Guilt-free protein bars, banana cake, carrot cake and seed bars baked without maida or refined sugar." },
+      { title: TITLE },
+      { name: "description", content: DESC },
+      { name: "keywords", content: "no maida cake, sugar free cake Malur, healthy protein bar, jaggery cake, whole wheat bakery Lakkur" },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESC },
       { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "C & It's Magic" },
+      { property: "og:url", content: URL },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESC },
+    ],
+    links: [{ rel: "canonical", href: URL }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "CollectionPage",
+              "@id": URL,
+              name: "No Maida No Sugar",
+              url: URL,
+              description: DESC,
+              isPartOf: { "@type": "WebSite", name: "C & It's Magic", url: "https://magic-cake-studio.lovable.app" },
+            },
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: "https://magic-cake-studio.lovable.app" },
+                { "@type": "ListItem", position: 2, name: "No Maida No Sugar", item: URL },
+              ],
+            },
+            {
+              "@type": "FAQPage",
+              mainEntity: [
+                {
+                  "@type": "Question",
+                  name: "Are these cakes really made without maida and sugar?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "Yes. Every item in the No Maida No Sugar range uses whole wheat, oats, ragi or millet flour and is sweetened only with jaggery, dates, figs or raw honey.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Do the healthy bakes contain preservatives?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "No. They are baked in small batches and dispatched the same day, so nothing needs preservatives.",
+                  },
+                },
+                {
+                  "@type": "Question",
+                  name: "Where do you deliver the healthy range?",
+                  acceptedAnswer: {
+                    "@type": "Answer",
+                    text: "We deliver across serviceable pincodes within roughly 20 km of our Lakkur kitchen, including Malur and surrounding areas.",
+                  },
+                },
+              ],
+            },
+          ],
+        }),
+      },
     ],
   }),
   component: HealthyPage,
@@ -25,6 +87,7 @@ function HealthyPage() {
     <div className="pt-24">
       <HealthyBanner />
       <HealthySection />
+      <HealthyStory />
       <Why />
     </div>
   );

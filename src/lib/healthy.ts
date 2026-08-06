@@ -120,3 +120,43 @@ export function useAllHealthyProducts() {
 
   return { items, loading, refresh, setItems };
 }
+
+export type HealthyBlock = { title: string; body: string };
+
+export type HealthySettings = {
+  sort_mode: string;
+  ingredients_title: string;
+  ingredients: HealthyBlock[];
+  nutrition_title: string;
+  nutrition: HealthyBlock[];
+  process_title: string;
+  process: HealthyBlock[];
+};
+
+export const HEALTHY_SETTINGS_FALLBACK: HealthySettings = {
+  sort_mode: "manual",
+  ingredients_title: "Only real ingredients",
+  ingredients: [],
+  nutrition_title: "Nutrition highlights",
+  nutrition: [],
+  process_title: "How it is made",
+  process: [],
+};
+
+/** CMS-controlled storefront settings for the No Maida No Sugar range. */
+export function useHealthySettings() {
+  const [settings, setSettings] = useState<HealthySettings>(HEALTHY_SETTINGS_FALLBACK);
+  const [loading, setLoading] = useState(true);
+
+  const refresh = useCallback(async () => {
+    const { data } = await supabase.from("healthy_settings").select("*").eq("id", true).maybeSingle();
+    if (data) setSettings({ ...HEALTHY_SETTINGS_FALLBACK, ...(data as unknown as HealthySettings) });
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    refresh();
+  }, [refresh]);
+
+  return { settings, setSettings, loading, refresh };
+}
