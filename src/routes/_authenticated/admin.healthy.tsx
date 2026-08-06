@@ -1,16 +1,19 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
-import { useState } from "react";
-import { Leaf, Plus, Save, Trash2 } from "lucide-react";
+import { useEffect, useState } from "react";
+import { BellRing, Leaf, Plus, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Eyebrow } from "@/components/motion-primitives";
 import { Check, DateTime, Num, Select, Text, TextArea } from "@/components/admin-form";
+import { SORT_MODES } from "@/lib/inventory";
 import {
   HEALTHY_BADGES,
   HEALTHY_STATUSES,
   healthyImage,
   healthyPricing,
   useAllHealthyProducts,
+  useHealthySettings,
+  type HealthyBlock,
   type HealthyProduct,
 } from "@/lib/healthy";
 
