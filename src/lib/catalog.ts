@@ -66,12 +66,18 @@ export type RecommendationRule = {
 
 export const PRODUCT_LABELS = [
   { key: "best-seller", label: "Best Seller", emoji: "🔥" },
-  { key: "customer-favorite", label: "Customer Favorite", emoji: "⭐" },
   { key: "new-arrival", label: "New Arrival", emoji: "🆕" },
+  { key: "featured", label: "Featured", emoji: "✨" },
+  { key: "trending", label: "Trending", emoji: "📈" },
+  { key: "healthy-choice", label: "Healthy Choice", emoji: "🌿" },
+  { key: "chef-recommendation", label: "Chef Recommended", emoji: "❤️" },
+  { key: "limited-edition", label: "Limited Edition", emoji: "🎯" },
+  { key: "premium-choice", label: "Premium", emoji: "🥇" },
+  { key: "seasonal", label: "Seasonal", emoji: "🍂" },
+  { key: "customer-favorite", label: "Customer Favorite", emoji: "⭐" },
   { key: "limited-offer", label: "Limited Offer", emoji: "🎉" },
-  { key: "chef-recommendation", label: "Chef's Recommendation", emoji: "❤️" },
-  { key: "premium-choice", label: "Premium Choice", emoji: "🥇" },
 ];
+
 
 export const UPSELL_TAGS = [
   "Best Seller",

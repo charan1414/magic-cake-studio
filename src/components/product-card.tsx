@@ -6,6 +6,7 @@ import type { Product } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { supabase } from "@/integrations/supabase/client";
 import { useCatalog, pricingFor, labelMeta } from "@/lib/catalog";
+import { NotifyMeButton } from "@/components/notify-me";
 
 type StockStatus = "in" | "low" | "out";
 
@@ -135,20 +136,22 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               </div>
             );
           })()}
+          {stock === "out" ? (
+            <NotifyMeButton slug={product.slug} productName={product.name} source="catalog" />
+          ) : (
           <button
-            disabled={stock === "out"}
             onClick={() => {
-              if (stock === "out") return;
               const isCake = product.category === "cakes" || product.category === "seasonal-special";
               const price = pricing.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
               const variant = isCake ? "500 g" : product.unitLabel;
               add({ slug, name: product.name, price, image: product.image, variant });
             }}
-            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-gold btn-gold-hover inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-semibold"
           >
-            <Plus className="h-3.5 w-3.5" /> {stock === "out" ? "Sold out" : "Add"}
+            <Plus className="h-3.5 w-3.5" /> Add
           </button>
+          )}
         </div>
 
       </div>
