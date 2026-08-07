@@ -295,9 +295,30 @@ function Checkout() {
           </ul>
           <dl className="mt-5 space-y-3 text-sm">
             <Row k="Subtotal" v={`₹${subtotal.toLocaleString("en-IN")}`} />
+            {firstOrderOff > 0 && (
+              <Row k={`First order ${loyalty.firstOrderPercent}% off`} v={`− ₹${firstOrderOff.toLocaleString("en-IN")}`} accent />
+            )}
+            {loyaltyOff > 0 && reward && <Row k={reward.label} v={`− ₹${loyaltyOff.toLocaleString("en-IN")}`} accent />}
             <Row k="Delivery" v={service?.ok ? (delivery === 0 ? "Free" : `₹${delivery}`) : "—"} />
             <Row k="Taxes (est.)" v={`₹${tax.toLocaleString("en-IN")}`} />
           </dl>
+
+          {user && (
+            <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+              <p className="text-[11px] uppercase tracking-widest text-primary">Loyalty card</p>
+              <p className="mt-1.5 text-xs text-cream">
+                This is order #{loyalty.orderCount + 1}.{" "}
+                {loyaltyOff > 0
+                  ? "Your reward is applied automatically."
+                  : reward
+                    ? `Add ₹${(reward.minSubtotal - subtotal).toLocaleString("en-IN")} more to unlock ₹${reward.amount} off.`
+                    : nextMilestone(loyalty.orderCount)
+                      ? `Next reward at order #${nextMilestone(loyalty.orderCount)!.orderNumber} — ₹${nextMilestone(loyalty.orderCount)!.amount} off.`
+                      : "You've claimed every loyalty reward — thank you."}
+              </p>
+            </div>
+          )}
+
           <div className="my-5 h-px bg-border/60" />
           <div className="flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
