@@ -529,6 +529,8 @@ export type Database = {
           delivery_matched_address: string | null
           delivery_road_distance_km: number | null
           delivery_type: string
+          discount: number
+          discount_label: string | null
           eta_minutes: number | null
           id: string
           inventory_decremented_at: string | null
@@ -556,6 +558,8 @@ export type Database = {
           delivery_matched_address?: string | null
           delivery_road_distance_km?: number | null
           delivery_type?: string
+          discount?: number
+          discount_label?: string | null
           eta_minutes?: number | null
           id?: string
           inventory_decremented_at?: string | null
@@ -583,6 +587,8 @@ export type Database = {
           delivery_matched_address?: string | null
           delivery_road_distance_km?: number | null
           delivery_type?: string
+          discount?: number
+          discount_label?: string | null
           eta_minutes?: number | null
           id?: string
           inventory_decremented_at?: string | null
@@ -739,6 +745,8 @@ export type Database = {
           avatar_url: string | null
           birthday: string | null
           created_at: string
+          first_order_discount_percent: number
+          first_order_discount_used: boolean
           full_name: string | null
           id: string
           loyalty_points: number
@@ -749,6 +757,8 @@ export type Database = {
           avatar_url?: string | null
           birthday?: string | null
           created_at?: string
+          first_order_discount_percent?: number
+          first_order_discount_used?: boolean
           full_name?: string | null
           id: string
           loyalty_points?: number
@@ -759,6 +769,8 @@ export type Database = {
           avatar_url?: string | null
           birthday?: string | null
           created_at?: string
+          first_order_discount_percent?: number
+          first_order_discount_used?: boolean
           full_name?: string | null
           id?: string
           loyalty_points?: number
@@ -830,6 +842,33 @@ export type Database = {
           sample_areas?: string
           state?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      signup_leads: {
+        Row: {
+          created_at: string
+          discount_percent: number
+          email: string | null
+          id: string
+          phone: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          discount_percent?: number
+          email?: string | null
+          id?: string
+          phone?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          discount_percent?: number
+          email?: string | null
+          id?: string
+          phone?: string | null
+          user_id?: string | null
         }
         Relationships: []
       }
