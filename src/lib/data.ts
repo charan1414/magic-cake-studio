@@ -76,6 +76,15 @@ import pepperChickenAsset from "@/assets/malabar-pepper-chicken.png.asset.json";
 import whiteForestAsset from "@/assets/white-forest-cake.jpg.asset.json";
 import cfcBucketAsset from "@/assets/cfc-fried-bucket.png.asset.json";
 import cfcCloseup from "@/assets/cfc-closeup.jpg";
+import dsAppleCrumble from "@/assets/ds-apple-crumble.jpg";
+import dsChocoLava from "@/assets/ds-choco-lava.jpg";
+import dsChurros from "@/assets/ds-churros.jpg";
+import cakeNyCheesecake from "@/assets/cake-ny-cheesecake.jpg";
+import cakeBurntCheesecake from "@/assets/cake-burnt-cheesecake.jpg";
+import pzCheeseCorn from "@/assets/pz-cheese-corn.jpg";
+import pzMargherita from "@/assets/pz-margherita.jpg";
+import pzVeggie from "@/assets/pz-veggie.jpg";
+import pzChicken from "@/assets/pz-chicken.jpg";
 
 
 
@@ -139,6 +148,7 @@ export const CATEGORIES = [
   { slug: "cookies", name: "Cookies", tagline: "Baked fresh, boxed with care" },
   { slug: "cupcakes", name: "Cupcakes", tagline: "Petite indulgence" },
   { slug: "desserts", name: "Desserts", tagline: "Sweet finales" },
+  { slug: "pizza", name: "Pizza", tagline: "Stone-baked, stretched by hand" },
   { slug: "fried-chicken", name: "Fried Chicken", tagline: "Crisp. Golden. Unmatched." },
   { slug: "burgers", name: "Burgers", tagline: "Stacked to perfection" },
   { slug: "main-course", name: "Main Course", tagline: "Slow-crafted classics" },
@@ -190,6 +200,9 @@ export const PRODUCTS: Product[] = [
   { slug: "white-forest-cake", name: "White Forest Cake", category: "cakes", price: 369, badge: "NEW", description: "The classic Black Forest, reimagined in white — layers of soft vanilla sponge, whipped cream, and delicate white chocolate shavings, with a hint of cherry.", image: whiteForestAsset.url, veg: true, prepMins: 1440, calories: 370, ingredients: ["Vanilla sponge", "Whipped cream", "White chocolate shavings", "Cherries"] },
 
 
+  { slug: "ny-cheesecake", name: "New York Classic Cheesecake", category: "cakes", price: 899, unitLabel: "1 kg", badge: "NEW", description: "Tall, dense and impossibly creamy — slow-baked cream cheese on a buttered graham crust.", image: cakeNyCheesecake, veg: true, chefPick: true, prepMins: 1440, calories: 450, ingredients: ["Cream cheese", "Graham crust", "Eggs", "Vanilla", "Cream"] },
+  { slug: "burnt-cheesecake", name: "Burnt Cheesecake", category: "cakes", price: 929, unitLabel: "1 kg", badge: "NEW", description: "Basque-style, caramelised to a deep bronze top with a molten, custardy centre.", image: cakeBurntCheesecake, veg: true, bestSeller: true, prepMins: 1440, calories: 470, ingredients: ["Cream cheese", "Cream", "Eggs", "Sugar", "Vanilla"] },
+
   // Cupcakes (per piece)
   { slug: "red-velvet-cupcake", name: "Red Velvet Cupcake", category: "cupcakes", price: 49, description: "Cocoa-tinted crumb crowned with cream cheese frosting.", image: redVelvetCupcake, veg: true, prepMins: 60, calories: 260, ingredients: ["Cocoa", "Buttermilk", "Cream cheese", "Butter"] },
   { slug: "brownie-cupcake", name: "Brownie Cupcake", category: "cupcakes", price: 69, description: "Fudgy brownie in a cupcake shell, ganache glaze.", image: brownieCupcake, veg: true, chefPick: true, prepMins: 60, calories: 320, ingredients: ["Dark chocolate", "Butter", "Eggs", "Walnuts"] },
@@ -200,6 +213,16 @@ export const PRODUCTS: Product[] = [
   { slug: "tiramisu", name: "Classic Tiramisu", category: "desserts", price: 249, description: "Espresso-soaked ladyfingers, mascarpone cream, cocoa dust.", image: tiramisu, veg: true, chefPick: true, prepMins: 45, calories: 330, ingredients: ["Mascarpone", "Espresso", "Ladyfingers", "Cocoa"] },
   { slug: "gulab-jamun", name: "Ghee Gulab Jamun", category: "desserts", price: 15, description: "Golden, saffron-scented, drenched in rose syrup. Priced per piece.", image: gulabJamun, veg: true, prepMins: 20, calories: 280, ingredients: ["Khoya", "Ghee", "Saffron", "Rose", "Cardamom"] },
   { slug: "bomboloni", name: "Bomboloni", category: "desserts", price: 99, description: "Cloud-soft Italian doughnuts filled with vanilla custard. Per piece.", image: bomboloni, veg: true, prepMins: 25, calories: 290, ingredients: ["Enriched dough", "Vanilla custard", "Sugar"] },
+
+  { slug: "apple-crumble", name: "Apple Crumble with Vanilla Ice Cream", category: "desserts", price: 149, badge: "NEW", description: "Warm cinnamon apples under a golden butter crumble, served with vanilla ice cream.", image: dsAppleCrumble, veg: true, chefPick: true, prepMins: 25, calories: 380, ingredients: ["Apple", "Cinnamon", "Butter crumble", "Vanilla ice cream"] },
+  { slug: "choco-lava-cake", name: "Choco Lava Cake", category: "desserts", price: 49, badge: "NEW", description: "Dark chocolate cake with a molten centre that spills at the first spoon.", image: dsChocoLava, veg: true, bestSeller: true, prepMins: 20, calories: 340, ingredients: ["Dark chocolate", "Butter", "Eggs", "Cocoa"] },
+  { slug: "churros-choco-dip", name: "Churros with Choco Dip", category: "desserts", price: 99, badge: "NEW", description: "Cinnamon-sugar churros, crisp outside and airy within, with warm chocolate dip.", image: dsChurros, veg: true, prepMins: 20, calories: 360, ingredients: ["Choux dough", "Cinnamon sugar", "Dark chocolate", "Cream"] },
+
+  // Pizza (hand-stretched, stone-baked)
+  { slug: "pizza-cheese-corn", name: "Cheese & Corn Regular", category: "pizza", price: 99, description: "Molten mozzarella and sweet corn on a hand-stretched, stone-baked base.", image: pzCheeseCorn, veg: true, prepMins: 25, calories: 620, ingredients: ["Mozzarella", "Sweet corn", "Tomato sauce", "Pizza dough"] },
+  { slug: "pizza-margherita", name: "Margherita", category: "pizza", price: 89, description: "The purist's pizza — San Marzano-style tomato, mozzarella, fresh basil.", image: pzMargherita, veg: true, bestSeller: true, prepMins: 25, calories: 580, ingredients: ["Mozzarella", "Tomato", "Basil", "Olive oil", "Pizza dough"] },
+  { slug: "pizza-veggie-overloaded", name: "Veggie Overloaded", category: "pizza", price: 119, description: "Piled with peppers, onion, olives, corn and mushroom under a blanket of cheese.", image: pzVeggie, veg: true, chefPick: true, prepMins: 28, calories: 680, ingredients: ["Bell peppers", "Onion", "Olives", "Sweet corn", "Mushroom", "Mozzarella"] },
+  { slug: "pizza-chicken", name: "Chicken Pizza", category: "pizza", price: 139, description: "Grilled herbed chicken, mozzarella and a whisper of chilli on a golden crust.", image: pzChicken, veg: false, bestSeller: true, prepMins: 28, calories: 720, ingredients: ["Grilled chicken", "Mozzarella", "Tomato sauce", "Herbs"] },
 
   // Fried Chicken
   { slug: "fire-wings", name: "Golden Fire Wings", category: "fried-chicken", price: 349, description: "Twice-fried wings tossed in house-smoked gochujang glaze.", image: wings, veg: false, bestSeller: true, prepMins: 25, calories: 480, ingredients: ["Chicken wings", "Gochujang", "Garlic", "Honey"] },
