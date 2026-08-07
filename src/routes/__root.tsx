@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteHeader, SiteFooter, CartDrawer, AuthListener, SmoothScroll } from "../components/site-chrome";
+import { SignupPopup } from "../components/signup-popup";
 import { Toaster } from "sonner";
 
 function NotFoundComponent() {
@@ -130,6 +131,7 @@ function RootComponent() {
       </main>
       <SiteFooter />
       <CartDrawer />
+      <SignupPopup />
       <Toaster position="top-center" theme="dark" richColors />
     </QueryClientProvider>
   );

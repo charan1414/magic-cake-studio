@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
+import { useLoyalty, LOYALTY_LADDER, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/_authenticated/account")({
   head: () => ({
@@ -28,6 +29,7 @@ function AccountPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
+  const loyalty = useLoyalty(user?.id);
 
   useEffect(() => {
     if (!user) return;
@@ -81,6 +83,56 @@ function AccountPage() {
         <Stat icon={<Cake className="h-4 w-4" />} label="Saved cake designs" value={designs.length} />
         <Stat icon={<Package className="h-4 w-4" />} label="Orders" value={orders.length} />
       </section>
+
+      <section className="container-luxe pb-8">
+        <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="eyebrow">Loyalty card</p>
+              <h2 className="mt-1.5 font-display text-3xl text-cream">
+                Order #{loyalty.orderCount + 1} <span className="italic gold-text">rewards</span>
+              </h2>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Saved so far · <span className="font-display text-2xl gold-text">₹{loyalty.earned.toLocaleString("en-IN")}</span>
+            </p>
+          </div>
+
+          <div className="mt-6 grid gap-3 sm:grid-cols-4">
+            {LOYALTY_LADDER.map((r) => {
+              const done = loyalty.orderCount >= r.orderNumber;
+              const current = loyalty.orderCount + 1 === r.orderNumber;
+              return (
+                <div
+                  key={r.orderNumber}
+                  className={`rounded-2xl border p-4 ${current ? "border-primary bg-primary/10" : done ? "border-border/60 bg-card/40 opacity-60" : "border-border/60 bg-card/40"}`}
+                >
+                  <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
+                    Order #{r.orderNumber}
+                  </p>
+                  <p className="mt-2 font-display text-2xl text-cream">₹{r.amount} off</p>
+                  <p className="mt-1 text-[11px] text-muted-foreground">
+                    {r.minSubtotal > 0 ? `On orders above ₹${r.minSubtotal}` : "No minimum"}
+                  </p>
+                  <p className={`mt-2 text-[11px] font-medium uppercase tracking-wider ${current ? "text-primary" : done ? "text-muted-foreground" : "text-cream/70"}`}>
+                    {done ? "Used" : current ? "Ready to apply" : "Upcoming"}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          <p className="mt-5 text-xs text-muted-foreground">
+            {nextMilestone(loyalty.orderCount)
+              ? `Next milestone: order #${nextMilestone(loyalty.orderCount)!.orderNumber} — ₹${nextMilestone(loyalty.orderCount)!.amount} off. Applied automatically at checkout.`
+              : "You've unlocked every loyalty reward. Thank you for ordering with us."}
+            {loyalty.firstOrderPercent > 0 && !loyalty.firstOrderUsed && (
+              <> · Your welcome offer of {loyalty.firstOrderPercent}% off your first order is active.</>
+            )}
+          </p>
+        </div>
+      </section>
+
 
       <section className="container-luxe grid gap-6 pb-12 lg:grid-cols-[2fr_1fr]">
         <div className="rounded-3xl border border-border/60 bg-card/40 p-6">

@@ -4,6 +4,7 @@ import { Search } from "lucide-react";
 import { CATEGORIES, PRODUCTS } from "@/lib/data";
 import { ProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
+import { TrustBadge } from "@/components/trust-badge";
 
 export const Route = createFileRoute("/menu")({
   head: () => ({
@@ -39,6 +40,7 @@ function MenuPage() {
         <p className="mt-6 max-w-xl text-base text-muted-foreground">
           Cakes need a 24-hour head start. Everything else is on your doorstep in around three hours.
         </p>
+        <TrustBadge className="mt-6" />
       </section>
 
       <section className="container-luxe sticky top-20 z-30 pb-4">

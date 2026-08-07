@@ -11,6 +11,7 @@ import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.f
 import { PRODUCTS } from "@/lib/data";
 import { toast } from "sonner";
 import { CheckoutUpsells } from "@/components/checkout-upsells";
+import { useLoyalty, applicableReward, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
@@ -58,10 +59,25 @@ function Checkout() {
   const [meta, setMeta] = useState<Meta | null>(null);
   const [service, setService] = useState<ServiceabilityResult | null>(null);
 
+  const loyalty = useLoyalty(user?.id);
   const subtotal = cartTotal(items);
   const tax = Math.round(subtotal * 0.05);
   const delivery = service?.ok ? service.delivery_fee ?? 0 : 0;
-  const total = subtotal + delivery + tax;
+
+  const reward = user ? applicableReward(loyalty.orderCount, subtotal) : null;
+  const loyaltyOff = reward ? Math.min(reward.amount, subtotal) : 0;
+  const firstOrderEligible =
+    !!user && loyalty.firstOrderPercent > 0 && !loyalty.firstOrderUsed && loyalty.orderCount === 0;
+  const firstOrderOff = firstOrderEligible
+    ? Math.round((subtotal * loyalty.firstOrderPercent) / 100)
+    : 0;
+  const discount = Math.min(loyaltyOff + firstOrderOff, subtotal);
+  const discountLabel = [
+    firstOrderOff > 0 ? `First order ${loyalty.firstOrderPercent}% off` : null,
+    reward && loyaltyOff > 0 ? reward.label : null,
+  ].filter(Boolean).join(" + ") || null;
+  const total = Math.max(0, subtotal - discount) + delivery + tax;
+
 
   const minOrder = meta?.min_order_amount ?? 0;
   const belowMin = subtotal > 0 && subtotal < minOrder;
@@ -115,6 +131,8 @@ function Checkout() {
         payment_method: payment,
         payment_status: "pending",
         eta_minutes: 180,
+        discount,
+        discount_label: discountLabel,
         delivery_distance_km: service.distance_km ?? null,
         delivery_distance_method: "pincode",
       } as never)
@@ -142,10 +160,17 @@ function Checkout() {
       toast.error(itemsErr.message);
       return;
     }
+    if (firstOrderOff > 0) {
+      await supabase
+        .from("profiles")
+        .update({ first_order_discount_used: true } as never)
+        .eq("id", user.id);
+    }
     toast.success(`Order ${order.order_code} placed!`);
     clear();
     navigate({ to: "/track/$orderId", params: { orderId: order.id } });
   };
+
 
   if (items.length === 0) {
     return (
@@ -270,9 +295,30 @@ function Checkout() {
           </ul>
           <dl className="mt-5 space-y-3 text-sm">
             <Row k="Subtotal" v={`₹${subtotal.toLocaleString("en-IN")}`} />
+            {firstOrderOff > 0 && (
+              <Row k={`First order ${loyalty.firstOrderPercent}% off`} v={`− ₹${firstOrderOff.toLocaleString("en-IN")}`} accent />
+            )}
+            {loyaltyOff > 0 && reward && <Row k={reward.label} v={`− ₹${loyaltyOff.toLocaleString("en-IN")}`} accent />}
             <Row k="Delivery" v={service?.ok ? (delivery === 0 ? "Free" : `₹${delivery}`) : "—"} />
             <Row k="Taxes (est.)" v={`₹${tax.toLocaleString("en-IN")}`} />
           </dl>
+
+          {user && (
+            <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-4">
+              <p className="text-[11px] uppercase tracking-widest text-primary">Loyalty card</p>
+              <p className="mt-1.5 text-xs text-cream">
+                This is order #{loyalty.orderCount + 1}.{" "}
+                {loyaltyOff > 0
+                  ? "Your reward is applied automatically."
+                  : reward
+                    ? `Add ₹${(reward.minSubtotal - subtotal).toLocaleString("en-IN")} more to unlock ₹${reward.amount} off.`
+                    : nextMilestone(loyalty.orderCount)
+                      ? `Next reward at order #${nextMilestone(loyalty.orderCount)!.orderNumber} — ₹${nextMilestone(loyalty.orderCount)!.amount} off.`
+                      : "You've claimed every loyalty reward — thank you."}
+              </p>
+            </div>
+          )}
+
           <div className="my-5 h-px bg-border/60" />
           <div className="flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
@@ -304,8 +350,13 @@ function Checkout() {
   );
 }
 
-function Row({ k, v }: { k: string; v: string }) {
-  return <div className="flex items-center justify-between"><dt className="text-muted-foreground">{k}</dt><dd className="text-cream">{v}</dd></div>;
+function Row({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <dt className={accent ? "text-primary" : "text-muted-foreground"}>{k}</dt>
+      <dd className={accent ? "whitespace-nowrap text-primary" : "text-cream"}>{v}</dd>
+    </div>
+  );
 }
 
 function Field({ label, value, onChange, placeholder, className }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; className?: string }) {
