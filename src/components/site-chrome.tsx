@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import { useCart, cartCount } from "@/lib/cart-store";
 import { useAuth } from "@/lib/auth-context";
 import { supabase } from "@/integrations/supabase/client";
+import { claimPendingPromo } from "@/components/signup-popup";
+import { TrustBadge } from "@/components/trust-badge";
 
 const NAV = [
   { to: "/menu", label: "Menu" },
@@ -155,6 +157,8 @@ export function SiteFooter() {
             delivered within 20 km of Lakkur, Malur.
           </p>
           <p className="eyebrow mt-8">Crafted with Passion. Delivered with Magic.</p>
+          <TrustBadge className="mt-5" />
+
         </div>
         <div>
           <p className="eyebrow mb-4">Explore</p>
