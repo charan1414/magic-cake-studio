@@ -39,7 +39,7 @@ function ProductPage() {
   const product = Route.useLoaderData();
   const add = useCart((s) => s.add);
   const [qty, setQty] = useState(1);
-  const isCake = product.category === "cakes" || product.category === "seasonal-special";
+  const isCake = (product.category === "cakes" || product.category === "seasonal-special") && product.unitLabel !== "1 kg";
   const [sizeIdx, setSizeIdx] = useState(0); // default 500 g — most affordable entry
   const size = CAKE_SIZES[sizeIdx];
   const unitPrice = isCake ? cakePrice(product.price, size) : product.price;

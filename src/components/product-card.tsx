@@ -115,7 +115,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
         </div>
         <div className="mt-auto flex items-center justify-between pt-2">
           {(() => {
-            const isCake = product.category === "cakes" || product.category === "seasonal-special";
+            const isCake = (product.category === "cakes" || product.category === "seasonal-special") && product.unitLabel !== "1 kg";
             const displayPrice = pricing.price;
             return (
               <div>
@@ -141,7 +141,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
           ) : (
           <button
             onClick={() => {
-              const isCake = product.category === "cakes" || product.category === "seasonal-special";
+              const isCake = (product.category === "cakes" || product.category === "seasonal-special") && product.unitLabel !== "1 kg";
               const price = pricing.price;
               const slug = isCake ? `${product.slug}-500` : product.slug;
               const variant = isCake ? "500 g" : product.unitLabel;
