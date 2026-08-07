@@ -312,6 +312,7 @@ export function AuthListener() {
     });
     const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
       setUser(session?.user ?? null);
+      if (session?.user) void claimPendingPromo(session.user.id);
     });
     return () => { mounted = false; sub.subscription.unsubscribe(); };
   }, [setUser]);
