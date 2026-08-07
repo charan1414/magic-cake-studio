@@ -9,6 +9,7 @@ import { Reveal, SplitReveal, Eyebrow } from "@/components/motion-primitives";
 import { DBCShowcase } from "@/components/dbc-showcase";
 import { CinematicLoop } from "@/components/cinematic-loop";
 import { HealthyBanner, HealthySection } from "@/components/healthy-range";
+import { TrustBand } from "@/components/trust-badge";
 
 
 export const Route = createFileRoute("/")({
@@ -30,6 +31,7 @@ function HomePage() {
     <>
       <Hero />
       <Marquee />
+      <TrustBand />
       <DBCShowcase />
       <CFCBanner />
       <HealthyBanner compact />
