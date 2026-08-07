@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
+import { useLoyalty, LOYALTY_LADDER, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/_authenticated/account")({
   head: () => ({
@@ -28,6 +29,7 @@ function AccountPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
+  const loyalty = useLoyalty(user?.id);
 
   useEffect(() => {
     if (!user) return;
