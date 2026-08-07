@@ -350,8 +350,13 @@ function Checkout() {
   );
 }
 
-function Row({ k, v }: { k: string; v: string }) {
-  return <div className="flex items-center justify-between"><dt className="text-muted-foreground">{k}</dt><dd className="text-cream">{v}</dd></div>;
+function Row({ k, v, accent }: { k: string; v: string; accent?: boolean }) {
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <dt className={accent ? "text-primary" : "text-muted-foreground"}>{k}</dt>
+      <dd className={accent ? "whitespace-nowrap text-primary" : "text-cream"}>{v}</dd>
+    </div>
+  );
 }
 
 function Field({ label, value, onChange, placeholder, className }: { label: string; value: string; onChange: (v: string) => void; placeholder?: string; className?: string }) {
