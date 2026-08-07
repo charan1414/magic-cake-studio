@@ -11,6 +11,7 @@ import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.f
 import { PRODUCTS } from "@/lib/data";
 import { toast } from "sonner";
 import { CheckoutUpsells } from "@/components/checkout-upsells";
+import { useLoyalty, applicableReward, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/checkout")({
   ssr: false,
@@ -58,10 +59,25 @@ function Checkout() {
   const [meta, setMeta] = useState<Meta | null>(null);
   const [service, setService] = useState<ServiceabilityResult | null>(null);
 
+  const loyalty = useLoyalty(user?.id);
   const subtotal = cartTotal(items);
   const tax = Math.round(subtotal * 0.05);
   const delivery = service?.ok ? service.delivery_fee ?? 0 : 0;
-  const total = subtotal + delivery + tax;
+
+  const reward = user ? applicableReward(loyalty.orderCount, subtotal) : null;
+  const loyaltyOff = reward ? Math.min(reward.amount, subtotal) : 0;
+  const firstOrderEligible =
+    !!user && loyalty.firstOrderPercent > 0 && !loyalty.firstOrderUsed && loyalty.orderCount === 0;
+  const firstOrderOff = firstOrderEligible
+    ? Math.round((subtotal * loyalty.firstOrderPercent) / 100)
+    : 0;
+  const discount = Math.min(loyaltyOff + firstOrderOff, subtotal);
+  const discountLabel = [
+    firstOrderOff > 0 ? `First order ${loyalty.firstOrderPercent}% off` : null,
+    reward && loyaltyOff > 0 ? reward.label : null,
+  ].filter(Boolean).join(" + ") || null;
+  const total = Math.max(0, subtotal - discount) + delivery + tax;
+
 
   const minOrder = meta?.min_order_amount ?? 0;
   const belowMin = subtotal > 0 && subtotal < minOrder;
