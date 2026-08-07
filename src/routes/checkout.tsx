@@ -131,6 +131,8 @@ function Checkout() {
         payment_method: payment,
         payment_status: "pending",
         eta_minutes: 180,
+        discount,
+        discount_label: discountLabel,
         delivery_distance_km: service.distance_km ?? null,
         delivery_distance_method: "pincode",
       } as never)
@@ -158,10 +160,17 @@ function Checkout() {
       toast.error(itemsErr.message);
       return;
     }
+    if (firstOrderOff > 0) {
+      await supabase
+        .from("profiles")
+        .update({ first_order_discount_used: true } as never)
+        .eq("id", user.id);
+    }
     toast.success(`Order ${order.order_code} placed!`);
     clear();
     navigate({ to: "/track/$orderId", params: { orderId: order.id } });
   };
+
 
   if (items.length === 0) {
     return (
