@@ -8,7 +8,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { PinChecker } from "@/components/pin-checker";
 import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.functions";
-import { PRODUCTS } from "@/lib/data";
+import { PRODUCTS, getProduct } from "@/lib/data";
 import { toast } from "sonner";
 import { CheckoutUpsells } from "@/components/checkout-upsells";
 import { useLoyalty, applicableReward, nextMilestone } from "@/lib/loyalty";
