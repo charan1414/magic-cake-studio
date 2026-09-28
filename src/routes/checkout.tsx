@@ -76,7 +76,32 @@ function Checkout() {
     firstOrderOff > 0 ? `First order ${loyalty.firstOrderPercent}% off` : null,
     reward && loyaltyOff > 0 ? reward.label : null,
   ].filter(Boolean).join(" + ") || null;
-  const total = Math.max(0, subtotal - discount) + delivery + tax;
+  const [voucherInput, setVoucherInput] = useState("");
+  const [voucher, setVoucher] = useState<{ code: string; discount: number } | null>(null);
+  const [voucherMsg, setVoucherMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [checkingVoucher, setCheckingVoucher] = useState(false);
+  const applyVoucher = async (codeArg?: string) => {
+    const code = (codeArg ?? voucherInput).trim().toUpperCase();
+    if (!code) return;
+    if (!user) { toast.error("Please sign in to use a voucher"); return; }
+    setCheckingVoucher(true);
+    const slugs = items.map((i) => i.slug);
+    const cats = Array.from(new Set(items.map((i) => getProduct(i.slug)?.category).filter(Boolean))) as string[];
+    const { data, error } = await supabase.rpc("check_voucher" as never, { _code: code, _user_id: user.id, _subtotal: subtotal, _slugs: slugs, _categories: cats } as never);
+    setCheckingVoucher(false);
+    const r = (data as unknown as { ok: boolean; message: string; discount: number; code: string }[] | null)?.[0];
+    if (error || !r) { setVoucherMsg({ ok: false, text: error?.message ?? "Could not check voucher" }); return; }
+    setVoucherInput(code);
+    setVoucherMsg({ ok: r.ok, text: r.message });
+    setVoucher(r.ok ? { code: r.code, discount: Number(r.discount) } : null);
+  };
+  useEffect(() => {
+    const pending = typeof window !== "undefined" ? sessionStorage.getItem("pending_voucher") : null;
+    if (pending && user && subtotal > 0 && !voucher) { sessionStorage.removeItem("pending_voucher"); setVoucherInput(pending); applyVoucher(pending); }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user, subtotal]);
+  const voucherOff = voucher ? Math.min(voucher.discount, Math.max(0, subtotal - discount)) : 0;
+  const total = Math.max(0, subtotal - discount - voucherOff) + delivery + tax;
 
 
   const minOrder = meta?.min_order_amount ?? 0;
@@ -123,7 +148,8 @@ function Checkout() {
         subtotal,
         delivery_fee: delivery,
         tax,
-        total,
+        total: total + voucherOff,
+        voucher_code: voucher?.code ?? null,
         contact_name: contactName,
         contact_phone: contactPhone,
         address: { line1, line2, locality, city, district, pincode: service.pincode, state },
@@ -299,9 +325,29 @@ function Checkout() {
               <Row k={`First order ${loyalty.firstOrderPercent}% off`} v={`− ₹${firstOrderOff.toLocaleString("en-IN")}`} accent />
             )}
             {loyaltyOff > 0 && reward && <Row k={reward.label} v={`− ₹${loyaltyOff.toLocaleString("en-IN")}`} accent />}
+            {voucherOff > 0 && voucher && <Row k={`Voucher ${voucher.code}`} v={`− ₹${voucherOff.toLocaleString("en-IN")}`} accent />}
             <Row k="Delivery" v={service?.ok ? (delivery === 0 ? "Free" : `₹${delivery}`) : "—"} />
             <Row k="Taxes (est.)" v={`₹${tax.toLocaleString("en-IN")}`} />
           </dl>
+
+          <div className="mt-4">
+            <p className="mb-1.5 text-[11px] uppercase tracking-widest text-muted-foreground">Voucher code</p>
+            {voucher ? (
+              <div className="flex items-center justify-between rounded-xl border border-primary/50 bg-primary/10 px-3 py-2 text-sm">
+                <span className="font-medium text-primary">{voucher.code}</span>
+                <button onClick={() => { setVoucher(null); setVoucherMsg(null); setVoucherInput(""); }} className="text-xs text-muted-foreground hover:text-cream">Remove</button>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                <input value={voucherInput} onChange={(e) => setVoucherInput(e.target.value.toUpperCase())} placeholder="e.g. WELCOME100" maxLength={40}
+                  className="min-w-0 flex-1 rounded-xl border border-border bg-input/50 px-3 py-2 text-sm text-cream placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+                <button onClick={() => applyVoucher()} disabled={checkingVoucher || !voucherInput.trim()} className="rounded-xl border border-primary/60 px-4 text-sm font-medium text-primary hover:bg-primary/10 disabled:opacity-50">
+                  {checkingVoucher ? "…" : "Apply"}
+                </button>
+              </div>
+            )}
+            {voucherMsg && <p className={`mt-1.5 text-xs ${voucherMsg.ok ? "text-primary" : "text-destructive"}`}>{voucherMsg.text}</p>}
+          </div>
 
           {user && (
             <div className="mt-4 rounded-2xl border border-primary/30 bg-primary/5 p-4">

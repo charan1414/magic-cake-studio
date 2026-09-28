@@ -5,6 +5,8 @@ import { useState } from "react";
 import cfcCloseup from "@/assets/cfc-closeup.jpg";
 import cfcBucketOpen from "@/assets/cfc-bucket-open.jpg";
 import cfcPlated from "@/assets/cfc-plated.jpg";
+import cfcHeroAsset from "@/assets/cfc-hero.png.asset.json";
+const cfcHero = cfcHeroAsset.url;
 import { CinematicLoop } from "@/components/cinematic-loop";
 import { PinChecker } from "@/components/pin-checker";
 import { ProductCard } from "@/components/product-card";
@@ -52,7 +54,7 @@ function CfcBucketPage() {
     <div className="pb-28 md:pb-0">
       {/* 1 · Hero */}
       <section className="relative isolate flex min-h-[92svh] items-center overflow-hidden">
-        <CinematicLoop frames={[cfcCloseup, cfcBucketOpen, cfcPlated]} duration={12} />
+        <CinematicLoop frames={[cfcHero]} duration={12} />
         <div className="absolute inset-0 bg-gradient-to-b from-ink/70 via-ink/70 to-ink" />
         <div className="container-luxe relative z-10 py-28 text-center">
           <motion.div
@@ -124,7 +126,7 @@ function CfcBucketPage() {
         </div>
         <div className="mt-8 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 md:px-12">
           {[
-            { src: cfcCloseup, alt: "Close-up of the crispy golden crust" },
+            { src: cfcHero, alt: "Crispy fried chicken with fries and dip" },
             { src: cfcBucketOpen, alt: "The bucket being opened, steam rising" },
             { src: cfcPlated, alt: "Fried chicken plated with dips" },
           ].map((g) => (
