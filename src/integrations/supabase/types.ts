@@ -544,6 +544,8 @@ export type Database = {
           total: number
           updated_at: string
           user_id: string
+          voucher_code: string | null
+          voucher_discount: number
         }
         Insert: {
           address?: Json | null
@@ -573,6 +575,8 @@ export type Database = {
           total?: number
           updated_at?: string
           user_id: string
+          voucher_code?: string | null
+          voucher_discount?: number
         }
         Update: {
           address?: Json | null
@@ -602,6 +606,8 @@ export type Database = {
           total?: number
           updated_at?: string
           user_id?: string
+          voucher_code?: string | null
+          voucher_discount?: number
         }
         Relationships: []
       }
@@ -965,6 +971,114 @@ export type Database = {
         }
         Relationships: []
       }
+      voucher_redemptions: {
+        Row: {
+          code: string
+          created_at: string
+          discount: number
+          id: string
+          order_id: string | null
+          user_id: string
+          voucher_id: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          discount?: number
+          id?: string
+          order_id?: string | null
+          user_id: string
+          voucher_id?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          discount?: number
+          id?: string
+          order_id?: string | null
+          user_id?: string
+          voucher_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "voucher_redemptions_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "voucher_redemptions_voucher_id_fkey"
+            columns: ["voucher_id"]
+            isOneToOne: false
+            referencedRelation: "vouchers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      vouchers: {
+        Row: {
+          active: boolean
+          categories: string[]
+          code: string
+          created_at: string
+          description: string
+          discount_type: string
+          discount_value: number
+          expires_at: string | null
+          id: string
+          max_discount: number | null
+          min_order: number
+          per_user_limit: number
+          product_slugs: string[]
+          show_publicly: boolean
+          starts_at: string | null
+          title: string
+          updated_at: string
+          usage_limit: number | null
+        }
+        Insert: {
+          active?: boolean
+          categories?: string[]
+          code: string
+          created_at?: string
+          description?: string
+          discount_type?: string
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_discount?: number | null
+          min_order?: number
+          per_user_limit?: number
+          product_slugs?: string[]
+          show_publicly?: boolean
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+          usage_limit?: number | null
+        }
+        Update: {
+          active?: boolean
+          categories?: string[]
+          code?: string
+          created_at?: string
+          description?: string
+          discount_type?: string
+          discount_value?: number
+          expires_at?: string | null
+          id?: string
+          max_discount?: number | null
+          min_order?: number
+          per_user_limit?: number
+          product_slugs?: string[]
+          show_publicly?: boolean
+          starts_at?: string | null
+          title?: string
+          updated_at?: string
+          usage_limit?: number | null
+        }
+        Relationships: []
+      }
       wishlist_items: {
         Row: {
           created_at: string
@@ -991,6 +1105,21 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_voucher: {
+        Args: {
+          _categories: string[]
+          _code: string
+          _slugs: string[]
+          _subtotal: number
+          _user_id: string
+        }
+        Returns: {
+          code: string
+          discount: number
+          message: string
+          ok: boolean
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
