@@ -103,6 +103,8 @@ function AuthPage() {
             Continue with Google
           </button>
 
+          <PhoneOtp onDone={() => navigate({ to: "/account" })} />
+
           <div className="mb-6 flex items-center gap-3 text-xs text-muted-foreground">
             <span className="h-px flex-1 bg-border" /> or with email <span className="h-px flex-1 bg-border" />
           </div>
@@ -126,6 +128,52 @@ function AuthPage() {
           </p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function PhoneOtp({ onDone }: { onDone: () => void }) {
+  const [phone, setPhone] = useState("");
+  const [code, setCode] = useState("");
+  const [sent, setSent] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const full = `+91${phone.replace(/\D/g, "").slice(-10)}`;
+
+  const send = async () => {
+    if (phone.replace(/\D/g, "").length < 10) return toast.error("Enter a valid 10-digit mobile number");
+    setBusy(true);
+    const { error } = await supabase.auth.signInWithOtp({ phone: full });
+    setBusy(false);
+    if (error) return toast.error(error.message);
+    setSent(true);
+    toast.success("OTP sent to your mobile");
+  };
+  const verify = async () => {
+    setBusy(true);
+    const { error } = await supabase.auth.verifyOtp({ phone: full, token: code.trim(), type: "sms" });
+    setBusy(false);
+    if (error) return toast.error(error.message);
+    toast.success("Signed in");
+    onDone();
+  };
+
+  return (
+    <div className="mb-6 rounded-2xl border border-border bg-card/40 p-4">
+      <p className="mb-2 text-xs uppercase tracking-widest text-muted-foreground">Mobile number + OTP</p>
+      <div className="flex gap-2">
+        <span className="grid place-items-center rounded-xl border border-border px-3 text-sm text-cream/80">+91</span>
+        <input type="tel" inputMode="numeric" value={phone} onChange={(e) => setPhone(e.target.value)} disabled={sent} placeholder="98765 43210" maxLength={14}
+          className="w-full rounded-xl border border-border bg-input/50 px-3 py-2.5 text-sm text-cream focus:border-primary focus:outline-none" />
+        {!sent && <button onClick={send} disabled={busy} className="rounded-xl border border-primary/60 px-4 text-sm font-medium text-primary hover:bg-primary/10 disabled:opacity-50">{busy ? "…" : "Send OTP"}</button>}
+      </div>
+      {sent && (
+        <div className="mt-3 flex gap-2">
+          <input inputMode="numeric" value={code} onChange={(e) => setCode(e.target.value)} placeholder="6-digit OTP" maxLength={6}
+            className="w-full rounded-xl border border-border bg-input/50 px-3 py-2.5 text-sm tracking-widest text-cream focus:border-primary focus:outline-none" />
+          <button onClick={verify} disabled={busy || code.length < 6} className="btn-gold rounded-xl px-4 text-sm font-semibold disabled:opacity-50">{busy ? "…" : "Verify"}</button>
+        </div>
+      )}
+      {sent && <button onClick={() => { setSent(false); setCode(""); }} className="mt-2 text-[11px] text-muted-foreground hover:text-primary">Change number / resend</button>}
     </div>
   );
 }
