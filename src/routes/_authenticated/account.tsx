@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Cake, Heart, LogOut, MapPin, Package, Sparkles, User as UserIcon, Warehouse } from "lucide-react";
+import { Cake, Heart, LogOut, MapPin, Package, Sparkles, Ticket, User as UserIcon, Warehouse } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -29,6 +29,7 @@ function AccountPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
+  const [vouchers, setVouchers] = useState<{ id: string; code: string; title: string; discount_type: string; discount_value: number; min_order: number; expires_at: string | null }[]>([]);
   const loyalty = useLoyalty(user?.id);
 
   useEffect(() => {
@@ -43,7 +44,16 @@ function AccountPage() {
       supabase.rpc("has_role", { _user_id: user.id, _role: "admin" }),
       supabase.rpc("has_role", { _user_id: user.id, _role: "staff" }),
     ]).then(([a, s]) => setIsStaff(Boolean(a.data) || Boolean(s.data)));
+    supabase.from("vouchers").select("id,code,title,discount_type,discount_value,min_order,expires_at")
+      .eq("active", true).eq("show_publicly", true)
+      .then(({ data }) => setVouchers(((data ?? []) as any[]).filter((v) => !v.expires_at || new Date(v.expires_at) > new Date())));
   }, [user]);
+
+  const applyVoucher = (code: string) => {
+    sessionStorage.setItem("pending_voucher", code);
+    toast.success(`${code} will be applied at checkout`);
+    navigate({ to: "/checkout" });
+  };
 
   const signOut = async () => {
     await supabase.auth.signOut();
@@ -74,6 +84,9 @@ function AccountPage() {
             <Link to="/admin/inventory" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
               <Warehouse className="h-3.5 w-3.5" /> Admin · Inventory
             </Link>
+            <Link to="/admin/vouchers" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+              <Ticket className="h-3.5 w-3.5" /> Admin · Vouchers
+            </Link>
           </div>
         )}
       </section>
@@ -98,29 +111,24 @@ function AccountPage() {
             </p>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-4">
+          <div className="mt-6 flex flex-wrap items-center gap-3">
             {LOYALTY_LADDER.map((r) => {
               const done = loyalty.orderCount >= r.orderNumber;
               const current = loyalty.orderCount + 1 === r.orderNumber;
               return (
-                <div
-                  key={r.orderNumber}
-                  className={`rounded-2xl border p-4 ${current ? "border-primary bg-primary/10" : done ? "border-border/60 bg-card/40 opacity-60" : "border-border/60 bg-card/40"}`}
-                >
-                  <p className="text-[11px] uppercase tracking-widest text-muted-foreground">
-                    Order #{r.orderNumber}
-                  </p>
-                  <p className="mt-2 font-display text-2xl text-cream">₹{r.amount} off</p>
-                  <p className="mt-1 text-[11px] text-muted-foreground">
-                    {r.minSubtotal > 0 ? `On orders above ₹${r.minSubtotal}` : "No minimum"}
-                  </p>
-                  <p className={`mt-2 text-[11px] font-medium uppercase tracking-wider ${current ? "text-primary" : done ? "text-muted-foreground" : "text-cream/70"}`}>
-                    {done ? "Used" : current ? "Ready to apply" : "Upcoming"}
-                  </p>
+                <div key={r.orderNumber} title={`Order #${r.orderNumber} · ₹${r.amount} off${r.minSubtotal ? ` above ₹${r.minSubtotal}` : ""}`}
+                  className={`flex flex-col items-center gap-1 ${current ? "text-primary" : done ? "text-primary/70" : "text-muted-foreground"}`}>
+                  <span className={`grid h-11 w-11 place-items-center rounded-full border text-lg ${current ? "border-primary bg-primary/15" : done ? "border-primary/60 bg-primary/10" : "border-border"}`}>
+                    {done ? "✓" : current ? "🎁" : "○"}
+                  </span>
+                  <span className="text-[10px] uppercase tracking-wider">#{r.orderNumber} · ₹{r.amount}</span>
                 </div>
               );
             })}
           </div>
+          {nextMilestone(loyalty.orderCount) && loyalty.orderCount + 1 === nextMilestone(loyalty.orderCount)!.orderNumber && (
+            <p className="mt-4 inline-block rounded-full border border-primary/50 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">Reward Available 🎁</p>
+          )}
 
           <p className="mt-5 text-xs text-muted-foreground">
             {nextMilestone(loyalty.orderCount)
@@ -133,6 +141,29 @@ function AccountPage() {
         </div>
       </section>
 
+      {vouchers.length > 0 && (
+        <section className="container-luxe pb-8">
+          <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
+            <h2 className="mb-4 font-display text-2xl text-cream">Available vouchers</h2>
+            <ul className="grid gap-3 sm:grid-cols-2">
+              {vouchers.map((v) => (
+                <li key={v.id} className="flex items-center justify-between gap-3 rounded-2xl border border-dashed border-primary/40 p-4">
+                  <div>
+                    <p className="font-medium text-primary">{v.code}</p>
+                    <p className="text-sm text-cream">{v.title}</p>
+                    <p className="text-[11px] text-muted-foreground">
+                      {v.discount_type === "percent" ? `${v.discount_value}% off` : `₹${v.discount_value} off`}
+                      {Number(v.min_order) > 0 ? ` · above ₹${v.min_order}` : ""}
+                      {v.expires_at ? ` · till ${new Date(v.expires_at).toLocaleDateString("en-IN")}` : ""}
+                    </p>
+                  </div>
+                  <button onClick={() => applyVoucher(v.code)} className="rounded-full border border-primary/60 px-4 py-1.5 text-xs font-medium text-primary hover:bg-primary/10">Apply</button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
 
       <section className="container-luxe grid gap-6 pb-12 lg:grid-cols-[2fr_1fr]">
         <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
