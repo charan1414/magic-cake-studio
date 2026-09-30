@@ -2,9 +2,24 @@ import { useEffect, useState } from "react";
 import { Check, Plus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useCart } from "@/lib/cart-store";
+import addonSnowImg from "@/assets/addon-snow.jpg";
+import addonBlastImg from "@/assets/addon-blast.jpg";
+import addonTopperImg from "@/assets/addon-cake-topper.jpg";
+import addonCandlesImg from "@/assets/addon-candles.jpg";
 
 export type Addon = { id: string; name: string; price: number | null; active: boolean; display_order: number };
 export const addonSlug = (id: string) => `addon-${id}`;
+
+/** Bundled product shots for well-known add-ons; name-matched, admin rows without one fall back to initials. */
+const ADDON_IMAGES: Record<string, string> = {
+  snow: addonSnowImg,
+  blast: addonBlastImg,
+  "cake topper": addonTopperImg,
+  topper: addonTopperImg,
+  candles: addonCandlesImg,
+  candle: addonCandlesImg,
+};
+const addonImage = (name: string) => ADDON_IMAGES[name.trim().toLowerCase()];
 
 /** Admin-managed add-ons (candles, toppers…) — toggled in and out of the cart. */
 export function CheckoutAddons() {
