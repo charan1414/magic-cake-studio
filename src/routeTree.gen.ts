@@ -35,6 +35,7 @@ import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authe
 import { Route as AuthenticatedAdminHealthyRouteImport } from './routes/_authenticated/admin.healthy'
 import { Route as AuthenticatedAdminFounderRouteImport } from './routes/_authenticated/admin.founder'
 import { Route as AuthenticatedAdminDeliveryRouteImport } from './routes/_authenticated/admin.delivery'
+import { Route as AuthenticatedAdminAddonsRouteImport } from './routes/_authenticated/admin.addons'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -173,6 +174,12 @@ const AuthenticatedAdminDeliveryRoute =
     path: '/admin/delivery',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedAdminAddonsRoute =
+  AuthenticatedAdminAddonsRouteImport.update({
+    id: '/admin/addons',
+    path: '/admin/addons',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/admin/addons': typeof AuthenticatedAdminAddonsRoute
   '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/admin/healthy': typeof AuthenticatedAdminHealthyRoute
@@ -219,6 +227,7 @@ export interface FileRoutesByTo {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/admin/addons': typeof AuthenticatedAdminAddonsRoute
   '/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/admin/healthy': typeof AuthenticatedAdminHealthyRoute
@@ -248,6 +257,7 @@ export interface FileRoutesById {
   '/menu/$category': typeof MenuCategoryRoute
   '/product/$slug': typeof ProductSlugRoute
   '/track/$orderId': typeof TrackOrderIdRoute
+  '/_authenticated/admin/addons': typeof AuthenticatedAdminAddonsRoute
   '/_authenticated/admin/delivery': typeof AuthenticatedAdminDeliveryRoute
   '/_authenticated/admin/founder': typeof AuthenticatedAdminFounderRoute
   '/_authenticated/admin/healthy': typeof AuthenticatedAdminHealthyRoute
@@ -277,6 +287,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/admin/addons'
     | '/admin/delivery'
     | '/admin/founder'
     | '/admin/healthy'
@@ -304,6 +315,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/admin/addons'
     | '/admin/delivery'
     | '/admin/founder'
     | '/admin/healthy'
@@ -332,6 +344,7 @@ export interface FileRouteTypes {
     | '/menu/$category'
     | '/product/$slug'
     | '/track/$orderId'
+    | '/_authenticated/admin/addons'
     | '/_authenticated/admin/delivery'
     | '/_authenticated/admin/founder'
     | '/_authenticated/admin/healthy'
@@ -545,11 +558,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDeliveryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/admin/addons': {
+      id: '/_authenticated/admin/addons'
+      path: '/admin/addons'
+      fullPath: '/admin/addons'
+      preLoaderRoute: typeof AuthenticatedAdminAddonsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAccountRoute: typeof AuthenticatedAccountRoute
+  AuthenticatedAdminAddonsRoute: typeof AuthenticatedAdminAddonsRoute
   AuthenticatedAdminDeliveryRoute: typeof AuthenticatedAdminDeliveryRoute
   AuthenticatedAdminFounderRoute: typeof AuthenticatedAdminFounderRoute
   AuthenticatedAdminHealthyRoute: typeof AuthenticatedAdminHealthyRoute
@@ -562,6 +583,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAccountRoute: AuthenticatedAccountRoute,
+  AuthenticatedAdminAddonsRoute: AuthenticatedAdminAddonsRoute,
   AuthenticatedAdminDeliveryRoute: AuthenticatedAdminDeliveryRoute,
   AuthenticatedAdminFounderRoute: AuthenticatedAdminFounderRoute,
   AuthenticatedAdminHealthyRoute: AuthenticatedAdminHealthyRoute,

@@ -11,6 +11,7 @@ import { getDeliverySettings, type ServiceabilityResult } from "@/lib/delivery.f
 import { PRODUCTS, getProduct } from "@/lib/data";
 import { toast } from "sonner";
 import { CheckoutUpsells } from "@/components/checkout-upsells";
+import { CheckoutAddons } from "@/components/checkout-addons";
 import { useLoyalty, applicableReward, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/checkout")({
@@ -240,7 +241,7 @@ function Checkout() {
             <ul className="divide-y divide-border/60">
               {items.map((i) => (
                 <li key={i.slug} className="flex items-center gap-4 py-4">
-                  <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" loading="lazy" />
+                  {i.image ? <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-20 w-20 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
                   <div className="flex-1">
                     <p className="font-medium text-cream">{i.name}</p>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
@@ -263,6 +264,8 @@ function Checkout() {
               ))}
             </ul>
           </div>
+
+          <CheckoutAddons />
 
           <CheckoutUpsells cartSlugs={items.map((i) => i.slug)} />
 

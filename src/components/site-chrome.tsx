@@ -256,7 +256,7 @@ export function CartDrawer() {
                 <ul className="space-y-4">
                   {items.map((i) => (
                     <li key={i.slug} className="flex gap-4 rounded-xl border border-border/60 bg-card/60 p-3">
-                      <img src={i.image} alt={i.name} className="h-20 w-20 rounded-lg object-cover" />
+                      {i.image ? <img src={i.image} alt={i.name} className="h-20 w-20 rounded-lg object-cover" /> : <div className="grid h-20 w-20 place-items-center rounded-lg border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
                       <div className="flex flex-1 flex-col">
                         <p className="text-sm font-medium text-cream">{i.name}</p>
                         {i.variant && (
