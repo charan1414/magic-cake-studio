@@ -52,7 +52,7 @@ export function CheckoutAddons() {
               disabled={!priced}
               onClick={() => {
                 if (selected) remove(slug);
-                else add({ slug, name: a.name, price: Number(a.price), image: "", variant: "Add-on" });
+                else add({ slug, name: a.name, price: Number(a.price), image: addonImage(a.name) ?? "", variant: "Add-on" });
                 useCart.getState().close();
               }}
               className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
@@ -63,6 +63,11 @@ export function CheckoutAddons() {
                 <span className={`grid h-6 w-6 place-items-center rounded-full border ${selected ? "border-primary bg-primary text-primary-foreground" : "border-border text-primary"}`}>
                   {selected ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
                 </span>
+                {img ? (
+                  <img src={img} alt={a.name} loading="lazy" width={1024} height={1024} className="h-12 w-12 rounded-xl object-cover" />
+                ) : (
+                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 font-display text-lg text-primary">{a.name.slice(0, 1).toUpperCase()}</span>
+                )}
                 <span className="text-sm font-medium text-cream">{a.name}</span>
               </span>
               <span className="text-sm gold-text">{priced ? `₹${Number(a.price).toLocaleString("en-IN")}` : "Coming soon"}</span>
