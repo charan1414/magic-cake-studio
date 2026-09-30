@@ -87,6 +87,9 @@ function AccountPage() {
             <Link to="/admin/vouchers" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
               <Ticket className="h-3.5 w-3.5" /> Admin · Vouchers
             </Link>
+            <Link to="/admin/addons" className="inline-flex items-center gap-2 rounded-full border border-primary/50 bg-primary/10 px-4 py-2 text-xs font-medium text-primary hover:bg-primary/20">
+              <Sparkles className="h-3.5 w-3.5" /> Admin · Add-ons
+            </Link>
           </div>
         )}
       </section>
