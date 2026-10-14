@@ -45,6 +45,7 @@ export function CheckoutAddons() {
           const slug = addonSlug(a.id);
           const selected = items.some((i) => i.slug === slug);
           const priced = a.price != null;
+          const img = addonImage(a.name);
           return (
             <button
               key={a.id}
