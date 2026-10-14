@@ -14,6 +14,7 @@ import { Route as ServiceabilityRouteImport } from './routes/serviceability'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
 import { Route as NoMaidaNoSugarRouteImport } from './routes/no-maida-no-sugar'
+import { Route as MilkshakesRouteImport } from './routes/milkshakes'
 import { Route as MenuRouteImport } from './routes/menu'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CheckoutRouteImport } from './routes/checkout'
@@ -60,6 +61,11 @@ const OurKitchenRoute = OurKitchenRouteImport.update({
 const NoMaidaNoSugarRoute = NoMaidaNoSugarRouteImport.update({
   id: '/no-maida-no-sugar',
   path: '/no-maida-no-sugar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MilkshakesRoute = MilkshakesRouteImport.update({
+  id: '/milkshakes',
+  path: '/milkshakes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MenuRoute = MenuRouteImport.update({
@@ -190,6 +196,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/milkshakes': typeof MilkshakesRoute
   '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/milkshakes': typeof MilkshakesRoute
   '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
@@ -248,6 +256,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/contact': typeof ContactRoute
   '/menu': typeof MenuRouteWithChildren
+  '/milkshakes': typeof MilkshakesRoute
   '/no-maida-no-sugar': typeof NoMaidaNoSugarRoute
   '/our-kitchen': typeof OurKitchenRoute
   '/privacy': typeof PrivacyRoute
@@ -278,6 +287,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/milkshakes'
     | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
@@ -306,6 +316,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/milkshakes'
     | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
@@ -335,6 +346,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/contact'
     | '/menu'
+    | '/milkshakes'
     | '/no-maida-no-sugar'
     | '/our-kitchen'
     | '/privacy'
@@ -365,6 +377,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   ContactRoute: typeof ContactRoute
   MenuRoute: typeof MenuRouteWithChildren
+  MilkshakesRoute: typeof MilkshakesRoute
   NoMaidaNoSugarRoute: typeof NoMaidaNoSugarRoute
   OurKitchenRoute: typeof OurKitchenRoute
   PrivacyRoute: typeof PrivacyRoute
@@ -409,6 +422,13 @@ declare module '@tanstack/react-router' {
       path: '/no-maida-no-sugar'
       fullPath: '/no-maida-no-sugar'
       preLoaderRoute: typeof NoMaidaNoSugarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/milkshakes': {
+      id: '/milkshakes'
+      path: '/milkshakes'
+      fullPath: '/milkshakes'
+      preLoaderRoute: typeof MilkshakesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/menu': {
@@ -617,6 +637,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   ContactRoute: ContactRoute,
   MenuRoute: MenuRouteWithChildren,
+  MilkshakesRoute: MilkshakesRoute,
   NoMaidaNoSugarRoute: NoMaidaNoSugarRoute,
   OurKitchenRoute: OurKitchenRoute,
   PrivacyRoute: PrivacyRoute,
