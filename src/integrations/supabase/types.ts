@@ -338,6 +338,72 @@ export type Database = {
         }
         Relationships: []
       }
+      milkshakes: {
+        Row: {
+          active: boolean
+          allergens: string
+          badges: string[]
+          created_at: string
+          customisations: Json
+          description: string
+          display_order: number
+          featured: boolean
+          id: string
+          image_alt: string | null
+          image_url: string | null
+          ingredients: string
+          name: string
+          prep_minutes: number
+          short_description: string
+          sizes: Json
+          slug: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          allergens?: string
+          badges?: string[]
+          created_at?: string
+          customisations?: Json
+          description?: string
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_alt?: string | null
+          image_url?: string | null
+          ingredients?: string
+          name: string
+          prep_minutes?: number
+          short_description?: string
+          sizes?: Json
+          slug: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          allergens?: string
+          badges?: string[]
+          created_at?: string
+          customisations?: Json
+          description?: string
+          display_order?: number
+          featured?: boolean
+          id?: string
+          image_alt?: string | null
+          image_url?: string | null
+          ingredients?: string
+          name?: string
+          prep_minutes?: number
+          short_description?: string
+          sizes?: Json
+          slug?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notification_logs: {
         Row: {
           channel: string
@@ -905,6 +971,90 @@ export type Database = {
           id?: string
           phone?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      site_sections: {
+        Row: {
+          accent: string
+          banner_url: string | null
+          card_layout: string
+          description: string
+          ends_at: string | null
+          home_limit: number
+          home_order: number
+          key: string
+          nav_label: string
+          nav_order: number
+          og_image_url: string | null
+          per_row_desktop: number
+          per_row_mobile: number
+          promo_text: string
+          seo_description: string
+          seo_title: string
+          show_badges: boolean
+          show_discounts: boolean
+          show_in_nav: boolean
+          show_on_home: boolean
+          starts_at: string | null
+          subtitle: string
+          title: string
+          updated_at: string
+          visible: boolean
+        }
+        Insert: {
+          accent?: string
+          banner_url?: string | null
+          card_layout?: string
+          description?: string
+          ends_at?: string | null
+          home_limit?: number
+          home_order?: number
+          key: string
+          nav_label?: string
+          nav_order?: number
+          og_image_url?: string | null
+          per_row_desktop?: number
+          per_row_mobile?: number
+          promo_text?: string
+          seo_description?: string
+          seo_title?: string
+          show_badges?: boolean
+          show_discounts?: boolean
+          show_in_nav?: boolean
+          show_on_home?: boolean
+          starts_at?: string | null
+          subtitle?: string
+          title?: string
+          updated_at?: string
+          visible?: boolean
+        }
+        Update: {
+          accent?: string
+          banner_url?: string | null
+          card_layout?: string
+          description?: string
+          ends_at?: string | null
+          home_limit?: number
+          home_order?: number
+          key?: string
+          nav_label?: string
+          nav_order?: number
+          og_image_url?: string | null
+          per_row_desktop?: number
+          per_row_mobile?: number
+          promo_text?: string
+          seo_description?: string
+          seo_title?: string
+          show_badges?: boolean
+          show_discounts?: boolean
+          show_in_nav?: boolean
+          show_on_home?: boolean
+          starts_at?: string | null
+          subtitle?: string
+          title?: string
+          updated_at?: string
+          visible?: boolean
         }
         Relationships: []
       }
