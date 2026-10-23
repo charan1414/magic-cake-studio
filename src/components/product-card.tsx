@@ -69,7 +69,7 @@ function CardImage({ product }: { product: Product }) {
 }
 
 export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
-  const { stock, pricing } = useProductCard(product);
+  const { stock, pricing, addToCart } = useProductCard(product);
 
   return (
     <motion.article
@@ -81,7 +81,7 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
     >
       <CardImage product={product} />
       <div className="pointer-events-none absolute left-3 top-3 flex flex-wrap gap-1.5">
-          {(pricing.overrideLabels ?? []).map((key) => {
+          {override?.labels.map((key) => {
             const meta = labelMeta(key);
             if (!meta) return null;
             return (
@@ -146,18 +146,12 @@ export function ProductCard({ product, index = 0 }: { product: Product; index?: 
               </div>
             );
           })()}
-          <AddControl stock={stock} slug={product.slug} name={product.name} onAdd={useProductCardAdd(product)} />
+          <AddControl stock={stock} slug={product.slug} name={product.name} onAdd={addToCart} />
         </div>
 
       </div>
     </motion.article>
   );
-}
-
-// helper kept separate so both card sizes share identical cart behaviour
-function useProductCardAdd(product: Product) {
-  const { addToCart } = useProductCard(product);
-  return addToCart;
 }
 
 function AddControl({ stock, slug, name, onAdd }: { stock: StockStatus; slug: string; name: string; onAdd: () => void }) {
