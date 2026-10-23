@@ -99,7 +99,7 @@ function AdminMilkshakes() {
       })
       .select();
     if (error) return toast.error(error.message);
-    if (data?.length) setItems((prev) => [...prev, ...(data as Milkshake[])]);
+    if (data?.length) setItems((prev) => [...prev, ...(data as unknown as Milkshake[])]);
     toast.success("Milkshake created — open it to edit");
   };
 
@@ -110,7 +110,7 @@ function AdminMilkshakes() {
       .insert({ ...rest, slug: `${row.slug}-copy-${Date.now().toString(36)}`, name: `${row.name} (Copy)` })
       .select();
     if (error) return toast.error(error.message);
-    if (data?.length) setItems((prev) => [...prev, ...(data as Milkshake[])]);
+    if (data?.length) setItems((prev) => [...prev, ...(data as unknown as Milkshake[])]);
     toast.success("Duplicated");
   };
 
@@ -337,7 +337,7 @@ function SectionSettings({ section, setSection, refresh }: { section: SiteSectio
   const save = async () => {
     setSaving(true);
     const { id: _k, updated_at: _u, ...rest } = section as Record<string, unknown> & { updated_at?: string };
-    const { error } = await supabase.from("site_sections").update(rest).eq("key", "milkshakes");
+    const { error } = await supabase.from("site_sections").update(rest as never).eq("key", "milkshakes");
     setSaving(false);
     if (error) toast.error(error.message);
     else {
