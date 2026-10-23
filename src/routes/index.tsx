@@ -9,6 +9,7 @@ import { Reveal, SplitReveal, Eyebrow } from "@/components/motion-primitives";
 import { DBCShowcase } from "@/components/dbc-showcase";
 import { CinematicLoop } from "@/components/cinematic-loop";
 import { HealthyBanner, HealthySection } from "@/components/healthy-range";
+import { MilkshakeHomeSection } from "@/components/milkshakes";
 import { TrustBand } from "@/components/trust-badge";
 
 
@@ -36,6 +37,7 @@ function HomePage() {
       <CFCBanner />
       <HealthyBanner compact />
       <HealthySection limit={3} />
+      <MilkshakeHomeSection />
       <CraftSection />
       <CategoryShowcase />
 
