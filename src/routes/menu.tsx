@@ -71,6 +71,12 @@ function MenuPage() {
                   {c.name}
                 </button>
               ))}
+              <Link
+                to="/milkshakes"
+                className="rounded-full border border-border px-4 py-2 text-xs font-medium text-cream/80 transition-all hover:border-primary/50"
+              >
+                Milkshakes
+              </Link>
             </div>
           </div>
         </div>

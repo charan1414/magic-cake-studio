@@ -11,7 +11,9 @@ import { TrustBadge } from "@/components/trust-badge";
 
 const NAV = [
   { to: "/menu", label: "Menu" },
+  { to: "/milkshakes", label: "Milkshakes" },
   { to: "/no-maida-no-sugar", label: "No Maida No Sugar" },
+
 
   { to: "/cake-studio", label: "Cake Studio" },
   { to: "/our-kitchen", label: "Our Kitchen" },
@@ -164,6 +166,7 @@ export function SiteFooter() {
           <p className="eyebrow mb-4">Explore</p>
           <ul className="space-y-2.5 text-sm text-cream/80">
             <li><Link to="/menu" className="hover:text-primary">Menu</Link></li>
+            <li><Link to="/milkshakes" className="hover:text-primary">Milkshakes</Link></li>
             <li><Link to="/no-maida-no-sugar" className="hover:text-primary">No Maida No Sugar</Link></li>
             <li><Link to="/cake-studio" className="hover:text-primary">Cake Studio</Link></li>
 
