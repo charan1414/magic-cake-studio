@@ -46,7 +46,7 @@ function useProductCard(product: Product) {
     add({ slug, name: product.name, price: pricing.price, image: product.image, variant });
   };
 
-  return { stock, pricing, addToCart, isCake };
+  return { stock, pricing, addToCart, isCake, override };
 }
 
 function CardImage({ product }: { product: Product }) {
