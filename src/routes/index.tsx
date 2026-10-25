@@ -4,7 +4,7 @@ import { ArrowRight, ChefHat, Play, Sparkles, Truck, Clock, MapPin, Star } from 
 import heroImg from "@/assets/hero-cake.jpg";
 import craftImg from "@/assets/craft-cake.jpg";
 import { CATEGORIES, PRODUCTS, cfcBucketImg, cfcCloseupImg } from "@/lib/data";
-import { ProductCard } from "@/components/product-card";
+import { ProductCard, CompactProductCard } from "@/components/product-card";
 import { Reveal, SplitReveal, Eyebrow } from "@/components/motion-primitives";
 import { DBCShowcase } from "@/components/dbc-showcase";
 import { CinematicLoop } from "@/components/cinematic-loop";
@@ -31,8 +31,9 @@ function HomePage() {
   return (
     <>
       <Hero />
-      <Marquee />
+      <OfferStrip />
       <TrustBand />
+      <CategoryTiles />
       <DBCShowcase />
       <CFCBanner />
       <HealthyBanner compact />
@@ -45,6 +46,59 @@ function HomePage() {
       <CakeStudioCTA />
       <Promise />
     </>
+  );
+}
+
+/** Slim, premium offer band — links to sign-up where the first-order promo is claimed. */
+function OfferStrip() {
+  return (
+    <section className="border-b border-primary/25 bg-primary/10">
+      <Link to="/auth" className="container-luxe flex min-h-11 items-center justify-center gap-2 py-2 text-center">
+        <Sparkles className="h-3.5 w-3.5 shrink-0 text-primary" />
+        <p className="text-[11px] font-medium tracking-wide text-cream/90 sm:text-xs">
+          First order? Enjoy <span className="font-semibold text-primary">10% off</span> — claim it in seconds.
+          <span className="ml-2 hidden text-muted-foreground sm:inline">Applied automatically at checkout.</span>
+        </p>
+        <ArrowRight className="h-3.5 w-3.5 shrink-0 text-primary" />
+      </Link>
+    </section>
+  );
+}
+
+/** Compact category tiles for fast navigation — no dishes, just doors into the menu. */
+function CategoryTiles() {
+  const tiles = [
+    ...CATEGORIES.map((c) => ({ label: c.name, tagline: c.tagline, to: "/menu/$category", params: { category: c.slug } })),
+    { label: "Milkshakes", tagline: "Blended fresh to order", to: "/milkshakes", params: undefined },
+    { label: "No Maida No Sugar", tagline: "Guilt-free indulgence", to: "/no-maida-no-sugar", params: undefined },
+  ];
+  return (
+    <section className="container-luxe py-10 md:py-16">
+      <div className="mb-5 flex items-end justify-between md:mb-8">
+        <div>
+          <Eyebrow>Browse Categories</Eyebrow>
+          <h2 className="mt-2 font-display text-2xl text-cream md:text-3xl">Find your craving.</h2>
+        </div>
+        <Link to="/menu" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline md:text-sm">
+          Full menu <ArrowRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-3 lg:grid-cols-4">
+        {tiles.map((t, i) => (
+          <Reveal key={t.label} delay={Math.min(i, 8) * 0.03}>
+            <Link
+              to={t.to}
+              params={t.params ?? {}}
+              className="group flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-28 md:h-36 md:rounded-2xl md:p-4"
+            >
+              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-all group-hover:bg-primary/20" />
+              <p className="font-display text-sm leading-tight text-cream group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>
+              <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground md:text-xs">{t.tagline}</p>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -207,7 +261,7 @@ function Marquee() {
 
 function CraftSection() {
   return (
-    <section className="container-luxe py-32">
+    <section className="container-luxe py-16 md:py-32">
       <div className="grid gap-16 md:grid-cols-2 md:items-center">
         <Reveal>
           <div className="relative">
@@ -251,11 +305,11 @@ function CraftSection() {
 
 function CategoryShowcase() {
   return (
-    <section className="container-luxe py-24">
-      <div className="mb-14 flex flex-col items-end justify-between gap-6 md:flex-row">
+    <section className="container-luxe py-12 md:py-24">
+      <div className="mb-10 flex flex-col items-end justify-between gap-6 md:mb-14 md:flex-row">
         <div>
           <Eyebrow>Explore the Menu</Eyebrow>
-          <h2 className="mt-4 max-w-xl font-display text-5xl leading-tight text-cream">
+          <h2 className="mt-3 max-w-xl font-display text-3xl leading-tight text-cream md:mt-4 md:text-5xl">
             A universe of <span className="italic gold-text">flavor</span>.
           </h2>
         </div>
@@ -269,7 +323,7 @@ function CategoryShowcase() {
             <Link
               to="/menu/$category"
               params={{ category: c.slug }}
-              className="group relative flex h-52 items-end overflow-hidden rounded-2xl border border-border/60 bg-card/60 p-6 transition-all hover:border-primary/50 hover:shadow-luxe"
+              className="group relative flex h-40 items-end overflow-hidden rounded-2xl border border-border/60 bg-card/60 p-6 transition-all hover:border-primary/50 hover:shadow-luxe md:h-52"
             >
               <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/20" />
               <div className="relative">
@@ -289,17 +343,17 @@ function CategoryShowcase() {
 
 function Signatures({ products }: { products: typeof PRODUCTS }) {
   return (
-    <section className="container-luxe py-24">
-      <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+    <section className="container-luxe py-12 md:py-24">
+      <div className="mb-8 flex flex-col items-end justify-between gap-6 md:mb-12 md:flex-row">
         <div>
           <Eyebrow>Guest Favourites</Eyebrow>
-          <h2 className="mt-4 max-w-2xl font-display text-5xl leading-tight text-cream">
+          <h2 className="mt-3 max-w-2xl font-display text-3xl leading-tight text-cream md:mt-4 md:text-5xl">
             Signature <span className="italic gold-text">indulgences</span>.
           </h2>
         </div>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {products.map((p, i) => <ProductCard key={p.slug} product={p} index={i} />)}
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {products.map((p, i) => <CompactProductCard key={p.slug} product={p} index={i} />)}
       </div>
     </section>
   );

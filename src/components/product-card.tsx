@@ -46,7 +46,7 @@ function useProductCard(product: Product) {
     add({ slug, name: product.name, price: pricing.price, image: product.image, variant });
   };
 
-  return { stock, pricing, addToCart, isCake };
+  return { stock, pricing, addToCart, isCake, override };
 }
 
 function CardImage({ product }: { product: Product }) {
@@ -69,7 +69,7 @@ function CardImage({ product }: { product: Product }) {
 }
 
 export function ProductCard({ product, index = 0 }: { product: Product; index?: number }) {
-  const { stock, pricing, addToCart } = useProductCard(product);
+  const { stock, pricing, addToCart, override } = useProductCard(product);
 
   return (
     <motion.article
