@@ -852,6 +852,7 @@ export type Database = {
           full_name: string | null
           id: string
           loyalty_points: number
+          marketing_opt_in: boolean
           phone: string | null
           updated_at: string
         }
@@ -864,6 +865,7 @@ export type Database = {
           full_name?: string | null
           id: string
           loyalty_points?: number
+          marketing_opt_in?: boolean
           phone?: string | null
           updated_at?: string
         }
@@ -876,6 +878,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           loyalty_points?: number
+          marketing_opt_in?: boolean
           phone?: string | null
           updated_at?: string
         }

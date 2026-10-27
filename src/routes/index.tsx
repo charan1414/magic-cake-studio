@@ -89,7 +89,7 @@ function CategoryTiles() {
             <Link
               to={t.to}
               params={t.params ?? {}}
-              className="group flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-28 md:h-36 md:rounded-2xl md:p-4"
+              className="group relative flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-28 md:h-36 md:rounded-2xl md:p-4"
             >
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-all group-hover:bg-primary/20" />
               <p className="font-display text-sm leading-tight text-cream group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>

@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Cake, Heart, LogOut, MapPin, Package, Sparkles, Ticket, User as UserIcon, Warehouse } from "lucide-react";
+import { Cake, Heart, LogOut, MapPin, Package, Sparkles, Ticket, User as UserIcon, Warehouse, Gift, BellRing, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth-context";
 import { Eyebrow } from "@/components/motion-primitives";
@@ -27,14 +27,14 @@ function AccountPage() {
   const navigate = useNavigate();
   const [designs, setDesigns] = useState<Design[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
+  const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number; birthday: string | null; marketing_opt_in: boolean } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
   const [vouchers, setVouchers] = useState<{ id: string; code: string; title: string; discount_type: string; discount_value: number; min_order: number; expires_at: string | null }[]>([]);
   const loyalty = useLoyalty(user?.id);
 
   useEffect(() => {
     if (!user) return;
-    supabase.from("profiles").select("full_name, loyalty_points").eq("id", user.id).maybeSingle()
+    supabase.from("profiles").select("full_name, loyalty_points, birthday, marketing_opt_in").eq("id", user.id).maybeSingle()
       .then(({ data }) => setProfile(data as any));
     supabase.from("cake_designs").select("id,design_code,estimated_price,message,created_at,status").order("created_at", { ascending: false })
       .then(({ data }) => setDesigns((data ?? []) as any));
@@ -147,6 +147,13 @@ function AccountPage() {
         </div>
       </section>
 
+      <MembershipCard
+        birthday={profile?.birthday ?? null}
+        marketingOptIn={profile?.marketing_opt_in ?? false}
+        userId={user!.id}
+        onChanged={(p) => setProfile((prev) => (prev ? { ...prev, ...p } : prev))}
+      />
+
       {vouchers.length > 0 && (
         <section className="container-luxe pb-8">
           <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
@@ -255,5 +262,111 @@ function Panel({ icon, title, desc, to }: { icon: React.ReactNode; title: string
         <span className="text-xs text-muted-foreground">{desc}</span>
       </span>
     </Link>
+  );
+}
+
+/** "C & It's Magic Rewards" — membership presentation, birthday treats and marketing opt-in. */
+function MembershipCard({
+  birthday,
+  marketingOptIn,
+  userId,
+  onChanged,
+}: {
+  birthday: string | null;
+  marketingOptIn: boolean;
+  userId: string;
+  onChanged: (p: { birthday?: string | null; marketing_opt_in?: boolean }) => void;
+}) {
+  const [bday, setBday] = useState(birthday ?? "");
+  const [optIn, setOptIn] = useState(marketingOptIn);
+  const [busy, setBusy] = useState<"bday" | "optin" | null>(null);
+
+  const saveBirthday = async () => {
+    setBusy("bday");
+    const value = bday || null;
+    const { error } = await supabase.from("profiles").update({ birthday: value }).eq("id", userId);
+    setBusy(null);
+    if (error) return toast.error(error.message);
+    onChanged({ birthday: value });
+    toast.success(value ? "Birthday saved — watch your inbox around the big day 🎂" : "Birthday removed");
+  };
+
+  const toggleOptIn = async (next: boolean) => {
+    setOptIn(next);
+    setBusy("optin");
+    const { error } = await supabase.from("profiles").update({ marketing_opt_in: next }).eq("id", userId);
+    setBusy(null);
+    if (error) {
+      setOptIn(!next);
+      return toast.error(error.message);
+    }
+    onChanged({ marketing_opt_in: next });
+    toast.success(next ? "You'll hear about new launches, festive menus and member offers." : "Promotional updates turned off.");
+  };
+
+  return (
+    <section className="container-luxe pb-8">
+      <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/10 to-transparent p-6">
+        <div className="flex items-center gap-3">
+          <span className="grid h-11 w-11 place-items-center rounded-full border border-primary/50 bg-primary/10 text-primary">
+            <Gift className="h-5 w-5" />
+          </span>
+          <div>
+            <p className="eyebrow">Membership</p>
+            <h2 className="font-display text-2xl text-cream">C &amp; It's Magic <span className="italic gold-text">Rewards</span></h2>
+          </div>
+        </div>
+        <p className="mt-3 max-w-xl text-sm text-muted-foreground">
+          Every account is automatically a member — no fee, nothing to join. You already earn loyalty
+          rewards on your orders, and members get first access to seasonal launches.
+        </p>
+        <ul className="mt-4 grid gap-2 text-sm text-cream/85 sm:grid-cols-2">
+          <li className="flex items-start gap-2"><Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Reward points and milestone discounts on every order</li>
+          <li className="flex items-start gap-2"><Cake className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> A birthday surprise when you share your date</li>
+          <li className="flex items-start gap-2"><Ticket className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Member-exclusive voucher codes</li>
+          <li className="flex items-start gap-2"><BellRing className="mt-0.5 h-4 w-4 shrink-0 text-primary" /> Early access to new products and festive menus</li>
+        </ul>
+
+        <div className="mt-5 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4">
+            <p className="text-sm font-medium text-cream">Your birthday <span className="text-xs font-normal text-muted-foreground">(optional)</span></p>
+            <div className="mt-2 flex gap-2">
+              <input
+                type="date"
+                value={bday}
+                onChange={(e) => setBday(e.target.value)}
+                className="min-h-10 w-full rounded-full border border-border/60 bg-transparent px-4 text-sm text-cream focus:border-primary focus:outline-none"
+              />
+              <button onClick={saveBirthday} disabled={busy === "bday"} className="btn-gold btn-gold-hover inline-flex min-h-10 shrink-0 items-center rounded-full px-4 text-xs font-semibold disabled:opacity-60">
+                {busy === "bday" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Save"}
+              </button>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4">
+            <p className="text-sm font-medium text-cream">Updates &amp; offers</p>
+            <button
+              onClick={() => toggleOptIn(!optIn)}
+              disabled={busy === "optin"}
+              aria-pressed={optIn}
+              className={`mt-2 inline-flex min-h-10 items-center gap-2 rounded-full border px-4 text-xs font-semibold transition-colors disabled:opacity-60 ${optIn ? "border-primary bg-primary/15 text-primary" : "border-border text-cream/80"}`}
+            >
+              {busy === "optin" && <Loader2 className="h-3.5 w-3.5 animate-spin" />}
+              {optIn ? "Subscribed" : "Not subscribed"}
+              <span className={`relative h-4 w-8 rounded-full transition-colors ${optIn ? "bg-primary" : "bg-border"}`}>
+                <span className={`absolute top-0.5 h-3 w-3 rounded-full bg-cream transition-all ${optIn ? "left-4" : "left-0.5"}`} />
+              </span>
+            </button>
+            <p className="mt-2 text-[11px] leading-relaxed text-muted-foreground">
+              New launches, festive collections, member rewards and limited-time offers. You can switch
+              this off any time — marketing messages only go to members who opted in.
+            </p>
+          </div>
+        </div>
+        <p className="mt-4 text-[11px] text-muted-foreground">
+          Membership terms: rewards apply to eligible delivered orders; one milestone discount per
+          order; birthday treats and member offers are configured by C &amp; It's Magic and may vary.
+        </p>
+      </div>
+    </section>
   );
 }
