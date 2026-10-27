@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Plus, Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import type { Product } from "@/lib/data";
 import { useCart } from "@/lib/cart-store";
 import { supabase } from "@/integrations/supabase/client";
@@ -44,6 +45,7 @@ function useProductCard(product: Product) {
     const slug = isCake ? `${product.slug}-500` : product.slug;
     const variant = isCake ? "500 g" : product.unitLabel;
     add({ slug, name: product.name, price: pricing.price, image: product.image, variant });
+    toast.success(`${product.name} added to cart`);
   };
 
   return { stock, pricing, addToCart, isCake, override };
