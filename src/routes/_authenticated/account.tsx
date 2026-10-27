@@ -27,14 +27,14 @@ function AccountPage() {
   const navigate = useNavigate();
   const [designs, setDesigns] = useState<Design[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
-  const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number } | null>(null);
+  const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number; birthday: string | null; marketing_opt_in: boolean } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
   const [vouchers, setVouchers] = useState<{ id: string; code: string; title: string; discount_type: string; discount_value: number; min_order: number; expires_at: string | null }[]>([]);
   const loyalty = useLoyalty(user?.id);
 
   useEffect(() => {
     if (!user) return;
-    supabase.from("profiles").select("full_name, loyalty_points").eq("id", user.id).maybeSingle()
+    supabase.from("profiles").select("full_name, loyalty_points, birthday, marketing_opt_in").eq("id", user.id).maybeSingle()
       .then(({ data }) => setProfile(data as any));
     supabase.from("cake_designs").select("id,design_code,estimated_price,message,created_at,status").order("created_at", { ascending: false })
       .then(({ data }) => setDesigns((data ?? []) as any));
@@ -146,6 +146,13 @@ function AccountPage() {
           </p>
         </div>
       </section>
+
+      <MembershipCard
+        birthday={profile?.birthday ?? null}
+        marketingOptIn={profile?.marketing_opt_in ?? false}
+        userId={user.id}
+        onChanged={(p) => setProfile((prev) => (prev ? { ...prev, ...p } : prev))}
+      />
 
       {vouchers.length > 0 && (
         <section className="container-luxe pb-8">
