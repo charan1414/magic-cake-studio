@@ -8,6 +8,13 @@
       "when": 1791997006026,
       "tag": "0000_milkshakes_and_site_sections",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1793120314825,
+      "tag": "0001_loyalty_birthday_optin",
+      "breakpoints": true
     }
   ]
 }
