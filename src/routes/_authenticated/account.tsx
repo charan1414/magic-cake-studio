@@ -150,7 +150,7 @@ function AccountPage() {
       <MembershipCard
         birthday={profile?.birthday ?? null}
         marketingOptIn={profile?.marketing_opt_in ?? false}
-        userId={user.id}
+        userId={user!.id}
         onChanged={(p) => setProfile((prev) => (prev ? { ...prev, ...p } : prev))}
       />
 
