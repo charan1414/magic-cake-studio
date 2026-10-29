@@ -24,7 +24,7 @@ export const Route = createFileRoute("/product/$slug")({
     ],
   }),
   component: ProductPage,
-  errorComponent: ({ error }) => <p className="pt-40 text-center">{error.message}</p>,
+  errorComponent: ({ error }: { error: unknown }) => <p className="pt-40 text-center">{String(error)}</p>,
   notFoundComponent: () => (
     <div className="grid min-h-[70vh] place-items-center pt-32 text-center">
       <div>

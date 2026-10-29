@@ -22,7 +22,7 @@ export const Route = createFileRoute("/menu/$category")({
     };
   },
   component: CategoryPage,
-  errorComponent: ({ error }) => <p className="pt-40 text-center text-muted-foreground">{error.message}</p>,
+  errorComponent: ({ error }: { error: unknown }) => <p className="pt-40 text-center text-muted-foreground">{String(error)}</p>,
   notFoundComponent: () => (
     <div className="grid min-h-[70vh] place-items-center pt-32 text-center">
       <div>
