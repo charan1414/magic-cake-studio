@@ -2,6 +2,21 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowRight, ChefHat, Play, Sparkles, Truck, Clock, MapPin, Star } from "lucide-react";
 import heroImg from "@/assets/hero-cake.jpg";
+// Category tile photos — real menu shots so each tile tempts a tap.
+import tileSeasonal from "@/assets/mango-cake.jpg.asset.json";
+import tileCakes from "@/assets/belgian-dark-truffle.jpg.asset.json";
+import tileIceCream from "@/assets/ic-dbc.jpg";
+import tileCookies from "@/assets/ck-chocochip.jpg";
+import tileCupcakes from "@/assets/red-velvet-cupcake.jpg.asset.json";
+import tileDesserts from "@/assets/ds-choco-lava.jpg";
+import tilePizza from "@/assets/pz-margherita.jpg";
+import tileBurgers from "@/assets/dish-burger.jpg";
+import tileMainCourse from "@/assets/dish-biryani.jpg";
+import tileRolls from "@/assets/dish-roll.jpg";
+import tileStreetFood from "@/assets/kurkure-momos.jpg.asset.json";
+import tileSnacks from "@/assets/samosa.jpg.asset.json";
+import tileMilkshakes from "@/assets/milkshakes/rich-chocolate.jpg";
+import tileHealthy from "@/assets/healthy/no-maida-hero.jpg";
 import craftImg from "@/assets/craft-cake.jpg";
 import { CATEGORIES, PRODUCTS, cfcBucketImg, cfcCloseupImg } from "@/lib/data";
 import { ProductCard, CompactProductCard } from "@/components/product-card";
@@ -67,6 +82,23 @@ function OfferStrip() {
 
 /** Compact category tiles for fast navigation — no dishes, just doors into the menu. */
 function CategoryTiles() {
+  const tileImg: Record<string, string> = {
+    "seasonal-special": tileSeasonal.url,
+    cakes: tileCakes.url,
+    "ice-cream": tileIceCream,
+    cookies: tileCookies,
+    cupcakes: tileCupcakes.url,
+    desserts: tileDesserts,
+    pizza: tilePizza,
+    "fried-chicken": cfcCloseupImg,
+    burgers: tileBurgers,
+    "main-course": tileMainCourse,
+    rolls: tileRolls,
+    "street-food": tileStreetFood.url,
+    snacks: tileSnacks.url,
+    Milkshakes: tileMilkshakes,
+    "No Maida No Sugar": tileHealthy,
+  };
   const tiles = [
     ...CATEGORIES.map((c) => ({ label: c.name, tagline: c.tagline, to: "/menu/$category", params: { category: c.slug } })),
     { label: "Milkshakes", tagline: "Blended fresh to order", to: "/milkshakes", params: undefined },
@@ -89,11 +121,18 @@ function CategoryTiles() {
             <Link
               to={t.to}
               params={t.params ?? {}}
-              className="group relative flex h-24 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-28 md:h-36 md:rounded-2xl md:p-4"
+              className="group relative flex h-28 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-32 md:h-44 md:rounded-2xl md:p-4"
             >
+              <img
+                src={tileImg[t.label]}
+                alt={t.label}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10 transition-opacity group-hover:via-ink/40" />
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-all group-hover:bg-primary/20" />
-              <p className="font-display text-sm leading-tight text-cream group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>
-              <p className="mt-0.5 line-clamp-1 text-[10px] text-muted-foreground md:text-xs">{t.tagline}</p>
+              <p className="relative font-display text-sm leading-tight text-cream drop-shadow group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>
+              <p className="relative mt-0.5 line-clamp-1 text-[10px] text-cream/70 md:text-xs">{t.tagline}</p>
             </Link>
           </Reveal>
         ))}
