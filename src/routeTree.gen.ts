@@ -9,94 +9,43 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as ServiceabilityRouteImport } from './routes/serviceability'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
-import { Route as NoMaidaNoSugarRouteImport } from './routes/no-maida-no-sugar'
-import { Route as MilkshakesRouteImport } from './routes/milkshakes'
-import { Route as MenuRouteImport } from './routes/menu'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as CheckoutRouteImport } from './routes/checkout'
-import { Route as CfcFriedBucketRouteImport } from './routes/cfc-fried-bucket'
-import { Route as CakeStudioRouteImport } from './routes/cake-studio'
-import { Route as AuthRouteImport } from './routes/auth'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as TrackOrderIdRouteImport } from './routes/track.$orderId'
-import { Route as ProductSlugRouteImport } from './routes/product.$slug'
-import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as CakeStudioRouteImport } from './routes/cake-studio'
+import { Route as CfcFriedBucketRouteImport } from './routes/cfc-fried-bucket'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as MenuRouteImport } from './routes/menu'
+import { Route as MilkshakesRouteImport } from './routes/milkshakes'
+import { Route as NoMaidaNoSugarRouteImport } from './routes/no-maida-no-sugar'
+import { Route as OurKitchenRouteImport } from './routes/our-kitchen'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ServiceabilityRouteImport } from './routes/serviceability'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedAccountRouteImport } from './routes/_authenticated/account'
-import { Route as AuthenticatedAdminVouchersRouteImport } from './routes/_authenticated/admin.vouchers'
-import { Route as AuthenticatedAdminUpsellsRouteImport } from './routes/_authenticated/admin.upsells'
-import { Route as AuthenticatedAdminProductsRouteImport } from './routes/_authenticated/admin.products'
-import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
-import { Route as AuthenticatedAdminMilkshakesRouteImport } from './routes/_authenticated/admin.milkshakes'
-import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authenticated/admin.inventory'
-import { Route as AuthenticatedAdminHealthyRouteImport } from './routes/_authenticated/admin.healthy'
-import { Route as AuthenticatedAdminFounderRouteImport } from './routes/_authenticated/admin.founder'
-import { Route as AuthenticatedAdminDeliveryRouteImport } from './routes/_authenticated/admin.delivery'
+import { Route as MenuCategoryRouteImport } from './routes/menu.$category'
+import { Route as ProductSlugRouteImport } from './routes/product.$slug'
+import { Route as TrackOrderIdRouteImport } from './routes/track.$orderId'
 import { Route as AuthenticatedAdminAddonsRouteImport } from './routes/_authenticated/admin.addons'
+import { Route as AuthenticatedAdminDeliveryRouteImport } from './routes/_authenticated/admin.delivery'
+import { Route as AuthenticatedAdminFounderRouteImport } from './routes/_authenticated/admin.founder'
+import { Route as AuthenticatedAdminHealthyRouteImport } from './routes/_authenticated/admin.healthy'
+import { Route as AuthenticatedAdminInventoryRouteImport } from './routes/_authenticated/admin.inventory'
+import { Route as AuthenticatedAdminMilkshakesRouteImport } from './routes/_authenticated/admin.milkshakes'
+import { Route as AuthenticatedAdminOrdersRouteImport } from './routes/_authenticated/admin.orders'
+import { Route as AuthenticatedAdminProductsRouteImport } from './routes/_authenticated/admin.products'
+import { Route as AuthenticatedAdminUpsellsRouteImport } from './routes/_authenticated/admin.upsells'
+import { Route as AuthenticatedAdminVouchersRouteImport } from './routes/_authenticated/admin.vouchers'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServiceabilityRoute = ServiceabilityRouteImport.update({
-  id: '/serviceability',
-  path: '/serviceability',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const OurKitchenRoute = OurKitchenRouteImport.update({
-  id: '/our-kitchen',
-  path: '/our-kitchen',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const NoMaidaNoSugarRoute = NoMaidaNoSugarRouteImport.update({
-  id: '/no-maida-no-sugar',
-  path: '/no-maida-no-sugar',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MilkshakesRoute = MilkshakesRouteImport.update({
-  id: '/milkshakes',
-  path: '/milkshakes',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MenuRoute = MenuRouteImport.update({
-  id: '/menu',
-  path: '/menu',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckoutRoute = CheckoutRouteImport.update({
-  id: '/checkout',
-  path: '/checkout',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CfcFriedBucketRoute = CfcFriedBucketRouteImport.update({
-  id: '/cfc-fried-bucket',
-  path: '/cfc-fried-bucket',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CakeStudioRoute = CakeStudioRouteImport.update({
-  id: '/cake-studio',
-  path: '/cake-studio',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AuthRoute = AuthRouteImport.update({
-  id: '/auth',
-  path: '/auth',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -104,13 +53,79 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
-  id: '/_authenticated',
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const CakeStudioRoute = CakeStudioRouteImport.update({
+  id: '/cake-studio',
+  path: '/cake-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CfcFriedBucketRoute = CfcFriedBucketRouteImport.update({
+  id: '/cfc-fried-bucket',
+  path: '/cfc-fried-bucket',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MenuRoute = MenuRouteImport.update({
+  id: '/menu',
+  path: '/menu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MilkshakesRoute = MilkshakesRouteImport.update({
+  id: '/milkshakes',
+  path: '/milkshakes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoMaidaNoSugarRoute = NoMaidaNoSugarRouteImport.update({
+  id: '/no-maida-no-sugar',
+  path: '/no-maida-no-sugar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurKitchenRoute = OurKitchenRouteImport.update({
+  id: '/our-kitchen',
+  path: '/our-kitchen',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiceabilityRoute = ServiceabilityRouteImport.update({
+  id: '/serviceability',
+  path: '/serviceability',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
+  id: '/account',
+  path: '/account',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const MenuCategoryRoute = MenuCategoryRouteImport.update({
+  id: '/$category',
+  path: '/$category',
+  getParentRoute: () => MenuRoute,
+} as any)
+const ProductSlugRoute = ProductSlugRouteImport.update({
+  id: '/product/$slug',
+  path: '/product/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const TrackOrderIdRoute = TrackOrderIdRouteImport.update({
@@ -118,67 +133,10 @@ const TrackOrderIdRoute = TrackOrderIdRouteImport.update({
   path: '/track/$orderId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ProductSlugRoute = ProductSlugRouteImport.update({
-  id: '/product/$slug',
-  path: '/product/$slug',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MenuCategoryRoute = MenuCategoryRouteImport.update({
-  id: '/$category',
-  path: '/$category',
-  getParentRoute: () => MenuRoute,
-} as any)
-const AuthenticatedAccountRoute = AuthenticatedAccountRouteImport.update({
-  id: '/account',
-  path: '/account',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
-const AuthenticatedAdminVouchersRoute =
-  AuthenticatedAdminVouchersRouteImport.update({
-    id: '/admin/vouchers',
-    path: '/admin/vouchers',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminUpsellsRoute =
-  AuthenticatedAdminUpsellsRouteImport.update({
-    id: '/admin/upsells',
-    path: '/admin/upsells',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminProductsRoute =
-  AuthenticatedAdminProductsRouteImport.update({
-    id: '/admin/products',
-    path: '/admin/products',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminOrdersRoute =
-  AuthenticatedAdminOrdersRouteImport.update({
-    id: '/admin/orders',
-    path: '/admin/orders',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminMilkshakesRoute =
-  AuthenticatedAdminMilkshakesRouteImport.update({
-    id: '/admin/milkshakes',
-    path: '/admin/milkshakes',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminInventoryRoute =
-  AuthenticatedAdminInventoryRouteImport.update({
-    id: '/admin/inventory',
-    path: '/admin/inventory',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminHealthyRoute =
-  AuthenticatedAdminHealthyRouteImport.update({
-    id: '/admin/healthy',
-    path: '/admin/healthy',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedAdminFounderRoute =
-  AuthenticatedAdminFounderRouteImport.update({
-    id: '/admin/founder',
-    path: '/admin/founder',
+const AuthenticatedAdminAddonsRoute =
+  AuthenticatedAdminAddonsRouteImport.update({
+    id: '/admin/addons',
+    path: '/admin/addons',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedAdminDeliveryRoute =
@@ -187,10 +145,52 @@ const AuthenticatedAdminDeliveryRoute =
     path: '/admin/delivery',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedAdminAddonsRoute =
-  AuthenticatedAdminAddonsRouteImport.update({
-    id: '/admin/addons',
-    path: '/admin/addons',
+const AuthenticatedAdminFounderRoute =
+  AuthenticatedAdminFounderRouteImport.update({
+    id: '/admin/founder',
+    path: '/admin/founder',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminHealthyRoute =
+  AuthenticatedAdminHealthyRouteImport.update({
+    id: '/admin/healthy',
+    path: '/admin/healthy',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminInventoryRoute =
+  AuthenticatedAdminInventoryRouteImport.update({
+    id: '/admin/inventory',
+    path: '/admin/inventory',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminMilkshakesRoute =
+  AuthenticatedAdminMilkshakesRouteImport.update({
+    id: '/admin/milkshakes',
+    path: '/admin/milkshakes',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminOrdersRoute =
+  AuthenticatedAdminOrdersRouteImport.update({
+    id: '/admin/orders',
+    path: '/admin/orders',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminProductsRoute =
+  AuthenticatedAdminProductsRouteImport.update({
+    id: '/admin/products',
+    path: '/admin/products',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminUpsellsRoute =
+  AuthenticatedAdminUpsellsRouteImport.update({
+    id: '/admin/upsells',
+    path: '/admin/upsells',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedAdminVouchersRoute =
+  AuthenticatedAdminVouchersRouteImport.update({
+    id: '/admin/vouchers',
+    path: '/admin/vouchers',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -402,95 +402,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/serviceability': {
-      id: '/serviceability'
-      path: '/serviceability'
-      fullPath: '/serviceability'
-      preLoaderRoute: typeof ServiceabilityRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/our-kitchen': {
-      id: '/our-kitchen'
-      path: '/our-kitchen'
-      fullPath: '/our-kitchen'
-      preLoaderRoute: typeof OurKitchenRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/no-maida-no-sugar': {
-      id: '/no-maida-no-sugar'
-      path: '/no-maida-no-sugar'
-      fullPath: '/no-maida-no-sugar'
-      preLoaderRoute: typeof NoMaidaNoSugarRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/milkshakes': {
-      id: '/milkshakes'
-      path: '/milkshakes'
-      fullPath: '/milkshakes'
-      preLoaderRoute: typeof MilkshakesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/menu': {
-      id: '/menu'
-      path: '/menu'
-      fullPath: '/menu'
-      preLoaderRoute: typeof MenuRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkout': {
-      id: '/checkout'
-      path: '/checkout'
-      fullPath: '/checkout'
-      preLoaderRoute: typeof CheckoutRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cfc-fried-bucket': {
-      id: '/cfc-fried-bucket'
-      path: '/cfc-fried-bucket'
-      fullPath: '/cfc-fried-bucket'
-      preLoaderRoute: typeof CfcFriedBucketRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cake-studio': {
-      id: '/cake-studio'
-      path: '/cake-studio'
-      fullPath: '/cake-studio'
-      preLoaderRoute: typeof CakeStudioRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/auth': {
-      id: '/auth'
-      path: '/auth'
-      fullPath: '/auth'
-      preLoaderRoute: typeof AuthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated': {
@@ -500,11 +416,116 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cake-studio': {
+      id: '/cake-studio'
+      path: '/cake-studio'
+      fullPath: '/cake-studio'
+      preLoaderRoute: typeof CakeStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cfc-fried-bucket': {
+      id: '/cfc-fried-bucket'
+      path: '/cfc-fried-bucket'
+      fullPath: '/cfc-fried-bucket'
+      preLoaderRoute: typeof CfcFriedBucketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/menu': {
+      id: '/menu'
+      path: '/menu'
+      fullPath: '/menu'
+      preLoaderRoute: typeof MenuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/milkshakes': {
+      id: '/milkshakes'
+      path: '/milkshakes'
+      fullPath: '/milkshakes'
+      preLoaderRoute: typeof MilkshakesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-maida-no-sugar': {
+      id: '/no-maida-no-sugar'
+      path: '/no-maida-no-sugar'
+      fullPath: '/no-maida-no-sugar'
+      preLoaderRoute: typeof NoMaidaNoSugarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/our-kitchen': {
+      id: '/our-kitchen'
+      path: '/our-kitchen'
+      fullPath: '/our-kitchen'
+      preLoaderRoute: typeof OurKitchenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/serviceability': {
+      id: '/serviceability'
+      path: '/serviceability'
+      fullPath: '/serviceability'
+      preLoaderRoute: typeof ServiceabilityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/account': {
+      id: '/_authenticated/account'
+      path: '/account'
+      fullPath: '/account'
+      preLoaderRoute: typeof AuthenticatedAccountRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/menu/$category': {
+      id: '/menu/$category'
+      path: '/$category'
+      fullPath: '/menu/$category'
+      preLoaderRoute: typeof MenuCategoryRouteImport
+      parentRoute: typeof MenuRoute
+    }
+    '/product/$slug': {
+      id: '/product/$slug'
+      path: '/product/$slug'
+      fullPath: '/product/$slug'
+      preLoaderRoute: typeof ProductSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/track/$orderId': {
@@ -514,81 +535,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrackOrderIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/product/$slug': {
-      id: '/product/$slug'
-      path: '/product/$slug'
-      fullPath: '/product/$slug'
-      preLoaderRoute: typeof ProductSlugRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/menu/$category': {
-      id: '/menu/$category'
-      path: '/$category'
-      fullPath: '/menu/$category'
-      preLoaderRoute: typeof MenuCategoryRouteImport
-      parentRoute: typeof MenuRoute
-    }
-    '/_authenticated/account': {
-      id: '/_authenticated/account'
-      path: '/account'
-      fullPath: '/account'
-      preLoaderRoute: typeof AuthenticatedAccountRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/vouchers': {
-      id: '/_authenticated/admin/vouchers'
-      path: '/admin/vouchers'
-      fullPath: '/admin/vouchers'
-      preLoaderRoute: typeof AuthenticatedAdminVouchersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/upsells': {
-      id: '/_authenticated/admin/upsells'
-      path: '/admin/upsells'
-      fullPath: '/admin/upsells'
-      preLoaderRoute: typeof AuthenticatedAdminUpsellsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/products': {
-      id: '/_authenticated/admin/products'
-      path: '/admin/products'
-      fullPath: '/admin/products'
-      preLoaderRoute: typeof AuthenticatedAdminProductsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/orders': {
-      id: '/_authenticated/admin/orders'
-      path: '/admin/orders'
-      fullPath: '/admin/orders'
-      preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/milkshakes': {
-      id: '/_authenticated/admin/milkshakes'
-      path: '/admin/milkshakes'
-      fullPath: '/admin/milkshakes'
-      preLoaderRoute: typeof AuthenticatedAdminMilkshakesRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/inventory': {
-      id: '/_authenticated/admin/inventory'
-      path: '/admin/inventory'
-      fullPath: '/admin/inventory'
-      preLoaderRoute: typeof AuthenticatedAdminInventoryRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/healthy': {
-      id: '/_authenticated/admin/healthy'
-      path: '/admin/healthy'
-      fullPath: '/admin/healthy'
-      preLoaderRoute: typeof AuthenticatedAdminHealthyRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/admin/founder': {
-      id: '/_authenticated/admin/founder'
-      path: '/admin/founder'
-      fullPath: '/admin/founder'
-      preLoaderRoute: typeof AuthenticatedAdminFounderRouteImport
+    '/_authenticated/admin/addons': {
+      id: '/_authenticated/admin/addons'
+      path: '/admin/addons'
+      fullPath: '/admin/addons'
+      preLoaderRoute: typeof AuthenticatedAdminAddonsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/admin/delivery': {
@@ -598,11 +549,60 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminDeliveryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/admin/addons': {
-      id: '/_authenticated/admin/addons'
-      path: '/admin/addons'
-      fullPath: '/admin/addons'
-      preLoaderRoute: typeof AuthenticatedAdminAddonsRouteImport
+    '/_authenticated/admin/founder': {
+      id: '/_authenticated/admin/founder'
+      path: '/admin/founder'
+      fullPath: '/admin/founder'
+      preLoaderRoute: typeof AuthenticatedAdminFounderRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/healthy': {
+      id: '/_authenticated/admin/healthy'
+      path: '/admin/healthy'
+      fullPath: '/admin/healthy'
+      preLoaderRoute: typeof AuthenticatedAdminHealthyRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/inventory': {
+      id: '/_authenticated/admin/inventory'
+      path: '/admin/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AuthenticatedAdminInventoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/milkshakes': {
+      id: '/_authenticated/admin/milkshakes'
+      path: '/admin/milkshakes'
+      fullPath: '/admin/milkshakes'
+      preLoaderRoute: typeof AuthenticatedAdminMilkshakesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/orders': {
+      id: '/_authenticated/admin/orders'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AuthenticatedAdminOrdersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/products': {
+      id: '/_authenticated/admin/products'
+      path: '/admin/products'
+      fullPath: '/admin/products'
+      preLoaderRoute: typeof AuthenticatedAdminProductsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/upsells': {
+      id: '/_authenticated/admin/upsells'
+      path: '/admin/upsells'
+      fullPath: '/admin/upsells'
+      preLoaderRoute: typeof AuthenticatedAdminUpsellsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/admin/vouchers': {
+      id: '/_authenticated/admin/vouchers'
+      path: '/admin/vouchers'
+      fullPath: '/admin/vouchers'
+      preLoaderRoute: typeof AuthenticatedAdminVouchersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
