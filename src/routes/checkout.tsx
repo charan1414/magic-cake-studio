@@ -231,7 +231,7 @@ function Checkout() {
         </section>
       )}
 
-      <section className="container-luxe grid gap-4 pb-24 lg:grid-cols-[1.4fr_1fr]">
+      <section className="container-luxe grid gap-4 pb-24 [grid-template-columns:minmax(0,1fr)] lg:grid-cols-[1.4fr_1fr]">
         <div className="space-y-4">
           <div className="rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6">
             <div className="mb-3 flex items-center justify-between">
