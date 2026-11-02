@@ -217,9 +217,9 @@ function Checkout() {
 
   return (
     <div className="pt-32">
-      <section className="container-luxe pb-12">
+      <section className="container-luxe pb-8">
         <Eyebrow>Checkout</Eyebrow>
-        <h1 className="mt-4 font-display text-5xl leading-[1.02] text-cream md:text-6xl">Review your <span className="italic gold-text">order</span>.</h1>
+        <h1 className="mt-3 font-display text-4xl leading-[1.05] text-cream md:text-6xl">Review your <span className="italic gold-text">order</span>.</h1>
       </section>
 
       {deliveryPaused && (
@@ -231,11 +231,11 @@ function Checkout() {
         </section>
       )}
 
-      <section className="container-luxe grid gap-6 pb-24 lg:grid-cols-[1.4fr_1fr]">
-        <div className="space-y-6">
-          <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-display text-2xl text-cream">Your items ({items.length})</h2>
+      <section className="container-luxe grid gap-4 pb-24 lg:grid-cols-[1.4fr_1fr]">
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-display text-xl text-cream sm:text-2xl">Your items ({items.length})</h2>
               <button onClick={clear} className="text-xs text-muted-foreground hover:text-destructive">Clear all</button>
             </div>
             <ul className="divide-y divide-border/60">
