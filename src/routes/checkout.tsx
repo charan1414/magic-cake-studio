@@ -322,7 +322,7 @@ function Checkout() {
               </li>
             ))}
           </ul>
-          <dl className="mt-5 space-y-3 text-sm">
+          <dl className="mt-4 space-y-2.5 text-sm">
             <Row k="Subtotal" v={`₹${subtotal.toLocaleString("en-IN")}`} />
             {firstOrderOff > 0 && (
               <Row k={`First order ${loyalty.firstOrderPercent}% off`} v={`− ₹${firstOrderOff.toLocaleString("en-IN")}`} accent />
@@ -368,10 +368,10 @@ function Checkout() {
             </div>
           )}
 
-          <div className="my-5 h-px bg-border/60" />
+          <div className="my-4 h-px bg-border/60" />
           <div className="flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
-            <span className="font-display text-3xl gold-text">₹{total.toLocaleString("en-IN")}</span>
+            <span className="font-display text-2xl gold-text sm:text-3xl">₹{total.toLocaleString("en-IN")}</span>
           </div>
 
           {belowMin && (
@@ -388,7 +388,7 @@ function Checkout() {
           <button
             onClick={place}
             disabled={!canPlace}
-            className="btn-gold btn-gold-hover mt-4 w-full rounded-full py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-gold btn-gold-hover mt-3 w-full rounded-full py-3 text-xs font-semibold uppercase tracking-wide disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm sm:tracking-normal"
           >
             {placing ? "Placing…" : `Place Order · ₹${total.toLocaleString("en-IN")}`}
           </button>
@@ -412,16 +412,16 @@ function Field({ label, value, onChange, placeholder, className }: { label: stri
   return (
     <label className={`block ${className ?? ""}`}>
       <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-muted-foreground">{label}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-border bg-input/50 px-4 py-3 text-sm text-cream placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-lg border border-border bg-input/50 px-3 py-2 text-sm text-cream placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
     </label>
   );
 }
 
 function PayOption({ active, onClick, title, desc }: { active: boolean; onClick: () => void; title: string; desc: string }) {
   return (
-    <button type="button" onClick={onClick} className={`rounded-xl border p-4 text-left transition-all ${active ? "border-primary bg-primary/10 shadow-luxe" : "border-border hover:border-primary/50"}`}>
-      <p className="font-medium text-cream">{title}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{desc}</p>
+    <button type="button" onClick={onClick} className={`rounded-lg border p-2.5 text-left transition-all ${active ? "border-primary bg-primary/10 shadow-luxe" : "border-border hover:border-primary/50"}`}>
+      <p className="text-sm font-medium text-cream">{title}</p>
+      <p className="text-[11px] leading-snug text-muted-foreground">{desc}</p>
     </button>
   );
 }
