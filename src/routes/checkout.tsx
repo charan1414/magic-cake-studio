@@ -240,10 +240,10 @@ function Checkout() {
             </div>
             <ul className="divide-y divide-border/60">
               {items.map((i) => (
-                <li key={i.slug} className="flex items-center gap-4 py-4">
-                  {i.image ? <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-20 w-20 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
-                  <div className="flex-1">
-                    <p className="font-medium text-cream">{i.name}</p>
+                <li key={i.slug} className="flex items-center gap-3 py-3">
+                  {i.image ? <img src={i.image} alt={i.name} className="h-14 w-14 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-cream">{i.name}</p>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                       {i.variant && (
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-medium uppercase tracking-wider text-primary">{i.variant}</span>
@@ -253,12 +253,12 @@ function Checkout() {
                       </span>
                     </div>
                   </div>
-                  <div className="inline-flex items-center rounded-full border border-border">
-                    <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-8 w-8 place-items-center"><Minus className="h-3 w-3" /></button>
-                    <span className="min-w-8 text-center text-sm">{i.qty}</span>
-                    <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-8 w-8 place-items-center"><Plus className="h-3 w-3" /></button>
+                  <div className="inline-flex shrink-0 items-center rounded-full border border-border">
+                    <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-7 w-7 place-items-center"><Minus className="h-3 w-3" /></button>
+                    <span className="min-w-7 text-center text-xs">{i.qty}</span>
+                    <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-7 w-7 place-items-center"><Plus className="h-3 w-3" /></button>
                   </div>
-                  <p className="w-24 text-right font-display gold-text">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
+                  <p className="w-16 shrink-0 text-right font-display text-sm gold-text sm:w-24 sm:text-base">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
                   <button onClick={() => remove(i.slug)} aria-label="Remove" className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                 </li>
               ))}
@@ -269,23 +269,23 @@ function Checkout() {
 
           <CheckoutUpsells cartSlugs={items.map((i) => i.slug)} />
 
-          <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-            <h2 className="font-display text-2xl text-cream">Delivery details</h2>
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6">
+            <h2 className="font-display text-xl text-cream sm:text-2xl">Delivery details</h2>
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
               <Field label="Full name" value={contactName} onChange={setContactName} />
               <Field label="Phone" value={contactPhone} onChange={setContactPhone} placeholder="+91…" />
-              <Field label="Address line 1" value={line1} onChange={setLine1} className="md:col-span-2" />
-              <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="md:col-span-2" />
+              <Field label="Address line 1" value={line1} onChange={setLine1} className="col-span-2" />
+              <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="col-span-2" />
               <Field label="Village / Locality" value={locality} onChange={setLocality} />
               <Field label="City / Town" value={city} onChange={setCity} />
               <Field label="District" value={district} onChange={setDistrict} />
               <Field label="State" value={state} onChange={setState} />
-              <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="md:col-span-2" />
+              <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="col-span-2" />
             </div>
 
             {items.some((i) => i.slug.startsWith("ic-")) && (
-              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-primary/40 bg-primary/10 p-4">
-                <IceCreamBowl className="mt-0.5 h-4 w-4 text-primary" />
+              <div className="mt-3 flex items-start gap-3 rounded-xl border border-primary/40 bg-primary/10 p-3">
+                <IceCreamBowl className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 <p className="text-xs leading-relaxed text-cream">Ice cream is packed for short-radius delivery. Please be available at the phone number provided for a quick handoff.</p>
               </div>
             )}
