@@ -217,9 +217,9 @@ function Checkout() {
 
   return (
     <div className="pt-32">
-      <section className="container-luxe pb-12">
+      <section className="container-luxe pb-8">
         <Eyebrow>Checkout</Eyebrow>
-        <h1 className="mt-4 font-display text-5xl leading-[1.02] text-cream md:text-6xl">Review your <span className="italic gold-text">order</span>.</h1>
+        <h1 className="mt-3 font-display text-4xl leading-[1.05] text-cream md:text-6xl">Review your <span className="italic gold-text">order</span>.</h1>
       </section>
 
       {deliveryPaused && (
@@ -231,19 +231,19 @@ function Checkout() {
         </section>
       )}
 
-      <section className="container-luxe grid gap-6 pb-24 lg:grid-cols-[1.4fr_1fr]">
-        <div className="space-y-6">
-          <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="font-display text-2xl text-cream">Your items ({items.length})</h2>
+      <section className="container-luxe grid gap-4 pb-24 [grid-template-columns:minmax(0,1fr)] lg:grid-cols-[1.4fr_1fr]">
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6">
+            <div className="mb-3 flex items-center justify-between">
+              <h2 className="font-display text-xl text-cream sm:text-2xl">Your items ({items.length})</h2>
               <button onClick={clear} className="text-xs text-muted-foreground hover:text-destructive">Clear all</button>
             </div>
             <ul className="divide-y divide-border/60">
               {items.map((i) => (
-                <li key={i.slug} className="flex items-center gap-4 py-4">
-                  {i.image ? <img src={i.image} alt={i.name} className="h-20 w-20 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-20 w-20 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
-                  <div className="flex-1">
-                    <p className="font-medium text-cream">{i.name}</p>
+                <li key={i.slug} className="flex items-center gap-3 py-3">
+                  {i.image ? <img src={i.image} alt={i.name} className="h-14 w-14 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-cream">{i.name}</p>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                       {i.variant && (
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-medium uppercase tracking-wider text-primary">{i.variant}</span>
@@ -253,12 +253,12 @@ function Checkout() {
                       </span>
                     </div>
                   </div>
-                  <div className="inline-flex items-center rounded-full border border-border">
-                    <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-8 w-8 place-items-center"><Minus className="h-3 w-3" /></button>
-                    <span className="min-w-8 text-center text-sm">{i.qty}</span>
-                    <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-8 w-8 place-items-center"><Plus className="h-3 w-3" /></button>
+                  <div className="inline-flex shrink-0 items-center rounded-full border border-border">
+                    <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-7 w-7 place-items-center"><Minus className="h-3 w-3" /></button>
+                    <span className="min-w-7 text-center text-xs">{i.qty}</span>
+                    <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-7 w-7 place-items-center"><Plus className="h-3 w-3" /></button>
                   </div>
-                  <p className="w-24 text-right font-display gold-text">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
+                  <p className="w-16 shrink-0 text-right font-display text-sm gold-text sm:w-24 sm:text-base">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
                   <button onClick={() => remove(i.slug)} aria-label="Remove" className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                 </li>
               ))}
@@ -269,37 +269,37 @@ function Checkout() {
 
           <CheckoutUpsells cartSlugs={items.map((i) => i.slug)} />
 
-          <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-            <h2 className="font-display text-2xl text-cream">Delivery details</h2>
-            <div className="mt-5 grid gap-3 md:grid-cols-2">
+          <div className="rounded-2xl border border-border/60 bg-card/40 p-4 sm:p-6">
+            <h2 className="font-display text-xl text-cream sm:text-2xl">Delivery details</h2>
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
               <Field label="Full name" value={contactName} onChange={setContactName} />
               <Field label="Phone" value={contactPhone} onChange={setContactPhone} placeholder="+91…" />
-              <Field label="Address line 1" value={line1} onChange={setLine1} className="md:col-span-2" />
-              <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="md:col-span-2" />
+              <Field label="Address line 1" value={line1} onChange={setLine1} className="col-span-2" />
+              <Field label="Address line 2 (optional)" value={line2} onChange={setLine2} className="col-span-2" />
               <Field label="Village / Locality" value={locality} onChange={setLocality} />
               <Field label="City / Town" value={city} onChange={setCity} />
               <Field label="District" value={district} onChange={setDistrict} />
               <Field label="State" value={state} onChange={setState} />
-              <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="md:col-span-2" />
+              <Field label="Order notes (optional)" value={notes} onChange={setNotes} className="col-span-2" />
             </div>
 
             {items.some((i) => i.slug.startsWith("ic-")) && (
-              <div className="mt-5 flex items-start gap-3 rounded-2xl border border-primary/40 bg-primary/10 p-4">
-                <IceCreamBowl className="mt-0.5 h-4 w-4 text-primary" />
+              <div className="mt-3 flex items-start gap-3 rounded-xl border border-primary/40 bg-primary/10 p-3">
+                <IceCreamBowl className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
                 <p className="text-xs leading-relaxed text-cream">Ice cream is packed for short-radius delivery. Please be available at the phone number provided for a quick handoff.</p>
               </div>
             )}
 
-            <div className="mt-5">
-              <p className="mb-3 text-xs text-muted-foreground">
+            <div className="mt-4">
+              <p className="mb-2 text-xs text-muted-foreground">
                 We deliver to serviceable pincodes within {meta?.delivery_radius_km ?? 20} km of our Lakkur kitchen. Confirm your pincode to unlock ordering.
               </p>
               <PinChecker subtotal={subtotal} onResult={setService} />
             </div>
 
-            <div className="mt-6">
+            <div className="mt-4">
               <p className="eyebrow">Payment</p>
-              <div className="mt-3 grid gap-3 md:grid-cols-2">
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 <PayOption active={payment === "cod"} onClick={() => setPayment("cod")} title="Cash on Delivery" desc="Pay when it arrives." />
                 <PayOption active={payment === "online"} onClick={() => setPayment("online")} title="UPI / Online" desc="UPI QR + screenshot flow coming shortly." />
               </div>
@@ -307,9 +307,9 @@ function Checkout() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-3xl border border-primary/30 bg-primary/5 p-6 lg:sticky lg:top-28">
-          <h3 className="font-display text-2xl text-cream">Summary</h3>
-          <ul className="mt-4 max-h-64 space-y-2 overflow-y-auto pr-1 text-sm">
+        <aside className="h-fit rounded-2xl border border-primary/30 bg-primary/5 p-4 sm:p-6 lg:sticky lg:top-28">
+          <h3 className="font-display text-xl text-cream sm:text-2xl">Summary</h3>
+          <ul className="mt-3 max-h-40 space-y-2 overflow-y-auto pr-1 text-sm">
             {items.map((i) => (
               <li key={i.slug} className="flex items-start justify-between gap-3 border-b border-border/40 pb-2">
                 <div>
@@ -322,7 +322,7 @@ function Checkout() {
               </li>
             ))}
           </ul>
-          <dl className="mt-5 space-y-3 text-sm">
+          <dl className="mt-4 space-y-2.5 text-sm">
             <Row k="Subtotal" v={`₹${subtotal.toLocaleString("en-IN")}`} />
             {firstOrderOff > 0 && (
               <Row k={`First order ${loyalty.firstOrderPercent}% off`} v={`− ₹${firstOrderOff.toLocaleString("en-IN")}`} accent />
@@ -368,10 +368,10 @@ function Checkout() {
             </div>
           )}
 
-          <div className="my-5 h-px bg-border/60" />
+          <div className="my-4 h-px bg-border/60" />
           <div className="flex items-baseline justify-between">
             <span className="text-sm text-muted-foreground">Total</span>
-            <span className="font-display text-3xl gold-text">₹{total.toLocaleString("en-IN")}</span>
+            <span className="font-display text-2xl gold-text sm:text-3xl">₹{total.toLocaleString("en-IN")}</span>
           </div>
 
           {belowMin && (
@@ -388,7 +388,7 @@ function Checkout() {
           <button
             onClick={place}
             disabled={!canPlace}
-            className="btn-gold btn-gold-hover mt-4 w-full rounded-full py-3.5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+            className="btn-gold btn-gold-hover mt-3 w-full rounded-full py-3 text-xs font-semibold uppercase tracking-wide disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm sm:tracking-normal"
           >
             {placing ? "Placing…" : `Place Order · ₹${total.toLocaleString("en-IN")}`}
           </button>
@@ -412,16 +412,16 @@ function Field({ label, value, onChange, placeholder, className }: { label: stri
   return (
     <label className={`block ${className ?? ""}`}>
       <span className="mb-1.5 block text-[11px] uppercase tracking-widest text-muted-foreground">{label}</span>
-      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-xl border border-border bg-input/50 px-4 py-3 text-sm text-cream placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
+      <input value={value} onChange={(e) => onChange(e.target.value)} placeholder={placeholder} className="w-full rounded-lg border border-border bg-input/50 px-3 py-2 text-sm text-cream placeholder:text-muted-foreground focus:border-primary focus:outline-none" />
     </label>
   );
 }
 
 function PayOption({ active, onClick, title, desc }: { active: boolean; onClick: () => void; title: string; desc: string }) {
   return (
-    <button type="button" onClick={onClick} className={`rounded-xl border p-4 text-left transition-all ${active ? "border-primary bg-primary/10 shadow-luxe" : "border-border hover:border-primary/50"}`}>
-      <p className="font-medium text-cream">{title}</p>
-      <p className="mt-1 text-xs text-muted-foreground">{desc}</p>
+    <button type="button" onClick={onClick} className={`rounded-lg border p-2.5 text-left transition-all ${active ? "border-primary bg-primary/10 shadow-luxe" : "border-border hover:border-primary/50"}`}>
+      <p className="text-sm font-medium text-cream">{title}</p>
+      <p className="text-[11px] leading-snug text-muted-foreground">{desc}</p>
     </button>
   );
 }

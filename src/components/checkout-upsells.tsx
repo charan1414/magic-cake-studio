@@ -95,14 +95,14 @@ export function CheckoutUpsells({ cartSlugs }: { cartSlugs: string[] }) {
   const grid = settings.layout === "grid";
 
   return (
-    <div className="rounded-3xl border border-primary/25 bg-primary/5 p-6">
-      <h2 className="font-display text-2xl text-cream">{settings.section_title}</h2>
-      <p className="mt-1 text-xs text-muted-foreground">Small additions our guests love alongside this basket.</p>
+    <div className="rounded-2xl border border-primary/25 bg-primary/5 p-4">
+      <h2 className="font-display text-lg text-cream">{settings.section_title}</h2>
+      <p className="mt-1 text-[11px] text-muted-foreground">Small additions our guests love alongside this basket.</p>
       <div
         className={
           grid
-            ? "mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4"
-            : "mt-5 flex snap-x gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            ? "mt-3 grid grid-cols-2 gap-2.5 lg:grid-cols-4"
+            : "mt-3 flex snap-x gap-2.5 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         }
       >
         {picks.map(({ item, product }) => {
@@ -118,7 +118,7 @@ export function CheckoutUpsells({ cartSlugs }: { cartSlugs: string[] }) {
           return (
             <div
               key={product.slug}
-              className={`overflow-hidden rounded-2xl border border-border/60 bg-card/60 ${grid ? "" : "w-48 shrink-0 snap-start"}`}
+              className={`overflow-hidden rounded-xl border border-border/60 bg-card/60 ${grid ? "" : "w-40 shrink-0 snap-start"}`}
             >
               <img src={product.image} alt={product.name} className="aspect-square w-full object-cover" loading="lazy" />
               <div className="p-3">

@@ -37,10 +37,13 @@ export function CheckoutAddons() {
   if (addons.length === 0) return null;
 
   return (
-    <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-      <h2 className="font-display text-2xl text-cream">Add-ons</h2>
-      <p className="mt-1 text-xs text-muted-foreground">Make the celebration complete. Tap to add or remove.</p>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+    <div className="rounded-2xl border border-border/60 bg-card/40 p-4">
+      <div className="flex items-baseline justify-between gap-3">
+        <h2 className="font-display text-lg text-cream">Add-ons</h2>
+        <p className="text-[11px] text-muted-foreground">Tap to add or remove</p>
+      </div>
+      {/* One compact, swipeable row on mobile; wraps into a tidy grid on larger screens. */}
+      <div className="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible">
         {addons.map((a) => {
           const slug = addonSlug(a.id);
           const selected = items.some((i) => i.slug === slug);
@@ -56,22 +59,20 @@ export function CheckoutAddons() {
                 else add({ slug, name: a.name, price: Number(a.price), image: addonImage(a.name) ?? "", variant: "Add-on" });
                 useCart.getState().close();
               }}
-              className={`flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
+              className={`flex shrink-0 items-center gap-2 rounded-xl border py-2 pl-2.5 pr-3 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-50 ${
                 selected ? "border-primary bg-primary/10" : "border-border/60 hover:border-primary/50"
               }`}
             >
-              <span className="flex items-center gap-3">
-                <span className={`grid h-6 w-6 place-items-center rounded-full border ${selected ? "border-primary bg-primary text-primary-foreground" : "border-border text-primary"}`}>
-                  {selected ? <Check className="h-3.5 w-3.5" /> : <Plus className="h-3.5 w-3.5" />}
-                </span>
-                {img ? (
-                  <img src={img} alt={a.name} loading="lazy" width={1024} height={1024} className="h-12 w-12 rounded-xl object-cover" />
-                ) : (
-                  <span className="grid h-12 w-12 place-items-center rounded-xl bg-primary/10 font-display text-lg text-primary">{a.name.slice(0, 1).toUpperCase()}</span>
-                )}
-                <span className="text-sm font-medium text-cream">{a.name}</span>
+              <span className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border ${selected ? "border-primary bg-primary text-primary-foreground" : "border-border text-primary"}`}>
+                {selected ? <Check className="h-3 w-3" /> : <Plus className="h-3 w-3" />}
               </span>
-              <span className="text-sm gold-text">{priced ? `₹${Number(a.price).toLocaleString("en-IN")}` : "Coming soon"}</span>
+              {img ? (
+                <img src={img} alt={a.name} loading="lazy" className="h-9 w-9 rounded-lg object-cover" />
+              ) : (
+                <span className="grid h-9 w-9 shrink-0 place-items-center rounded-lg bg-primary/10 font-display text-sm text-primary">{a.name.slice(0, 1).toUpperCase()}</span>
+              )}
+              <span className="text-xs font-medium leading-tight text-cream">{a.name}</span>
+              <span className="text-xs font-medium gold-text">{priced ? `₹${Number(a.price).toLocaleString("en-IN")}` : "—"}</span>
             </button>
           );
         })}
