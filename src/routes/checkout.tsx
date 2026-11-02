@@ -290,16 +290,16 @@ function Checkout() {
               </div>
             )}
 
-            <div className="mt-5">
-              <p className="mb-3 text-xs text-muted-foreground">
+            <div className="mt-4">
+              <p className="mb-2 text-xs text-muted-foreground">
                 We deliver to serviceable pincodes within {meta?.delivery_radius_km ?? 20} km of our Lakkur kitchen. Confirm your pincode to unlock ordering.
               </p>
               <PinChecker subtotal={subtotal} onResult={setService} />
             </div>
 
-            <div className="mt-6">
+            <div className="mt-4">
               <p className="eyebrow">Payment</p>
-              <div className="mt-3 grid gap-3 md:grid-cols-2">
+              <div className="mt-2 grid gap-2 sm:grid-cols-2">
                 <PayOption active={payment === "cod"} onClick={() => setPayment("cod")} title="Cash on Delivery" desc="Pay when it arrives." />
                 <PayOption active={payment === "online"} onClick={() => setPayment("online")} title="UPI / Online" desc="UPI QR + screenshot flow coming shortly." />
               </div>
@@ -307,9 +307,9 @@ function Checkout() {
           </div>
         </div>
 
-        <aside className="h-fit rounded-3xl border border-primary/30 bg-primary/5 p-6 lg:sticky lg:top-28">
-          <h3 className="font-display text-2xl text-cream">Summary</h3>
-          <ul className="mt-4 max-h-64 space-y-2 overflow-y-auto pr-1 text-sm">
+        <aside className="h-fit rounded-2xl border border-primary/30 bg-primary/5 p-4 sm:p-6 lg:sticky lg:top-28">
+          <h3 className="font-display text-xl text-cream sm:text-2xl">Summary</h3>
+          <ul className="mt-3 max-h-40 space-y-2 overflow-y-auto pr-1 text-sm">
             {items.map((i) => (
               <li key={i.slug} className="flex items-start justify-between gap-3 border-b border-border/40 pb-2">
                 <div>
