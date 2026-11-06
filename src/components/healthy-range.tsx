@@ -52,7 +52,7 @@ export function HealthyBanner({ compact = false }: { compact?: boolean }) {
   );
 }
 
-export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; index?: number }) {
+export function HealthyCard({ product, index = 0, compact = false }: { product: HealthyProduct; index?: number; compact?: boolean }) {
   const add = useCart((s) => s.add);
   const { price, mrp, discountPct, saved } = healthyPricing(product);
   const out = product.status === "out";
@@ -64,9 +64,9 @@ export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; i
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.6, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-      className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border/60 bg-card/50 transition-all hover:border-emerald-400/40 hover:shadow-luxe"
+      className={`group flex h-full flex-col overflow-hidden border border-border/60 bg-card/50 transition-all hover:border-emerald-400/40 hover:shadow-luxe ${compact ? "rounded-xl" : "rounded-2xl"}`}
     >
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className={`relative overflow-hidden ${compact ? "aspect-square" : "aspect-[4/3]"}`}>
         <img
           src={healthyImage(product)}
           alt={product.name}
@@ -75,24 +75,24 @@ export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; i
           loading="lazy"
           className={`h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 ${out ? "grayscale" : ""}`}
         />
-        <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
+        <div className={`absolute flex flex-wrap gap-1.5 ${compact ? "left-1 top-1" : "left-3 top-3"}`}>
           {product.badges.map((b) => {
             const meta = healthyBadgeMeta(b);
             if (!meta) return null;
             return (
-              <span key={b} className="rounded-full bg-ink/80 px-2.5 py-1 text-[10px] uppercase tracking-wider text-cream backdrop-blur">
+              <span key={b} className={`rounded-full bg-ink/80 uppercase tracking-wider text-cream backdrop-blur ${compact ? "px-1 py-0.5 text-[8px]" : "px-2.5 py-1 text-[10px]"}`}>
                 {meta.emoji} {meta.label}
               </span>
             );
           })}
         </div>
         {discountPct > 0 && (
-          <span className="absolute right-3 top-3 rounded-full bg-red-500/90 px-2.5 py-1 text-[11px] font-semibold text-white">
+          <span className={`absolute rounded-full bg-red-500/90 font-semibold text-white ${compact ? "right-1 top-1 px-1 py-0.5 text-[8px]" : "right-3 top-3 px-2.5 py-1 text-[11px]"}`}>
             {discountPct}% OFF
           </span>
         )}
         <span
-          className={`absolute bottom-3 left-3 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-wider backdrop-blur ${
+          className={`absolute rounded-full border uppercase tracking-wider backdrop-blur ${compact ? "bottom-1 left-1 px-1 py-0.5 text-[8px]" : "bottom-3 left-3 px-2.5 py-1 text-[10px]"} ${
             out
               ? "border-red-400/50 bg-ink/80 text-red-300"
               : low
@@ -104,28 +104,28 @@ export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; i
         </span>
       </div>
 
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-2xl text-cream">{product.name}</h3>
-        {product.description && (
+      <div className={`flex flex-1 flex-col ${compact ? "gap-1 p-2" : "p-5"}`}>
+        <h3 className={`font-display leading-tight text-cream ${compact ? "line-clamp-2 text-xs" : "text-2xl"}`}>{product.name}</h3>
+        {!compact && product.description && (
           <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground">{product.description}</p>
         )}
-        <div className="mt-5 flex items-end justify-between gap-3">
+        <div className={`mt-auto flex items-end justify-between gap-2 ${compact ? "pt-1" : "mt-5 gap-3"}`}>
           <div>
-            {mrp && <p className="text-xs text-muted-foreground line-through">₹{mrp.toLocaleString("en-IN")}</p>}
-            <p className="font-display text-3xl gold-text">₹{price.toLocaleString("en-IN")}</p>
-            {saved > 0 && <p className="text-[11px] text-emerald-400">You save ₹{saved.toLocaleString("en-IN")}</p>}
+            {mrp && <p className="text-[9px] text-muted-foreground line-through">₹{mrp.toLocaleString("en-IN")}</p>}
+            <p className={`font-display gold-text ${compact ? "text-xs" : "text-3xl"}`}>₹{price.toLocaleString("en-IN")}</p>
+            {!compact && saved > 0 && <p className="text-[11px] text-emerald-400">You save ₹{saved.toLocaleString("en-IN")}</p>}
           </div>
           {out ? (
-            <NotifyMeButton slug={product.slug} productName={product.name} />
+            <NotifyMeButton slug={product.slug} productName={product.name} compact={compact} />
           ) : (
             <button
               onClick={() => {
                 add({ slug: `healthy-${product.slug}`, name: product.name, price, image: healthyImage(product), variant: "No Maida · No Sugar" });
                 toast.success(`${product.name} added to cart`);
               }}
-              className="btn-gold btn-gold-hover inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold"
+              className={`btn-gold btn-gold-hover inline-flex shrink-0 items-center gap-1 rounded-full font-semibold ${compact ? "h-6 px-2 text-[9px]" : "gap-2 px-5 py-2.5 text-xs"}`}
             >
-              <ShoppingBag className="h-3.5 w-3.5" /> Add to Cart
+              <ShoppingBag className={`shrink-0 ${compact ? "h-2.5 w-2.5" : "h-3.5 w-3.5"}`} /> {compact ? "Add" : "Add to Cart"}
             </button>
           )}
         </div>
@@ -135,7 +135,7 @@ export function HealthyCard({ product, index = 0 }: { product: HealthyProduct; i
 }
 
 /** Full collection grid, CMS-driven with admin-controlled sorting. */
-export function HealthySection({ limit }: { limit?: number }) {
+export function HealthySection({ limit, compact = false }: { limit?: number; compact?: boolean }) {
   const { items, loading } = useHealthyProducts();
   const { settings } = useHealthySettings();
 
@@ -151,11 +151,11 @@ export function HealthySection({ limit }: { limit?: number }) {
   if (!loading && list.length === 0) return null;
 
   return (
-    <section className="container-luxe py-24">
-      <div className="mb-12 flex flex-col items-end justify-between gap-6 md:flex-row">
+    <section className={`container-luxe ${compact ? "py-10 md:py-16" : "py-24"}`}>
+      <div className={`flex flex-col items-end justify-between md:flex-row ${compact ? "mb-5 gap-3" : "mb-12 gap-6"}`}>
         <div>
           <Eyebrow>No Maida · No Sugar</Eyebrow>
-          <h2 className="mt-4 max-w-2xl font-display text-5xl leading-tight text-cream">
+          <h2 className={`mt-2 max-w-2xl font-display leading-tight text-cream ${compact ? "text-2xl sm:text-3xl" : "mt-4 text-5xl"}`}>
             Clean indulgence, <span className="italic gold-text">zero compromise</span>.
           </h2>
         </div>
@@ -173,9 +173,9 @@ export function HealthySection({ limit }: { limit?: number }) {
           ))}
         </div>
       ) : (
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className={`grid ${compact ? "grid-cols-3 gap-1.5 sm:gap-3" : "gap-5 sm:grid-cols-2 lg:grid-cols-3"}`}>
           {list.map((p, i) => (
-            <HealthyCard key={p.id} product={p} index={i} />
+            <HealthyCard key={p.id} product={p} index={i} compact={compact} />
           ))}
         </div>
       )}
