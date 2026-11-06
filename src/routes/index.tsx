@@ -52,7 +52,7 @@ function HomePage() {
       <DBCShowcase />
       <CFCBanner />
       <HealthyBanner compact />
-      <HealthySection limit={3} />
+      <HealthySection limit={3} compact />
       <MilkshakeHomeSection />
       <CraftSection />
       <CategoryShowcase />
@@ -115,13 +115,13 @@ function CategoryTiles() {
           Full menu <ArrowRight className="h-3.5 w-3.5" />
         </Link>
       </div>
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-3 md:gap-3 lg:grid-cols-4">
         {tiles.map((t, i) => (
           <Reveal key={t.label} delay={Math.min(i, 8) * 0.03}>
             <Link
               to={t.to}
               params={t.params ?? {}}
-              className="group relative flex h-28 flex-col justify-end overflow-hidden rounded-xl border border-border/60 bg-card/60 p-3 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-32 md:h-44 md:rounded-2xl md:p-4"
+              className="group relative flex h-24 min-w-0 flex-col justify-end overflow-hidden rounded-lg border border-border/60 bg-card/60 p-2 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-32 sm:rounded-xl sm:p-3 md:h-44 md:rounded-2xl md:p-4"
             >
               <img
                 src={tileImg[t.label]}
@@ -131,8 +131,8 @@ function CategoryTiles() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/55 to-ink/10 transition-opacity group-hover:via-ink/40" />
               <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-primary/10 blur-2xl transition-all group-hover:bg-primary/20" />
-              <p className="relative font-display text-sm leading-tight text-cream drop-shadow group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>
-              <p className="relative mt-0.5 line-clamp-1 text-[10px] text-cream/70 md:text-xs">{t.tagline}</p>
+              <p className="relative line-clamp-2 font-display text-xs leading-tight text-cream drop-shadow group-hover:gold-text sm:text-base md:text-xl">{t.label}</p>
+              <p className="relative mt-0.5 hidden line-clamp-1 text-[10px] text-cream/70 sm:block md:text-xs">{t.tagline}</p>
             </Link>
           </Reveal>
         ))}
@@ -356,19 +356,19 @@ function CategoryShowcase() {
           See full menu <ArrowRight className="h-4 w-4" />
         </Link>
       </div>
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
         {CATEGORIES.slice(0, 6).map((c, i) => (
           <Reveal key={c.slug} delay={i * 0.05}>
             <Link
               to="/menu/$category"
               params={{ category: c.slug }}
-              className="group relative flex h-40 items-end overflow-hidden rounded-2xl border border-border/60 bg-card/60 p-6 transition-all hover:border-primary/50 hover:shadow-luxe md:h-52"
+              className="group relative flex h-24 min-w-0 items-end overflow-hidden rounded-lg border border-border/60 bg-card/60 p-2 transition-all hover:border-primary/50 hover:shadow-luxe sm:h-36 sm:rounded-xl sm:p-3 md:h-52 md:rounded-2xl md:p-6"
             >
               <div className="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-primary/10 blur-3xl transition-all group-hover:bg-primary/20" />
               <div className="relative">
-                <p className="eyebrow">{c.tagline}</p>
-                <p className="mt-2 font-display text-3xl text-cream group-hover:gold-text">{c.name}</p>
-                <span className="mt-3 inline-flex items-center gap-1.5 text-xs text-cream/70 group-hover:text-primary">
+                <p className="hidden text-[9px] text-cream/70 sm:block sm:text-xs">{c.tagline}</p>
+                <p className="mt-1 line-clamp-2 font-display text-xs leading-tight text-cream group-hover:gold-text sm:mt-2 sm:text-xl md:text-3xl">{c.name}</p>
+                <span className="mt-1 hidden items-center gap-1.5 text-xs text-cream/70 group-hover:text-primary sm:inline-flex sm:mt-3">
                   Discover <ArrowRight className="h-3.5 w-3.5" />
                 </span>
               </div>
@@ -391,7 +391,7 @@ function Signatures({ products }: { products: typeof PRODUCTS }) {
           </h2>
         </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((p, i) => <CompactProductCard key={p.slug} product={p} index={i} />)}
       </div>
     </section>
