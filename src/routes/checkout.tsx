@@ -240,10 +240,10 @@ function Checkout() {
             </div>
             <ul className="divide-y divide-border/60">
               {items.map((i) => (
-                <li key={i.slug} className="flex items-center gap-3 py-3">
-                  {i.image ? <img src={i.image} alt={i.name} className="h-14 w-14 rounded-xl object-cover" loading="lazy" /> : <div className="grid h-14 w-14 shrink-0 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate font-medium text-cream">{i.name}</p>
+                <li key={i.slug} className="grid grid-cols-[3.5rem_minmax(0,1fr)] items-center gap-x-3 gap-y-2 py-3">
+                  {i.image ? <img src={i.image} alt={i.name} className="row-span-2 h-14 w-14 rounded-xl object-cover" loading="lazy" /> : <div className="row-span-2 grid h-14 w-14 place-items-center rounded-xl border border-primary/40 text-[10px] uppercase tracking-wider text-primary">Add-on</div>}
+                  <div className="min-w-0">
+                    <p className="font-medium leading-tight text-cream">{i.name}</p>
                     <div className="mt-1 flex flex-wrap items-center gap-2 text-xs">
                       {i.variant && (
                         <span className="rounded-full border border-primary/40 bg-primary/10 px-2 py-0.5 font-medium uppercase tracking-wider text-primary">{i.variant}</span>
@@ -253,13 +253,15 @@ function Checkout() {
                       </span>
                     </div>
                   </div>
-                  <div className="inline-flex shrink-0 items-center rounded-full border border-border">
-                    <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-7 w-7 place-items-center"><Minus className="h-3 w-3" /></button>
-                    <span className="min-w-7 text-center text-xs">{i.qty}</span>
-                    <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-7 w-7 place-items-center"><Plus className="h-3 w-3" /></button>
+                  <div className="flex min-w-0 items-center justify-between gap-2">
+                    <div className="inline-flex shrink-0 items-center rounded-full border border-border">
+                      <button onClick={() => setQty(i.slug, i.qty - 1)} className="grid h-7 w-7 place-items-center"><Minus className="h-3 w-3" /></button>
+                      <span className="min-w-7 text-center text-xs">{i.qty}</span>
+                      <button onClick={() => setQty(i.slug, i.qty + 1)} className="grid h-7 w-7 place-items-center"><Plus className="h-3 w-3" /></button>
+                    </div>
+                    <p className="ml-auto text-right font-display text-sm gold-text">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
+                    <button onClick={() => remove(i.slug)} aria-label="Remove" className="shrink-0 text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                   </div>
-                  <p className="w-16 shrink-0 text-right font-display text-sm gold-text sm:w-24 sm:text-base">₹{(i.price * i.qty).toLocaleString("en-IN")}</p>
-                  <button onClick={() => remove(i.slug)} aria-label="Remove" className="text-muted-foreground hover:text-destructive"><Trash2 className="h-4 w-4" /></button>
                 </li>
               ))}
             </ul>

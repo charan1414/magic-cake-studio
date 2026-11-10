@@ -190,12 +190,29 @@ export function MilkshakeHomeSection() {
     <>
       <MilkshakeBanner section={section} compact />
       {list.length > 0 && (
-        <section className="container-luxe py-20">
-          <div className="mb-10 flex items-end justify-between gap-6">
-            <h2 className="font-display text-4xl text-cream md:text-5xl">Featured <span className="italic gold-text">shakes</span></h2>
-            <Link to="/milkshakes" className="inline-flex items-center gap-2 text-sm text-primary hover:gap-3">See all <ArrowRight className="h-4 w-4" /></Link>
+        <section className="container-luxe py-10 md:py-20">
+          <div className="mb-5 flex items-end justify-between gap-3 md:mb-10 md:gap-6">
+            <h2 className="font-display text-2xl text-cream md:text-5xl">Featured <span className="italic gold-text">shakes</span></h2>
+            <Link to="/milkshakes" className="inline-flex shrink-0 items-center gap-1 text-xs text-primary hover:gap-2 md:gap-2 md:text-sm">See all <ArrowRight className="h-3.5 w-3.5 md:h-4 md:w-4" /></Link>
           </div>
-          <MilkshakeGrid items={list} section={section} />
+          <div className="grid grid-cols-3 gap-1.5 sm:gap-3 lg:grid-cols-4">
+            {list.map((product) => (
+              <Link key={product.id} to="/milkshakes" className="group min-w-0 overflow-hidden rounded-lg border border-border/60 bg-card/50 transition-colors hover:border-primary/50 sm:rounded-xl">
+                <div className="relative aspect-square overflow-hidden">
+                  <img src={milkshakeImage(product)} alt={product.image_alt || product.name} loading="lazy" className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  {product.badges[0] && section.show_badges && (
+                    <span className="absolute left-1 top-1 rounded-full bg-ink/80 px-1 py-0.5 text-[8px] text-cream sm:left-2 sm:top-2 sm:px-2 sm:text-[10px]">
+                      {MILKSHAKE_BADGES.find((badge) => badge.key === product.badges[0])?.label}
+                    </span>
+                  )}
+                </div>
+                <div className="p-1.5 sm:p-3">
+                  <p className="line-clamp-2 min-h-7 text-[10px] font-medium leading-tight text-cream sm:min-h-10 sm:text-sm">{product.name}</p>
+                  <p className="mt-1 text-[10px] font-semibold text-primary sm:text-sm">From ₹{sizePricing(product.sizes[0]).price}</p>
+                </div>
+              </Link>
+            ))}
+          </div>
         </section>
       )}
     </>

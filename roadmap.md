@@ -21,8 +21,8 @@
 9. [x] QA at 320/375/390/430 — no horizontal overflow, no console errors
 
 ## Backlog / open
-- [ ] Compact homepage dish sections into three-column mobile grids that fit screen widths
-- [ ] Finish and verify compact checkout layout: add-ons row, upsells, delivery/payment, summary
+- [x] Compact homepage dish sections into three-column mobile grids that fit screen widths
+- [x] Finish and verify compact checkout layout: add-ons row, upsells, delivery/payment, summary
 - [ ] Two older security-scan warnings (pre-existing; awaiting user go-ahead)
 - [ ] Phone OTP needs SMS provider enabled by the owner (Cloud → Auth Settings)
 - [ ] WELCOME100 sample voucher details may be edited by the owner
