@@ -1,5 +1,9 @@
 # Roadmap
 
+## Current requests
+- [ ] Finish Search Console setup for the published site: verify the exact published origin, add a same-origin sitemap, and submit it if verification succeeds.
+- [ ] Remove the Cake Studio section and its customer-facing entry points from the project.
+
 ## Milkshakes section (uploaded brief, Oct 22) — DONE
 - [x] Images for 15 milkshakes + hero
 - [x] DB: `milkshakes` table + validation trigger + RLS; `site_sections` CMS table; storage policies
