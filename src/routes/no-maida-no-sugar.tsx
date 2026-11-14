@@ -9,6 +9,7 @@ const DESC =
   "Guilt-free cakes, protein bars and granola bars baked with whole grains, jaggery and dates — zero maida, zero refined sugar. Fresh delivery around Malur & Lakkur.";
 
 export const Route = createFileRoute("/no-maida-no-sugar")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: TITLE },

@@ -16,6 +16,7 @@ import { useCart } from "@/lib/cart-store";
 import { usePin } from "@/lib/pin-store";
 
 export const Route = createFileRoute("/cfc-fried-bucket")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "CFC Fried Bucket · ₹599 — C & It's Magic" },

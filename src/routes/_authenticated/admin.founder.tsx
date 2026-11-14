@@ -8,6 +8,7 @@ import { Text, TextArea } from "@/components/admin-form";
 import { FOUNDER_FALLBACK, type FounderProfile, type TimelineEntry } from "@/lib/founder";
 
 export const Route = createFileRoute("/_authenticated/admin/founder")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

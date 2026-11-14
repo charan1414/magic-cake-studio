@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import type { Addon } from "@/components/checkout-addons";
 
 export const Route = createFileRoute("/_authenticated/admin/addons")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

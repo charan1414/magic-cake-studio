@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/_authenticated/admin/delivery")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "Delivery Settings — Admin · C & It's Magic" },

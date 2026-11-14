@@ -3,6 +3,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { FOUNDER_PHOTO, useFounder } from "@/lib/founder";
 
 export const Route = createFileRoute("/about")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "About — C & It's Magic" },
@@ -47,7 +48,6 @@ function About() {
           <h2 className="mt-3 font-display text-3xl text-cream md:text-4xl">Ready to order?</h2>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Link to="/menu" className="btn-gold btn-gold-hover rounded-full px-6 py-3 text-sm font-semibold">Explore menu</Link>
-            <Link to="/cake-studio" className="rounded-full border border-primary/50 px-6 py-3 text-sm font-medium text-primary hover:bg-primary/10">Design a cake</Link>
           </div>
         </div>
       </section>

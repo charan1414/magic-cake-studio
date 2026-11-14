@@ -60,6 +60,7 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -74,6 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Handcrafted cakes, gourmet desserts, and cinematic cooking, delivered with magic." },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@canditsmagic" },
+      { name: "google-site-verification", content: "srrhMPWsx1uMe_k-xOjjq9aON24j0Q8xuZecY89sFOY" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },

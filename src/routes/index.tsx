@@ -29,6 +29,7 @@ import { TrustBand } from "@/components/trust-badge";
 
 
 export const Route = createFileRoute("/")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "C & It's Magic — Where Every Bite Feels Like Magic" },
@@ -58,7 +59,6 @@ function HomePage() {
       <CategoryShowcase />
 
       <Signatures products={featured} />
-      <CakeStudioCTA />
       <Promise />
     </>
   );
@@ -394,46 +394,6 @@ function Signatures({ products }: { products: typeof PRODUCTS }) {
       <div className="grid grid-cols-3 gap-1.5 sm:grid-cols-2 sm:gap-3 lg:grid-cols-3 xl:grid-cols-4">
         {products.map((p, i) => <CompactProductCard key={p.slug} product={p} index={i} />)}
       </div>
-    </section>
-  );
-}
-
-function CakeStudioCTA() {
-  return (
-    <section className="container-luxe py-24">
-      <Reveal>
-        <div className="relative overflow-hidden rounded-[32px] border border-primary/30 glass-heavy p-10 md:p-16">
-          <div className="pointer-events-none absolute -right-20 -top-20 h-96 w-96 rounded-full bg-primary/20 blur-[100px]" />
-          <div className="pointer-events-none absolute -left-24 -bottom-24 h-96 w-96 rounded-full bg-cocoa/40 blur-[100px]" />
-          <div className="relative grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-center">
-            <div>
-              <Eyebrow>Signature Feature</Eyebrow>
-              <h2 className="mt-4 font-display text-5xl leading-[1.05] text-cream md:text-6xl">
-                Design your dream cake in the <span className="italic gold-text">Cake Studio</span>.
-              </h2>
-              <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-                Choose shape, flavor, filling, frosting and decoration. Watch the price update
-                as you compose. Save it, share it, order it. Every design gets its own unique
-                Cake Design ID.
-              </p>
-              <Link to="/cake-studio" className="btn-gold btn-gold-hover mt-8 inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold">
-                Enter the Studio <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="relative">
-              <motion.div
-                className="floaty relative aspect-square rounded-full border border-primary/40 bg-gradient-to-br from-cocoa via-ink to-primary/20"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 40, ease: "linear", repeat: Infinity }}
-              >
-                <div className="absolute inset-6 rounded-full bg-gradient-to-br from-primary/30 to-cocoa" />
-                <div className="absolute inset-16 rounded-full bg-gradient-to-br from-cream/20 to-primary/40" />
-                <div className="absolute inset-24 rounded-full bg-primary/60 shadow-[0_0_60px_20px_oklch(0.82_0.13_82_/_0.4)]" />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
     </section>
   );
 }

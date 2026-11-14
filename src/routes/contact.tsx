@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/contact")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Contact — C & It's Magic" },

@@ -30,6 +30,7 @@ import {
 } from "@/lib/inventory";
 
 export const Route = createFileRoute("/_authenticated/admin/inventory")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

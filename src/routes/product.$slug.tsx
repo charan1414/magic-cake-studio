@@ -9,6 +9,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/product/$slug")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const p = getProduct(params.slug);
     if (!p) throw notFound();

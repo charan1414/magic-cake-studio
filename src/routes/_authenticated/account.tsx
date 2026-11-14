@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { useLoyalty, LOYALTY_LADDER, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/_authenticated/account")({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { title: "My Account — C & It's Magic" },
@@ -25,7 +26,6 @@ type Order = { id: string; order_code: string; total: number; status: string; cr
 function AccountPage() {
   const user = useAuth((s) => s.user);
   const navigate = useNavigate();
-  const [designs, setDesigns] = useState<Design[]>([]);
   const [orders, setOrders] = useState<Order[]>([]);
   const [profile, setProfile] = useState<{ full_name: string | null; loyalty_points: number; birthday: string | null; marketing_opt_in: boolean } | null>(null);
   const [isStaff, setIsStaff] = useState(false);
@@ -36,8 +36,6 @@ function AccountPage() {
     if (!user) return;
     supabase.from("profiles").select("full_name, loyalty_points, birthday, marketing_opt_in").eq("id", user.id).maybeSingle()
       .then(({ data }) => setProfile(data as any));
-    supabase.from("cake_designs").select("id,design_code,estimated_price,message,created_at,status").order("created_at", { ascending: false })
-      .then(({ data }) => setDesigns((data ?? []) as any));
     supabase.from("orders").select("id,order_code,total,status,created_at").order("created_at", { ascending: false })
       .then(({ data }) => setOrders((data ?? []) as any));
     Promise.all([
@@ -97,9 +95,8 @@ function AccountPage() {
         )}
       </section>
 
-      <section className="container-luxe grid gap-4 pb-8 sm:grid-cols-3">
+      <section className="container-luxe grid gap-4 pb-8 sm:grid-cols-2">
         <Stat icon={<Sparkles className="h-4 w-4" />} label="Loyalty points" value={profile?.loyalty_points ?? 0} />
-        <Stat icon={<Cake className="h-4 w-4" />} label="Saved cake designs" value={designs.length} />
         <Stat icon={<Package className="h-4 w-4" />} label="Orders" value={orders.length} />
       </section>
 
@@ -214,32 +211,6 @@ function AccountPage() {
         </div>
       </section>
 
-      <section className="container-luxe pb-24">
-        <div className="rounded-3xl border border-border/60 bg-card/40 p-6">
-          <div className="mb-6 flex items-center justify-between">
-            <h2 className="font-display text-2xl text-cream">Saved cake designs</h2>
-            <Link to="/cake-studio" className="text-xs text-primary hover:underline">+ New design</Link>
-          </div>
-          {designs.length === 0 ? (
-            <div className="py-12 text-center">
-              <Cake className="mx-auto h-8 w-8 text-primary" />
-              <p className="mt-4 text-sm text-muted-foreground">No designs yet.</p>
-            </div>
-          ) : (
-            <ul className="divide-y divide-border/60">
-              {designs.map((d) => (
-                <li key={d.id} className="flex items-center justify-between py-4">
-                  <div>
-                    <p className="font-medium text-cream">{d.design_code}</p>
-                    <p className="text-xs text-muted-foreground">{d.message ?? "No message"} · {new Date(d.created_at).toLocaleDateString()}</p>
-                  </div>
-                  <p className="font-display gold-text">₹{Number(d.estimated_price).toLocaleString("en-IN")}</p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </section>
     </div>
   );
 }

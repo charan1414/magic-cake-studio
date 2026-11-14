@@ -15,6 +15,7 @@ import { CheckoutAddons } from "@/components/checkout-addons";
 import { useLoyalty, applicableReward, nextMilestone } from "@/lib/loyalty";
 
 export const Route = createFileRoute("/checkout")({
+  staticData: { sitemap: false },
   ssr: false,
   head: () => ({
     meta: [

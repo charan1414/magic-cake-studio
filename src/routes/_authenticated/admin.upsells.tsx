@@ -9,6 +9,7 @@ import { UPSELL_TAGS, type RecommendationRule, type UpsellItem, type UpsellSetti
 import { Check, DateTime, Num, Select, Text } from "@/components/admin-form";
 
 export const Route = createFileRoute("/_authenticated/admin/upsells")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

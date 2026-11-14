@@ -5,6 +5,7 @@ import { CompactProductCard } from "@/components/product-card";
 import { Eyebrow } from "@/components/motion-primitives";
 
 export const Route = createFileRoute("/menu/$category")({
+  staticData: { sitemap: true },
   loader: ({ params }) => {
     const cat = CATEGORIES.find((c) => c.slug === params.category);
     if (!cat) throw notFound();

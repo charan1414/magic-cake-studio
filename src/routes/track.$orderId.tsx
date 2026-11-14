@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Eyebrow } from "@/components/motion-primitives";
 
 export const Route = createFileRoute("/track/$orderId")({
+  staticData: { sitemap: false },
   ssr: false,
   head: ({ params }) => ({
     meta: [

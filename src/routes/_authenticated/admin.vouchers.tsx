@@ -8,6 +8,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { Check, DateTime, Num, Select, Text, TextArea } from "@/components/admin-form";
 
 export const Route = createFileRoute("/_authenticated/admin/vouchers")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

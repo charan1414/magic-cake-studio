@@ -57,6 +57,7 @@ type OrderRow = {
 };
 
 export const Route = createFileRoute("/_authenticated/admin/orders")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

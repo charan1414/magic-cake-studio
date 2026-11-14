@@ -7,6 +7,7 @@ import { getServiceablePincodes, type PincodeRow } from "@/lib/delivery.function
 import { Eyebrow } from "@/components/motion-primitives";
 
 export const Route = createFileRoute("/serviceability")({
+  staticData: { sitemap: true },
   ssr: false,
   head: () => ({
     meta: [

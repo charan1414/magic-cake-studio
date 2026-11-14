@@ -5,6 +5,7 @@ import { MilkshakeBanner, MilkshakeGrid } from "@/components/milkshakes";
 import { MILKSHAKE_BADGES, sectionLive, useMilkshakes, useSiteSection } from "@/lib/milkshakes";
 
 export const Route = createFileRoute("/milkshakes")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Milkshakes — C & It's Magic" },

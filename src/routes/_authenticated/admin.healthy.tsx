@@ -18,6 +18,7 @@ import {
 } from "@/lib/healthy";
 
 export const Route = createFileRoute("/_authenticated/admin/healthy")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

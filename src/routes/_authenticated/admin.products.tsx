@@ -16,6 +16,7 @@ import {
 } from "@/lib/catalog";
 
 export const Route = createFileRoute("/_authenticated/admin/products")({
+  staticData: { sitemap: false },
   ssr: false,
   beforeLoad: async () => {
     const { data } = await supabase.auth.getUser();

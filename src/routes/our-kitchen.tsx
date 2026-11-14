@@ -4,6 +4,7 @@ import { Eyebrow, Reveal } from "@/components/motion-primitives";
 import craftCake from "@/assets/craft-cake.jpg";
 
 export const Route = createFileRoute("/our-kitchen")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Our Kitchen — C & It's Magic" },

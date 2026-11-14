@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/motion-primitives";
 import { TrustBadge } from "@/components/trust-badge";
 
 export const Route = createFileRoute("/menu")({
+  staticData: { sitemap: true },
   head: () => ({
     meta: [
       { title: "Menu — C & It's Magic" },
